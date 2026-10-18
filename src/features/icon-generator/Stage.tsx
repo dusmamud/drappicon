@@ -11,6 +11,8 @@ import {
 } from 'lucide-react'
 import type { GeneratorApi } from './useGenerator'
 import logo from '../../assets/logo.svg'
+import wallpaperIos from '../../assets/wallpaper-ios.svg'
+import wallpaperAndroid from '../../assets/wallpaper-android.svg'
 import { AndroidBot } from './PreviewBits'
 import { FormatSwitch } from './Panel'
 
@@ -235,53 +237,125 @@ function ShapeRow({ api, small = false }: { api: GeneratorApi; small?: boolean }
   )
 }
 
-/** CSS-built phone mockups (original artwork — generic device frames). */
+/** Small status-bar glyphs drawn as inline SVG (signal / wifi / battery). */
+function StatusGlyphs({ dark = false }: { dark?: boolean }) {
+  const c = dark ? '#0f172a' : '#ffffff'
+  return (
+    <span className="flex items-center gap-[5px]" style={{ color: c }}>
+      <svg width="15" height="10" viewBox="0 0 16 11" fill={c} aria-hidden="true">
+        <rect x="0" y="7" width="3" height="4" rx="0.8" />
+        <rect x="4.3" y="5" width="3" height="6" rx="0.8" />
+        <rect x="8.6" y="2.6" width="3" height="8.4" rx="0.8" />
+        <rect x="12.9" y="0" width="3" height="11" rx="0.8" opacity="0.4" />
+      </svg>
+      <svg width="14" height="10" viewBox="0 0 16 12" fill="none" stroke={c} strokeWidth="1.7" strokeLinecap="round" aria-hidden="true">
+        <path d="M1.5 4.2a10 10 0 0 1 13 0" />
+        <path d="M4 6.9a6.4 6.4 0 0 1 8 0" />
+        <circle cx="8" cy="10" r="1.15" fill={c} stroke="none" />
+      </svg>
+      <svg width="22" height="10" viewBox="0 0 25 12" fill="none" aria-hidden="true">
+        <rect x="0.6" y="0.6" width="20" height="10.8" rx="3" stroke={c} opacity="0.5" strokeWidth="1" />
+        <rect x="2.2" y="2.2" width="14.5" height="7.6" rx="1.8" fill={c} />
+        <path d="M23.2 4v4a2.2 2.2 0 0 0 0-4Z" fill={c} opacity="0.6" />
+      </svg>
+    </span>
+  )
+}
+
+/**
+ * Realistic device mockups — original construction: metallic frame with side
+ * buttons, black bezel, live status bar, camera hardware and screen glare,
+ * over original wallpaper artwork (wallpaper-ios.svg / wallpaper-android.svg).
+ */
 function PhoneMock({ kind, api, captionBelow = false }: { kind: 'ios' | 'android'; api: GeneratorApi; captionBelow?: boolean }) {
   const { state } = api
   const bg = state.backgroundColor === 'transparent' ? '#f1f5f9' : state.backgroundColor
   const padding = state.sizePercent < 0 ? Math.min(45, -state.sizePercent) : 0
   const zoom = state.sizePercent > 0 ? 1 + state.sizePercent / 100 : 1
+  const wallpaper = kind === 'ios' ? wallpaperIos : wallpaperAndroid
+  const darkBar = kind === 'android'
+
   return (
     <figure>
-      <div
-        className={`relative mx-auto aspect-[9/19] w-full overflow-hidden rounded-[2rem] border-[5px] border-slate-900 bg-slate-900 shadow-lg ${captionBelow ? '' : 'max-w-[320px]'}`}
-      >
+      <div className={`relative mx-auto w-full ${captionBelow ? '' : 'max-w-[320px]'}`}>
+        {/* Side buttons */}
+        {kind === 'ios' ? (
+          <>
+            <span className="absolute -left-[2.5px] top-[15%] h-[5.5%] w-[3px] rounded-l-md bg-[#9aa0a8]" />
+            <span className="absolute -left-[2.5px] top-[22.5%] h-[8%] w-[3px] rounded-l-md bg-[#9aa0a8]" />
+            <span className="absolute -left-[2.5px] top-[31.5%] h-[8%] w-[3px] rounded-l-md bg-[#9aa0a8]" />
+            <span className="absolute -right-[2.5px] top-[24%] h-[11%] w-[3px] rounded-r-md bg-[#9aa0a8]" />
+          </>
+        ) : (
+          <>
+            <span className="absolute -right-[2.5px] top-[20%] h-[9%] w-[3px] rounded-r-md bg-[#878d94]" />
+            <span className="absolute -right-[2.5px] top-[30%] h-[6%] w-[3px] rounded-r-md bg-[#878d94]" />
+          </>
+        )}
+        {/* Metallic frame */}
         <div
-          className="absolute inset-0"
+          className="relative aspect-[9/19] w-full rounded-[2.6rem] p-[7px] shadow-[0_18px_38px_-14px_rgb(15_23_42/0.45)] min-[420px]:p-[9px]"
           style={{
             background:
               kind === 'ios'
-                ? 'linear-gradient(165deg,#93c5fd 0%,#1e40af 48%,#7c2d12 82%,#f97316 115%)'
-                : 'linear-gradient(160deg,#ccfbf1 0%,#5eead4 45%,#0ea5e9 130%)',
+                ? 'linear-gradient(150deg,#e8eaee 0%,#9ba1a9 28%,#dfe2e7 52%,#848b94 78%,#c9ced6 100%)'
+                : 'linear-gradient(150deg,#dfe3e6 0%,#878d94 30%,#d5dade 55%,#767c84 80%,#bcc1c7 100%)',
           }}
-        />
-        {kind === 'ios' ? (
-          <span className="absolute left-1/2 top-2.5 h-[20px] w-[80px] -translate-x-1/2 rounded-full bg-black" />
-        ) : (
-          <span className="absolute left-1/2 top-3 h-[14px] w-[14px] -translate-x-1/2 rounded-full bg-black ring-2 ring-black/20" />
-        )}
-        <div className="absolute left-[12%] top-[13%] w-[24%] text-center">
-          <div className="relative aspect-square w-full overflow-hidden rounded-[24%] shadow-md" style={{ backgroundColor: bg }}>
-            <img
-              src={state.foregroundUrl!}
-              alt="App icon on device"
-              className="absolute object-contain"
-              style={{
-                inset: `${padding}%`,
-                width: `${100 - padding * 2}%`,
-                height: `${100 - padding * 2}%`,
-                transform: `scale(${zoom})`,
-              }}
-            />
+        >
+          {/* Bezel */}
+          <div className="relative h-full w-full rounded-[2.15rem] bg-black p-[5px]">
+            {/* Screen */}
+            <div className="relative h-full w-full overflow-hidden rounded-[1.85rem]">
+              <img src={wallpaper} alt="" className="absolute inset-0 h-full w-full object-cover" />
+              {/* Status bar */}
+              <div className="absolute inset-x-0 top-0 flex items-center justify-between px-[9%] pt-[4.5%]">
+                <span className={`text-[11px] font-semibold tracking-wide ${darkBar ? 'text-slate-800' : 'text-white'}`} style={{ fontSize: 'clamp(8px, 2.6cqw, 12px)' }}>
+                  9:41
+                </span>
+                <StatusGlyphs dark={darkBar} />
+              </div>
+              {/* Camera hardware */}
+              {kind === 'ios' ? (
+                <span className="absolute left-1/2 top-[2.2%] flex h-[3.4%] min-h-[15px] w-[27%] -translate-x-1/2 items-center justify-end rounded-full bg-black pr-[7%]">
+                  <span className="h-[7px] w-[7px] rounded-full bg-[#1c2a3a] ring-1 ring-[#33475e]" />
+                </span>
+              ) : (
+                <span className="absolute left-1/2 top-[2.4%] h-[13px] w-[13px] -translate-x-1/2 rounded-full bg-black ring-1 ring-black/30">
+                  <span className="absolute inset-[3.5px] rounded-full bg-[#16242f]" />
+                </span>
+              )}
+              {/* The user's app icon on the home screen */}
+              <div className="absolute left-[11%] top-[13.5%] w-[23.5%] text-center">
+                <div className="relative aspect-square w-full overflow-hidden rounded-[24%] shadow-[0_4px_10px_rgb(0_0_0/0.3)]" style={{ backgroundColor: bg }}>
+                  <img
+                    src={state.foregroundUrl!}
+                    alt="App icon on device"
+                    className="absolute object-contain"
+                    style={{
+                      inset: `${padding}%`,
+                      width: `${100 - padding * 2}%`,
+                      height: `${100 - padding * 2}%`,
+                      transform: `scale(${zoom})`,
+                    }}
+                  />
+                </div>
+                <span className="mx-auto mt-[7%] block w-max text-[10px] font-medium text-white" style={{ textShadow: '0 1px 4px rgb(0 0 0 / 0.55)' }}>
+                  [App name]
+                </span>
+              </div>
+              {/* Home indicator */}
+              <span className={`absolute bottom-[1.8%] left-1/2 h-[4px] w-[36%] -translate-x-1/2 rounded-full ${darkBar ? 'bg-slate-800/50' : 'bg-white/80'}`} />
+              {/* Screen glare */}
+              <span className="pointer-events-none absolute inset-0 bg-gradient-to-br from-white/[0.13] via-transparent to-transparent" />
+              {!captionBelow && (
+                <span className="absolute bottom-[5%] left-1/2 flex -translate-x-1/2 items-center gap-1.5 whitespace-nowrap rounded-full bg-white/90 px-3.5 py-1.5 text-xs font-semibold text-slate-700 shadow">
+                  {kind === 'ios' ? <Apple className="h-3.5 w-3.5" /> : <AndroidBot className="h-3.5 w-3.5" />}
+                  {kind === 'ios' ? 'iPhone Preview' : 'Android Preview'}
+                </span>
+              )}
+            </div>
           </div>
-          <span className="mx-auto mt-1.5 block w-max text-[10px] font-medium text-white drop-shadow">[App name]</span>
         </div>
-        {!captionBelow && (
-          <span className="absolute bottom-3.5 left-1/2 flex -translate-x-1/2 items-center gap-1.5 whitespace-nowrap rounded-full bg-white/90 px-3.5 py-1.5 text-xs font-semibold text-slate-700 shadow">
-            {kind === 'ios' ? <Apple className="h-3.5 w-3.5" /> : <AndroidBot className="h-3.5 w-3.5" />}
-            {kind === 'ios' ? 'iPhone Preview' : 'Android Preview'}
-          </span>
-        )}
       </div>
       {captionBelow && (
         <figcaption className="mt-2.5 flex items-center justify-center gap-1.5 text-sm font-medium text-slate-600">
