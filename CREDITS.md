@@ -1,16 +1,26 @@
 # Credits
 
-## Device renders
+## Device frames
 
-The iPhone and Android device renders used in the Live Preview
-(`src/assets/device-iphone-frame.webp`, `src/assets/device-android-frame.webp`)
-come from **Creestion Studio** (github.com/dusmamud/creestion), Enzurien's own
-App Store screenshot editor, where they ship as `public/screenshots/device-iphone-t.png`
-and `public/screenshots/device-android-t.png`. For DrAppIcon the baked sample
-UI was punched out of the screen area so the live generated icon can be
-composited onto the screen plane.
+The straight iPhone and Android device frames used in the Live Preview
+(`src/assets/frame-iphone.png`, `src/assets/frame-android.webp`) come from
+**Creestion Studio** (github.com/dusmamud/creestion), Enzurien's own App Store
+screenshot editor, where they ship in `public/frames/` with this attribution:
 
-Creestion Studio is MIT-licensed:
+- `frame-iphone.png` (Creestion's `17-pro-silver.png`) is derived from
+  [iPhone 17 & 17 Pro Device Frames](https://www.figma.com/community/file/1600584030566600974/iphone-17-17-pro-device-frames)
+  by [Kelly Hu](https://www.figma.com/@kellyhu2), licensed under
+  [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/). The bezel art was
+  exported from that file and cropped to a transparent screen cutout.
+
+- `frame-android.webp` (Creestion's `pixel-10-pro.webp`) is the Pixel 10 Pro
+  emulator skin's `back.webp` from the Android SDK
+  (`$ANDROID_HOME/skins/pixel_10_pro/`), part of the Android Open Source
+  Project and licensed under the
+  [Apache License 2.0](https://www.apache.org/licenses/LICENSE-2.0), with the
+  display rect the skin's `layout` file states punched transparent.
+
+Creestion Studio itself is MIT-licensed:
 
 MIT License
 

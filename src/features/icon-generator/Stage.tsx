@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef } from 'react'
 import {
   Apple,
   Coffee,
@@ -13,8 +13,8 @@ import type { GeneratorApi } from './useGenerator'
 import logo from '../../assets/logo.svg'
 import wallpaperIos from '../../assets/wallpaper-ios.svg'
 import wallpaperAndroid from '../../assets/wallpaper-android.svg'
-import deviceIphoneFrame from '../../assets/device-iphone-frame.webp'
-import deviceAndroidFrame from '../../assets/device-android-frame.webp'
+import frameIphone from '../../assets/frame-iphone.png'
+import frameAndroid from '../../assets/frame-android.webp'
 import { AndroidBot } from './PreviewBits'
 import { FormatSwitch } from './Panel'
 
@@ -264,71 +264,36 @@ function StatusGlyphs({ dark = false }: { dark?: boolean }) {
   )
 }
 
-/** Solve the 3x3 homography mapping src points onto dst points (both [x,y]). */
-function homography(src: number[][], dst: number[][]): number[] {
-  // Gaussian elimination on the 8x8 DLT system (h33 = 1).
-  const A: number[][] = []
-  const b: number[] = []
-  for (let i = 0; i < 4; i++) {
-    const [x, y] = src[i]
-    const [u, v] = dst[i]
-    A.push([-x, -y, -1, 0, 0, 0, u * x, u * y]); b.push(-u)
-    A.push([0, 0, 0, -x, -y, -1, v * x, v * y]); b.push(-v)
-  }
-  const n = 8
-  for (let col = 0, row = 0; col < n && row < n; col++, row++) {
-    let piv = row
-    for (let r = row + 1; r < n; r++) if (Math.abs(A[r][col]) > Math.abs(A[piv][col])) piv = r
-    ;[A[row], A[piv]] = [A[piv], A[row]]
-    ;[b[row], b[piv]] = [b[piv], b[row]]
-    const d = A[row][col]
-    for (let r = 0; r < n; r++) {
-      if (r === row) continue
-      const f = A[r][col] / d
-      for (let c = col; c < n; c++) A[r][c] -= f * A[row][c]
-      b[r] -= f * b[row]
-    }
-  }
-  const h = A.map((rowArr, i) => b[i] / rowArr[i])
-  return [h[0], h[1], h[2], h[3], h[4], h[5], h[6], h[7], 1]
-}
-
 type DeviceSpec = {
   frame: string
   ratio: string
-  quad: [number, number][] // screen corners in image fractions: TL TR BR BL
-}
-
-const DEVICES: Record<'ios' | 'android', DeviceSpec> = {
-  ios: {
-    frame: deviceIphoneFrame,
-    ratio: '1561 / 1178',
-    quad: [
-      [0.490, 0.038],
-      [0.900, 0.122],
-      [0.430, 0.898],
-      [0.080, 0.700],
-    ],
-  },
-  android: {
-    frame: deviceAndroidFrame,
-    ratio: '981 / 1858',
-    quad: [
-      [0.150, 0.030],
-      [0.918, 0.045],
-      [0.828, 0.938],
-      [0.058, 0.918],
-    ],
-  },
+  /** Screen cutout as % of the frame image: [left, top, width, height]. */
+  screen: [number, number, number, number]
+  /** Screen corner radius: [x% of screen width, y% of screen height]. */
+  radius: string
 }
 
 /**
- * Device renders from Enzurien's own Creestion Studio project (MIT-licensed,
- * see CREDITS.md) with the baked sample UI punched out of the screen area.
- * The live screen (wallpaper + the user's icon) is perspective-warped onto
- * the render's screen plane with a homography, and the frame layer — bezel,
- * Dynamic Island / punch-hole camera, status glyphs — sits on top.
+ * Straight front-facing device frames from Enzurien's own Creestion Studio
+ * project (geometry measured in its src/cli/frame.ts; artwork credits in
+ * CREDITS.md). Each frame PNG/WebP has a transparent screen cutout; the live
+ * screen (wallpaper + the user's icon) sits underneath it.
  */
+const DEVICES: Record<'ios' | 'android', DeviceSpec> = {
+  ios: {
+    frame: frameIphone,
+    ratio: '606 / 1252',
+    screen: [(24 / 606) * 100, (21 / 1252) * 100, (557 / 606) * 100, (1210 / 1252) * 100],
+    radius: `${(82 / 557) * 100}% / ${(82 / 1210) * 100}%`,
+  },
+  android: {
+    frame: frameAndroid,
+    ratio: '1410 / 2968',
+    screen: [(59 / 1410) * 100, (60 / 2968) * 100, (1280 / 1410) * 100, (2856 / 2968) * 100],
+    radius: `${(178 / 1280) * 100}% / ${(178 / 2856) * 100}%`,
+  },
+}
+
 function PhoneMock({ kind, api, captionBelow = false }: { kind: 'ios' | 'android'; api: GeneratorApi; captionBelow?: boolean }) {
   const { state } = api
   const spec = DEVICES[kind]
@@ -336,77 +301,49 @@ function PhoneMock({ kind, api, captionBelow = false }: { kind: 'ios' | 'android
   const padding = state.sizePercent < 0 ? Math.min(45, -state.sizePercent) : 0
   const zoom = state.sizePercent > 0 ? 1 + state.sizePercent / 100 : 1
   const wallpaper = kind === 'ios' ? wallpaperIos : wallpaperAndroid
-
-  const wrapRef = useRef<HTMLDivElement>(null)
-  const [matrix, setMatrix] = useState<string | null>(null)
-  useLayoutEffect(() => {
-    const el = wrapRef.current
-    if (!el) return
-    const update = () => {
-      const w = el.clientWidth
-      const h = el.clientHeight
-      if (!w || !h) return
-      const dst = spec.quad.map(([fx, fy]) => [fx * w, fy * h])
-      const [a, b, c, d, e, f, g, i] = homography(
-        [
-          [0, 0],
-          [w, 0],
-          [w, h],
-          [0, h],
-        ],
-        dst,
-      )
-      // CSS matrix3d (column-major) form of the homography.
-      setMatrix(`matrix3d(${a}, ${d}, 0, ${g}, ${b}, ${e}, 0, ${i}, 0, 0, 1, 0, ${c}, ${f}, 0, 1)`)
-    }
-    update()
-    const ro = new ResizeObserver(update)
-    ro.observe(el)
-    return () => ro.disconnect()
-  }, [spec])
+  const [sx, sy, sw, sh] = spec.screen
 
   return (
     <figure>
-      <div ref={wrapRef} className="relative mx-auto h-[148px] min-[420px]:h-[215px] sm:h-[250px] lg:h-[330px]" style={{ aspectRatio: spec.ratio }}>
-        {/* Live screen, warped onto the render's screen plane */}
+      <div
+        className="relative mx-auto h-[196px] min-[420px]:h-[236px] lg:h-[336px] drop-shadow-[0_16px_22px_rgb(15_23_42/0.22)]"
+        style={{ aspectRatio: spec.ratio }}
+      >
+        {/* Live screen inside the frame's transparent cutout */}
         <div
-          className="absolute inset-0"
-          style={{ transform: matrix ?? undefined, transformOrigin: '0 0', visibility: matrix ? 'visible' : 'hidden' }}
+          className="absolute overflow-hidden bg-black"
+          style={{ left: `${sx}%`, top: `${sy}%`, width: `${sw}%`, height: `${sh}%`, borderRadius: spec.radius }}
         >
-          <div className="relative h-full w-full overflow-hidden rounded-[7%] bg-black">
-            <img src={wallpaper} alt="" className="absolute inset-0 h-full w-full object-cover" />
-            {kind === 'android' && (
-              <>
-                <div className="absolute inset-x-0 top-0 flex items-center justify-between px-[8%] pt-[3.2%]">
-                  <span className="text-[11px] font-semibold tracking-wide text-slate-800">9:41</span>
-                  <StatusGlyphs dark />
-                </div>
-                <span className="absolute bottom-[1.6%] left-1/2 h-[4px] w-[34%] -translate-x-1/2 rounded-full bg-slate-800/40" />
-              </>
-            )}
-            {/* The user's app icon on the home screen */}
-            <div className="absolute left-[10%] top-[13%] w-[23%] text-center">
-              <div className="relative aspect-square w-full overflow-hidden rounded-[24%] shadow-[0_4px_10px_rgb(0_0_0/0.3)]" style={{ backgroundColor: bg }}>
-                <img
-                  src={state.foregroundUrl!}
-                  alt="App icon on device"
-                  className="absolute object-contain"
-                  style={{
-                    inset: `${padding}%`,
-                    width: `${100 - padding * 2}%`,
-                    height: `${100 - padding * 2}%`,
-                    transform: `scale(${zoom})`,
-                  }}
-                />
-              </div>
-              <span className="mx-auto mt-[7%] block w-max text-[10px] font-medium text-white" style={{ textShadow: '0 1px 4px rgb(0 0 0 / 0.55)' }}>
-                [App name]
-              </span>
-            </div>
-            <span className="pointer-events-none absolute inset-0 bg-gradient-to-br from-white/[0.10] via-transparent to-transparent" />
+          <img src={wallpaper} alt="" className="absolute inset-0 h-full w-full object-cover" />
+          {/* Status bar (camera hardware is part of the frame art) */}
+          <div className="absolute inset-x-0 top-0 flex items-center justify-between px-[9%] pt-[4.2%]">
+            <span className={`text-[11px] font-semibold tracking-wide ${kind === 'android' ? 'text-slate-800' : 'text-white'}`}>9:41</span>
+            <StatusGlyphs dark={kind === 'android'} />
           </div>
+          {/* The user's app icon on the home screen */}
+          <div className="absolute left-[10%] top-[12%] w-[23%] text-center">
+            <div className="relative aspect-square w-full overflow-hidden rounded-[24%] shadow-[0_4px_10px_rgb(0_0_0/0.3)]" style={{ backgroundColor: bg }}>
+              <img
+                src={state.foregroundUrl!}
+                alt="App icon on device"
+                className="absolute object-contain"
+                style={{
+                  inset: `${padding}%`,
+                  width: `${100 - padding * 2}%`,
+                  height: `${100 - padding * 2}%`,
+                  transform: `scale(${zoom})`,
+                }}
+              />
+            </div>
+            <span className="mx-auto mt-[7%] block w-max text-[10px] font-medium text-white" style={{ textShadow: '0 1px 4px rgb(0 0 0 / 0.55)' }}>
+              [App name]
+            </span>
+          </div>
+          {/* Home / gesture indicator */}
+          <span className={`absolute bottom-[1.6%] left-1/2 h-[4px] w-[35%] -translate-x-1/2 rounded-full ${kind === 'android' ? 'bg-slate-800/40' : 'bg-white/80'}`} />
+          <span className="pointer-events-none absolute inset-0 bg-gradient-to-br from-white/[0.08] via-transparent to-transparent" />
         </div>
-        {/* Frame render on top: bezel, camera hardware, baked status glyphs */}
+        {/* Bezel art on top: body, buttons, Dynamic Island / punch-hole camera */}
         <img src={spec.frame} alt={kind === 'ios' ? 'iPhone' : 'Android phone'} className="pointer-events-none absolute inset-0 h-full w-full" />
       </div>
       <figcaption className="mt-2.5 flex items-center justify-center gap-1.5 text-sm font-medium text-slate-600">
