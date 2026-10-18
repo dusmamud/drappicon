@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef } from 'react'
+import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react'
 import {
   Apple,
   Coffee,
@@ -13,6 +13,8 @@ import type { GeneratorApi } from './useGenerator'
 import logo from '../../assets/logo.svg'
 import wallpaperIos from '../../assets/wallpaper-ios.svg'
 import wallpaperAndroid from '../../assets/wallpaper-android.svg'
+import deviceIphoneFrame from '../../assets/device-iphone-frame.webp'
+import deviceAndroidFrame from '../../assets/device-android-frame.webp'
 import { AndroidBot } from './PreviewBits'
 import { FormatSwitch } from './Panel'
 
@@ -120,7 +122,7 @@ function LivePreview({ api, mobile }: { api: GeneratorApi; mobile: boolean }) {
         </button>
         <ProgressBar api={api} />
         <ShapeRow api={api} small />
-        <div className="mt-6 grid grid-cols-2 gap-3">
+        <div className="mt-6 flex items-end justify-center gap-2">
           <PhoneMock kind="ios" api={api} captionBelow />
           <PhoneMock kind="android" api={api} captionBelow />
         </div>
@@ -163,7 +165,7 @@ function LivePreview({ api, mobile }: { api: GeneratorApi; mobile: boolean }) {
       </div>
       <ProgressBar api={api} />
       <ShapeRow api={api} />
-      <div className="mt-8 grid gap-5 sm:grid-cols-2">
+      <div className="mt-8 flex items-end justify-center gap-3 min-[420px]:gap-6">
         <PhoneMock kind="ios" api={api} />
         <PhoneMock kind="android" api={api} />
       </div>
@@ -262,107 +264,155 @@ function StatusGlyphs({ dark = false }: { dark?: boolean }) {
   )
 }
 
+/** Solve the 3x3 homography mapping src points onto dst points (both [x,y]). */
+function homography(src: number[][], dst: number[][]): number[] {
+  // Gaussian elimination on the 8x8 DLT system (h33 = 1).
+  const A: number[][] = []
+  const b: number[] = []
+  for (let i = 0; i < 4; i++) {
+    const [x, y] = src[i]
+    const [u, v] = dst[i]
+    A.push([-x, -y, -1, 0, 0, 0, u * x, u * y]); b.push(-u)
+    A.push([0, 0, 0, -x, -y, -1, v * x, v * y]); b.push(-v)
+  }
+  const n = 8
+  for (let col = 0, row = 0; col < n && row < n; col++, row++) {
+    let piv = row
+    for (let r = row + 1; r < n; r++) if (Math.abs(A[r][col]) > Math.abs(A[piv][col])) piv = r
+    ;[A[row], A[piv]] = [A[piv], A[row]]
+    ;[b[row], b[piv]] = [b[piv], b[row]]
+    const d = A[row][col]
+    for (let r = 0; r < n; r++) {
+      if (r === row) continue
+      const f = A[r][col] / d
+      for (let c = col; c < n; c++) A[r][c] -= f * A[row][c]
+      b[r] -= f * b[row]
+    }
+  }
+  const h = A.map((rowArr, i) => b[i] / rowArr[i])
+  return [h[0], h[1], h[2], h[3], h[4], h[5], h[6], h[7], 1]
+}
+
+type DeviceSpec = {
+  frame: string
+  ratio: string
+  quad: [number, number][] // screen corners in image fractions: TL TR BR BL
+}
+
+const DEVICES: Record<'ios' | 'android', DeviceSpec> = {
+  ios: {
+    frame: deviceIphoneFrame,
+    ratio: '1561 / 1178',
+    quad: [
+      [0.490, 0.038],
+      [0.900, 0.122],
+      [0.430, 0.898],
+      [0.080, 0.700],
+    ],
+  },
+  android: {
+    frame: deviceAndroidFrame,
+    ratio: '981 / 1858',
+    quad: [
+      [0.150, 0.030],
+      [0.918, 0.045],
+      [0.828, 0.938],
+      [0.058, 0.918],
+    ],
+  },
+}
+
 /**
- * Realistic device mockups — original construction: metallic frame with side
- * buttons, black bezel, live status bar, camera hardware and screen glare,
- * over original wallpaper artwork (wallpaper-ios.svg / wallpaper-android.svg).
+ * Device renders from Enzurien's own Creestion Studio project (MIT-licensed,
+ * see CREDITS.md) with the baked sample UI punched out of the screen area.
+ * The live screen (wallpaper + the user's icon) is perspective-warped onto
+ * the render's screen plane with a homography, and the frame layer — bezel,
+ * Dynamic Island / punch-hole camera, status glyphs — sits on top.
  */
 function PhoneMock({ kind, api, captionBelow = false }: { kind: 'ios' | 'android'; api: GeneratorApi; captionBelow?: boolean }) {
   const { state } = api
+  const spec = DEVICES[kind]
   const bg = state.backgroundColor === 'transparent' ? '#f1f5f9' : state.backgroundColor
   const padding = state.sizePercent < 0 ? Math.min(45, -state.sizePercent) : 0
   const zoom = state.sizePercent > 0 ? 1 + state.sizePercent / 100 : 1
   const wallpaper = kind === 'ios' ? wallpaperIos : wallpaperAndroid
-  const darkBar = kind === 'android'
+
+  const wrapRef = useRef<HTMLDivElement>(null)
+  const [matrix, setMatrix] = useState<string | null>(null)
+  useLayoutEffect(() => {
+    const el = wrapRef.current
+    if (!el) return
+    const update = () => {
+      const w = el.clientWidth
+      const h = el.clientHeight
+      if (!w || !h) return
+      const dst = spec.quad.map(([fx, fy]) => [fx * w, fy * h])
+      const [a, b, c, d, e, f, g, i] = homography(
+        [
+          [0, 0],
+          [w, 0],
+          [w, h],
+          [0, h],
+        ],
+        dst,
+      )
+      // CSS matrix3d (column-major) form of the homography.
+      setMatrix(`matrix3d(${a}, ${d}, 0, ${g}, ${b}, ${e}, 0, ${i}, 0, 0, 1, 0, ${c}, ${f}, 0, 1)`)
+    }
+    update()
+    const ro = new ResizeObserver(update)
+    ro.observe(el)
+    return () => ro.disconnect()
+  }, [spec])
 
   return (
     <figure>
-      <div className={`relative mx-auto w-full ${captionBelow ? '' : 'max-w-[320px]'}`}>
-        {/* Side buttons */}
-        {kind === 'ios' ? (
-          <>
-            <span className="absolute -left-[2.5px] top-[15%] h-[5.5%] w-[3px] rounded-l-md bg-[#9aa0a8]" />
-            <span className="absolute -left-[2.5px] top-[22.5%] h-[8%] w-[3px] rounded-l-md bg-[#9aa0a8]" />
-            <span className="absolute -left-[2.5px] top-[31.5%] h-[8%] w-[3px] rounded-l-md bg-[#9aa0a8]" />
-            <span className="absolute -right-[2.5px] top-[24%] h-[11%] w-[3px] rounded-r-md bg-[#9aa0a8]" />
-          </>
-        ) : (
-          <>
-            <span className="absolute -right-[2.5px] top-[20%] h-[9%] w-[3px] rounded-r-md bg-[#878d94]" />
-            <span className="absolute -right-[2.5px] top-[30%] h-[6%] w-[3px] rounded-r-md bg-[#878d94]" />
-          </>
-        )}
-        {/* Metallic frame */}
+      <div ref={wrapRef} className="relative mx-auto h-[148px] min-[420px]:h-[215px] sm:h-[250px] lg:h-[330px]" style={{ aspectRatio: spec.ratio }}>
+        {/* Live screen, warped onto the render's screen plane */}
         <div
-          className="relative aspect-[9/19] w-full rounded-[2.6rem] p-[7px] shadow-[0_18px_38px_-14px_rgb(15_23_42/0.45)] min-[420px]:p-[9px]"
-          style={{
-            background:
-              kind === 'ios'
-                ? 'linear-gradient(150deg,#e8eaee 0%,#9ba1a9 28%,#dfe2e7 52%,#848b94 78%,#c9ced6 100%)'
-                : 'linear-gradient(150deg,#dfe3e6 0%,#878d94 30%,#d5dade 55%,#767c84 80%,#bcc1c7 100%)',
-          }}
+          className="absolute inset-0"
+          style={{ transform: matrix ?? undefined, transformOrigin: '0 0', visibility: matrix ? 'visible' : 'hidden' }}
         >
-          {/* Bezel */}
-          <div className="relative h-full w-full rounded-[2.15rem] bg-black p-[5px]">
-            {/* Screen */}
-            <div className="relative h-full w-full overflow-hidden rounded-[1.85rem]">
-              <img src={wallpaper} alt="" className="absolute inset-0 h-full w-full object-cover" />
-              {/* Status bar */}
-              <div className="absolute inset-x-0 top-0 flex items-center justify-between px-[9%] pt-[4.5%]">
-                <span className={`text-[11px] font-semibold tracking-wide ${darkBar ? 'text-slate-800' : 'text-white'}`} style={{ fontSize: 'clamp(8px, 2.6cqw, 12px)' }}>
-                  9:41
-                </span>
-                <StatusGlyphs dark={darkBar} />
-              </div>
-              {/* Camera hardware */}
-              {kind === 'ios' ? (
-                <span className="absolute left-1/2 top-[2.2%] flex h-[3.4%] min-h-[15px] w-[27%] -translate-x-1/2 items-center justify-end rounded-full bg-black pr-[7%]">
-                  <span className="h-[7px] w-[7px] rounded-full bg-[#1c2a3a] ring-1 ring-[#33475e]" />
-                </span>
-              ) : (
-                <span className="absolute left-1/2 top-[2.4%] h-[13px] w-[13px] -translate-x-1/2 rounded-full bg-black ring-1 ring-black/30">
-                  <span className="absolute inset-[3.5px] rounded-full bg-[#16242f]" />
-                </span>
-              )}
-              {/* The user's app icon on the home screen */}
-              <div className="absolute left-[11%] top-[13.5%] w-[23.5%] text-center">
-                <div className="relative aspect-square w-full overflow-hidden rounded-[24%] shadow-[0_4px_10px_rgb(0_0_0/0.3)]" style={{ backgroundColor: bg }}>
-                  <img
-                    src={state.foregroundUrl!}
-                    alt="App icon on device"
-                    className="absolute object-contain"
-                    style={{
-                      inset: `${padding}%`,
-                      width: `${100 - padding * 2}%`,
-                      height: `${100 - padding * 2}%`,
-                      transform: `scale(${zoom})`,
-                    }}
-                  />
+          <div className="relative h-full w-full overflow-hidden rounded-[7%] bg-black">
+            <img src={wallpaper} alt="" className="absolute inset-0 h-full w-full object-cover" />
+            {kind === 'android' && (
+              <>
+                <div className="absolute inset-x-0 top-0 flex items-center justify-between px-[8%] pt-[3.2%]">
+                  <span className="text-[11px] font-semibold tracking-wide text-slate-800">9:41</span>
+                  <StatusGlyphs dark />
                 </div>
-                <span className="mx-auto mt-[7%] block w-max text-[10px] font-medium text-white" style={{ textShadow: '0 1px 4px rgb(0 0 0 / 0.55)' }}>
-                  [App name]
-                </span>
+                <span className="absolute bottom-[1.6%] left-1/2 h-[4px] w-[34%] -translate-x-1/2 rounded-full bg-slate-800/40" />
+              </>
+            )}
+            {/* The user's app icon on the home screen */}
+            <div className="absolute left-[10%] top-[13%] w-[23%] text-center">
+              <div className="relative aspect-square w-full overflow-hidden rounded-[24%] shadow-[0_4px_10px_rgb(0_0_0/0.3)]" style={{ backgroundColor: bg }}>
+                <img
+                  src={state.foregroundUrl!}
+                  alt="App icon on device"
+                  className="absolute object-contain"
+                  style={{
+                    inset: `${padding}%`,
+                    width: `${100 - padding * 2}%`,
+                    height: `${100 - padding * 2}%`,
+                    transform: `scale(${zoom})`,
+                  }}
+                />
               </div>
-              {/* Home indicator */}
-              <span className={`absolute bottom-[1.8%] left-1/2 h-[4px] w-[36%] -translate-x-1/2 rounded-full ${darkBar ? 'bg-slate-800/50' : 'bg-white/80'}`} />
-              {/* Screen glare */}
-              <span className="pointer-events-none absolute inset-0 bg-gradient-to-br from-white/[0.13] via-transparent to-transparent" />
-              {!captionBelow && (
-                <span className="absolute bottom-[5%] left-1/2 flex -translate-x-1/2 items-center gap-1.5 whitespace-nowrap rounded-full bg-white/90 px-3.5 py-1.5 text-xs font-semibold text-slate-700 shadow">
-                  {kind === 'ios' ? <Apple className="h-3.5 w-3.5" /> : <AndroidBot className="h-3.5 w-3.5" />}
-                  {kind === 'ios' ? 'iPhone Preview' : 'Android Preview'}
-                </span>
-              )}
+              <span className="mx-auto mt-[7%] block w-max text-[10px] font-medium text-white" style={{ textShadow: '0 1px 4px rgb(0 0 0 / 0.55)' }}>
+                [App name]
+              </span>
             </div>
+            <span className="pointer-events-none absolute inset-0 bg-gradient-to-br from-white/[0.10] via-transparent to-transparent" />
           </div>
         </div>
+        {/* Frame render on top: bezel, camera hardware, baked status glyphs */}
+        <img src={spec.frame} alt={kind === 'ios' ? 'iPhone' : 'Android phone'} className="pointer-events-none absolute inset-0 h-full w-full" />
       </div>
-      {captionBelow && (
-        <figcaption className="mt-2.5 flex items-center justify-center gap-1.5 text-sm font-medium text-slate-600">
-          {kind === 'ios' ? <Apple className="h-4 w-4" /> : <AndroidBot className="h-4 w-4" />}
-          {kind === 'ios' ? 'iPhone' : 'Android'}
-        </figcaption>
-      )}
+      <figcaption className="mt-2.5 flex items-center justify-center gap-1.5 text-sm font-medium text-slate-600">
+        {kind === 'ios' ? <Apple className="h-4 w-4" /> : <AndroidBot className="h-4 w-4" />}
+        {kind === 'ios' ? (captionBelow ? 'iPhone' : 'iPhone Preview') : captionBelow ? 'Android' : 'Android Preview'}
+      </figcaption>
     </figure>
   )
 }
