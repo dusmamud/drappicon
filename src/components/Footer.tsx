@@ -1,42 +1,75 @@
 import { Link } from 'react-router'
+import { Coffee, Heart } from 'lucide-react'
 import logo from '../assets/logo.svg'
 
 export default function Footer() {
+  const colTitle = 'text-[15px] font-bold text-white'
+  const link = 'text-sm text-slate-400 transition hover:text-white'
   return (
-    <footer className="mt-20 border-t border-slate-100 bg-slate-50/60">
-      <div className="mx-auto grid w-full max-w-6xl gap-8 px-4 py-10 sm:grid-cols-3">
+    <footer className="bg-[#0b1220] text-slate-300">
+      <div className="mx-auto grid w-full max-w-7xl gap-10 px-4 py-14 sm:px-6 md:grid-cols-[1.4fr_1fr_1fr_1fr]">
         <div>
           <div className="flex items-center gap-2.5">
-            <img src={logo} alt="" className="h-8 w-8 rounded-lg" />
-            <span className="font-extrabold text-slate-900">
-              Dr<span className="text-primary-600">AppIcon</span>
+            <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-white/95 p-1">
+              <img src={logo} alt="" className="h-full w-full" />
             </span>
+            <span className="font-hand text-3xl font-bold text-white">DrAppIcon</span>
           </div>
-          <p className="mt-3 max-w-xs text-sm text-slate-500">
-            Generate your app icon easily. iOS + Adaptive Android icons, made entirely in your
-            browser — by Dusrel.
+          <p className="mt-4 max-w-sm text-sm leading-relaxed text-slate-400">
+            A fast, private way to turn one image into a complete app icon set for iOS and
+            Android — generated locally, right in your browser.
           </p>
+          <a
+            href="https://www.buymeacoffee.com/"
+            target="_blank"
+            rel="noreferrer"
+            className="mt-5 inline-flex items-center gap-2 rounded-lg bg-[#ffdd00] px-4 py-2.5 text-sm font-bold text-slate-900 transition hover:brightness-95"
+          >
+            <Coffee className="h-4 w-4" /> Buy me a coffee
+          </a>
         </div>
         <div>
-          <h4 className="mb-3 text-sm font-bold text-slate-900">Product</h4>
-          <ul className="space-y-2 text-sm text-slate-500">
-            <li><Link to="/" className="hover:text-primary-700">Icon Generator</Link></li>
-            <li><a href="/#api" className="hover:text-primary-700">API</a></li>
-            <li><Link to="/support-us" className="hover:text-primary-700">Support Us</Link></li>
+          <h4 className={colTitle}>Product</h4>
+          <ul className="mt-4 space-y-2.5">
+            <li><a href="/#editor" className={link}>Editor</a></li>
+            <li><a href="/#features" className={link}>Features</a></li>
+            <li><a href="/#instructions" className={link}>Instructions</a></li>
+            <li><Link to="/support-us" className={link}>Support Us</Link></li>
           </ul>
         </div>
         <div>
-          <h4 className="mb-3 text-sm font-bold text-slate-900">Legal</h4>
-          <ul className="space-y-2 text-sm text-slate-500">
-            <li><Link to="/privacy-policy" className="hover:text-primary-700">Privacy Policy</Link></li>
-            <li><Link to="/terms-of-service" className="hover:text-primary-700">Terms of Service</Link></li>
-            <li><Link to="/cookie-policy" className="hover:text-primary-700">Cookie Policy</Link></li>
-            <li><Link to="/dpa" className="hover:text-primary-700">DPA</Link></li>
+          <h4 className={colTitle}>Resources</h4>
+          <ul className="mt-4 space-y-2.5">
+            <li>
+              <a href="https://developer.apple.com/design/human-interface-guidelines/app-icons" target="_blank" rel="noreferrer" className={link}>
+                iOS Guidelines
+              </a>
+            </li>
+            <li>
+              <a href="https://developer.android.com/develop/ui/views/launch/icon_design_adaptive" target="_blank" rel="noreferrer" className={link}>
+                Android Guidelines
+              </a>
+            </li>
+            <li><a href="/#api" className={link}>API</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 className={colTitle}>Legal</h4>
+          <ul className="mt-4 space-y-2.5">
+            <li><Link to="/privacy-policy" className={link}>Privacy Policy</Link></li>
+            <li><Link to="/terms-of-service" className={link}>Terms of Service</Link></li>
+            <li><Link to="/cookie-policy" className={link}>Cookie Policy</Link></li>
+            <li><Link to="/dpa" className={link}>DPA</Link></li>
           </ul>
         </div>
       </div>
-      <div className="border-t border-slate-100 py-4 text-center text-xs text-slate-400">
-        © {new Date().getFullYear()} DrAppIcon · A Dusrel product · support@drappicon.dusrel.com
+      <div className="border-t border-white/10">
+        <div className="mx-auto flex w-full max-w-7xl flex-wrap items-center justify-between gap-2 px-4 py-5 text-[13px] text-slate-500 sm:px-6">
+          <p>© {new Date().getFullYear()} DrAppIcon · A Dusrel product · support@drappicon.dusrel.com</p>
+          <p className="flex items-center gap-1.5">
+            Made with <Heart className="h-3.5 w-3.5 fill-red-500 text-red-500" /> for developers
+          </p>
+        </div>
       </div>
     </footer>
   )

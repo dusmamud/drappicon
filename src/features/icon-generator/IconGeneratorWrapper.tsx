@@ -10,8 +10,16 @@ export default function IconGeneratorWrapper() {
   const api = useGenerator()
   const { state, actions } = api
 
+  // Drag & drop anywhere on the page feeds the foreground dropzone.
+  const onDragOver = (e: React.DragEvent) => e.preventDefault()
+  const onDrop = (e: React.DragEvent) => {
+    e.preventDefault()
+    const file = e.dataTransfer.files?.[0]
+    if (file) void actions.handleForeground(file)
+  }
+
   return (
-    <section id="generator" className="relative">
+    <section id="editor" className="relative" onDragOver={onDragOver} onDrop={onDrop}>
       <div className="block lg:hidden">
         <MobileGenerator api={api} />
       </div>

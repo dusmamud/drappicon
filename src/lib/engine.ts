@@ -13,6 +13,7 @@ export interface IconSetOptions {
   monochrome: HTMLImageElement | null
   backgroundColor: string // '#rrggbb' or 'transparent'
   padding: number // 0..45 (percent of the canvas kept as margin around the artwork)
+  zoom?: number // >1 zooms the artwork in (crops at the edges); default 1
   fileName: string // e.g. 'ic_launcher'
   androidFormat: 'png' | 'webp'
   badge: BadgeOptions
@@ -129,6 +130,7 @@ export interface RenderSpec {
   image: HTMLImageElement
   background: string // '#rrggbb' | 'transparent'
   padding: number // 0..45 percent margin
+  zoom?: number
   clip?: 'none' | 'circle' | 'squircle'
   badge?: BadgeOptions | null
   /** adaptive-icon foregrounds live in a smaller safe zone */
@@ -157,7 +159,7 @@ export function renderIconCanvas(spec: RenderSpec): HTMLCanvasElement {
   }
 
   const zone = safeZone ? 0.66 : 1
-  const box = size * zone * (1 - padding / 100)
+  const box = size * zone * (1 - padding / 100) * (spec.zoom ?? 1)
   drawContained(ctx, image, size / 2, size / 2, box)
 
   if (spec.badge) drawBadge(ctx, size, spec.badge)
@@ -257,6 +259,7 @@ export async function generateIconSet(
         image: opts.foreground,
         background: opts.backgroundColor,
         padding: opts.padding,
+        zoom: opts.zoom,
         badge: opts.badge,
       })
       files.push([`android/mipmap-${b.name}/${name}.${ext}`, await canvasBlob(legacy, ext)])
@@ -267,6 +270,7 @@ export async function generateIconSet(
         image: opts.foreground,
         background: opts.backgroundColor,
         padding: opts.padding,
+        zoom: opts.zoom,
         clip: 'circle',
         badge: opts.badge,
       })
@@ -282,6 +286,7 @@ export async function generateIconSet(
         image: opts.monochrome ?? opts.foreground,
         background: 'transparent',
         padding: opts.padding,
+        zoom: opts.zoom,
         safeZone: true,
       })
       files.push([
@@ -314,6 +319,7 @@ export async function generateIconSet(
       image: opts.foreground,
       background: opts.backgroundColor,
       padding: opts.padding,
+      zoom: opts.zoom,
       badge: opts.badge,
     })
     files.push(['android/playstore-icon.png', await canvasBlob(store, 'png')])
@@ -331,6 +337,7 @@ export async function generateIconSet(
         image: opts.foreground,
         background: opts.backgroundColor === 'transparent' ? '#ffffff' : opts.backgroundColor,
         padding: opts.padding,
+        zoom: opts.zoom,
         badge: e.pt >= 40 ? opts.badge : null,
       })
       files.push([`ios/AppIcon.appiconset/${iosFileName(e)}`, await canvasBlob(canvas, 'png')])

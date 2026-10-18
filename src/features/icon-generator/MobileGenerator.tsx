@@ -1,17 +1,16 @@
 import { useEffect, useRef, useState } from 'react'
-import { AnimatePresence, motion } from 'framer-motion'
-import { Code2, Settings2, X } from 'lucide-react'
-import { ControlsBody, DropzoneBox } from './Controls'
-import PreviewStage from './PreviewStage'
+import { ArrowDown, Download, Loader2, SlidersHorizontal, X } from 'lucide-react'
+import Panel from './Panel'
+import Stage from './Stage'
 import type { GeneratorApi } from './useGenerator'
 
 export default function MobileGenerator({ api }: { api: GeneratorApi }) {
   const { state, actions } = api
   const [sheetOpen, setSheetOpen] = useState(false)
-  const [apiPillVisible, setApiPillVisible] = useState(true)
+  const [pastHero, setPastHero] = useState(false)
   const lastUrl = useRef<string | null>(null)
 
-  // Auto-open the Customize sheet shortly after a fresh upload (matches reference UX).
+  // Auto-open the Customize sheet shortly after a fresh upload.
   useEffect(() => {
     if (state.foregroundUrl && state.foregroundUrl !== lastUrl.current) {
       lastUrl.current = state.foregroundUrl
@@ -20,9 +19,12 @@ export default function MobileGenerator({ api }: { api: GeneratorApi }) {
     }
   }, [state.foregroundUrl])
 
-  // API pill is zone-scoped: hide it once the user scrolls past the generator area.
+  // The API pill arrow flips once the API section has been scrolled past.
   useEffect(() => {
-    const onScroll = () => setApiPillVisible(window.scrollY < window.innerHeight * 1.15)
+    const onScroll = () => {
+      const el = document.getElementById('api')
+      if (el) setPastHero(el.getBoundingClientRect().top < window.innerHeight * 0.4)
+    }
     onScroll()
     window.addEventListener('scroll', onScroll, { passive: true })
     return () => window.removeEventListener('scroll', onScroll)
@@ -31,110 +33,72 @@ export default function MobileGenerator({ api }: { api: GeneratorApi }) {
   const scrollToApi = () => document.getElementById('api')?.scrollIntoView({ behavior: 'smooth' })
 
   return (
-    <div className="mx-auto w-full max-w-xl px-4">
-      {!state.foregroundUrl ? (
-        <div className="rounded-3xl bg-white p-5 shadow-soft ring-1 ring-slate-100">
-          <h2 className="text-center text-xl font-extrabold text-slate-900">Ready to Create?</h2>
-          <p className="mb-4 mt-1 text-center text-sm text-slate-500">
-            Tap to upload an image and see live previews for iOS and Android
-          </p>
-          <DropzoneBox
-            onFile={actions.handleForeground}
-            url={null}
-            label="Tap to upload an image"
-          />
-          {state.error && (
-            <p className="mt-3 rounded-xl bg-red-50 px-3 py-2 text-sm font-medium text-red-600">
-              {state.error}
-            </p>
-          )}
-        </div>
-      ) : (
-        <div className="space-y-4">
-          <div className="rounded-3xl bg-white p-5 shadow-soft ring-1 ring-slate-100">
-            <h3 className="mb-4 text-center text-xs font-bold uppercase tracking-[0.14em] text-slate-400">
-              Live Preview
-            </h3>
-            <PreviewStage api={api} />
-          </div>
-          <button
-            type="button"
-            disabled={state.generating}
-            onClick={() => void actions.generate()}
-            className="w-full rounded-2xl bg-primary-600 py-4 text-base font-bold text-white shadow-lg shadow-primary-600/25 transition active:scale-[0.99] disabled:opacity-50"
-          >
-            {state.generating ? 'Generating…' : 'Download Icons'}
-          </button>
-          {state.error && (
-            <p className="rounded-xl bg-red-50 px-3 py-2 text-sm font-medium text-red-600">
-              {state.error}
-            </p>
-          )}
-        </div>
+    <div data-panel-root className="mx-auto w-full max-w-xl px-4">
+      <Stage api={api} compact />
+
+      {state.foregroundUrl && (
+        <button
+          type="button"
+          disabled={state.generating}
+          onClick={() => void actions.generate()}
+          className="mt-5 flex w-full items-center justify-center gap-2 rounded-xl bg-primary-600 py-3.5 text-base font-bold text-white shadow-md transition active:scale-[0.99] disabled:opacity-60"
+        >
+          {state.generating ? <Loader2 className="h-5 w-5 animate-spin" /> : <Download className="h-5 w-5" />}
+          {state.generating ? 'Generating…' : 'Download Icons'}
+        </button>
+      )}
+      {state.error && (
+        <p className="mt-3 rounded-xl bg-red-50 px-3 py-2 text-sm font-medium text-red-600">{state.error}</p>
       )}
 
-      {/* Floating pills — stacked vertically so they never overlap (defect in the reference, fixed here). */}
+      {/* Floating pills, stacked so they never collide. */}
       <div className="fixed bottom-5 right-4 z-40 flex flex-col items-end gap-2.5">
-        <AnimatePresence>
-          {apiPillVisible && (
-            <motion.button
-              initial={{ opacity: 0, y: 8 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: 8 }}
-              type="button"
-              onClick={scrollToApi}
-              className="flex items-center gap-1.5 rounded-full bg-gradient-to-r from-primary-600 to-fuchsia-500 px-4 py-2.5 text-xs font-bold text-white shadow-lg"
-            >
-              <Code2 className="h-4 w-4" /> Try our powerful API
-            </motion.button>
-          )}
-        </AnimatePresence>
         {state.foregroundUrl && (
           <button
             type="button"
             onClick={() => setSheetOpen(true)}
-            className="flex items-center gap-1.5 rounded-full bg-slate-900 px-4 py-2.5 text-xs font-bold text-white shadow-lg"
+            className="flex items-center gap-1.5 rounded-full bg-primary-600 px-4 py-2.5 text-[13px] font-bold text-white shadow-pillwarm shadow-primary-600/40"
+            style={{ boxShadow: '0 10px 25px -6px rgb(37 99 235 / 0.5)' }}
           >
-            <Settings2 className="h-4 w-4" /> Customize
+            <SlidersHorizontal className="h-4 w-4" /> Customize
           </button>
         )}
+        <button
+          type="button"
+          onClick={scrollToApi}
+          className="flex items-center gap-1.5 rounded-full px-4 py-2.5 text-[13px] font-bold text-white shadow-pillwarm"
+          style={{ background: 'linear-gradient(135deg,#f59e0b 0%,#f97316 40%,#ef4444 100%)' }}
+        >
+          Try our powerful API
+          <ArrowDown className={`h-4 w-4 transition-transform ${pastHero ? 'rotate-180' : ''}`} />
+        </button>
       </div>
 
       {/* Customize bottom sheet */}
-      <AnimatePresence>
-        {sheetOpen && (
-          <>
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              className="fixed inset-0 z-50 bg-slate-900/50 backdrop-blur-[2px]"
+      {sheetOpen && (
+        <div className="fixed inset-0 z-50">
+          <div className="animate-fade-in absolute inset-0 bg-slate-900/50" onClick={() => setSheetOpen(false)} />
+          <div className="animate-sheet-up nice-scroll absolute inset-x-0 bottom-0 max-h-[88vh] overflow-y-auto rounded-t-3xl bg-slate-50 p-3 pb-6 shadow-2xl">
+            <div className="mx-auto mb-3 h-1.5 w-12 rounded-full bg-slate-300" />
+            <button
+              type="button"
               onClick={() => setSheetOpen(false)}
-            />
-            <motion.div
-              initial={{ y: '100%' }}
-              animate={{ y: 0 }}
-              exit={{ y: '100%' }}
-              transition={{ type: 'spring', damping: 30, stiffness: 300 }}
-              className="fixed inset-x-0 bottom-0 z-50 max-h-[88vh] overflow-y-auto rounded-t-3xl bg-white p-5 pb-8 shadow-2xl nice-scroll"
+              className="absolute right-4 top-4 z-10 rounded-full bg-white p-1.5 text-slate-500 shadow"
+              aria-label="Close"
             >
-              <div className="mx-auto mb-4 h-1.5 w-12 rounded-full bg-slate-200" />
-              <div className="mb-4 flex items-center justify-between">
-                <h2 className="text-lg font-bold text-slate-900">Customize Icon</h2>
-                <button
-                  type="button"
-                  onClick={() => setSheetOpen(false)}
-                  className="rounded-full bg-slate-100 p-1.5 text-slate-500"
-                  aria-label="Close"
-                >
-                  <X className="h-4 w-4" />
-                </button>
-              </div>
-              <ControlsBody api={api} onDone={() => setSheetOpen(false)} />
-            </motion.div>
-          </>
-        )}
-      </AnimatePresence>
+              <X className="h-4 w-4" />
+            </button>
+            <Panel api={api} />
+            <button
+              type="button"
+              onClick={() => setSheetOpen(false)}
+              className="mt-4 w-full rounded-xl bg-slate-900 py-3.5 text-[15px] font-bold text-white"
+            >
+              Done
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   )
 }
