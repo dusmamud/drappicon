@@ -1,6 +1,6 @@
 import { Link } from 'react-router'
 import { AnimatePresence, motion } from 'framer-motion'
-import { Coffee, X } from 'lucide-react'
+import { Coffee, SquareTerminal, X } from 'lucide-react'
 import DesktopGenerator from './DesktopGenerator'
 import MobileGenerator from './MobileGenerator'
 import { useGenerator } from './useGenerator'
@@ -43,50 +43,67 @@ export default function IconGeneratorWrapper() {
                 animate={{ opacity: 1, scale: 1, y: 0 }}
                 exit={{ opacity: 0, scale: 0.95, y: 8 }}
                 transition={{ type: 'spring', damping: 24, stiffness: 300 }}
-                className="pointer-events-auto w-full max-w-sm rounded-3xl bg-white p-6 text-center shadow-2xl"
+                className="pointer-events-auto w-full max-w-md overflow-hidden rounded-2xl bg-white text-center shadow-2xl"
               >
-                <button
-                  type="button"
-                  onClick={() => actions.setShowThankYou(false)}
-                  className="float-right rounded-full bg-slate-100 p-1.5 text-slate-500"
-                  aria-label="Close"
-                >
-                  <X className="h-4 w-4" />
-                </button>
-                <img
-                  src={mascotGif}
-                  alt="DrAppIcon mascot"
-                  className="mx-auto h-28 w-28 rounded-2xl object-cover"
-                />
-                <h2 className="mt-3 text-xl font-extrabold text-slate-900">
-                  Thank you for using our services!
-                </h2>
-                <p className="mt-1 text-sm text-slate-500">
-                  Downloading your icons now. Enjoy!
-                </p>
-                <a
-                  href="https://www.buymeacoffee.com/"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="mt-5 flex items-center justify-center gap-2 rounded-2xl bg-[#ffdd00] py-3 text-sm font-bold text-slate-900 shadow"
-                >
-                  <Coffee className="h-4 w-4" /> Buy me a coffee
-                </a>
-                <div className="mt-2.5 flex gap-2.5">
+                <div className="relative px-6 pt-7">
                   <button
                     type="button"
-                    onClick={actions.reset}
-                    className="flex-1 rounded-2xl bg-slate-900 py-3 text-sm font-bold text-white"
-                  >
-                    Start Over
-                  </button>
-                  <Link
-                    to="/support-us"
                     onClick={() => actions.setShowThankYou(false)}
-                    className="flex-1 rounded-2xl bg-primary-600 py-3 text-sm font-bold text-white"
+                    className="absolute right-4 top-4 rounded-full p-1.5 text-slate-400 transition hover:bg-slate-100 hover:text-slate-600"
+                    aria-label="Close"
                   >
-                    Give us some help
-                  </Link>
+                    <X className="h-5 w-5" />
+                  </button>
+                  <img
+                    src={mascotGif}
+                    alt="DrAppIcon mascot"
+                    className="mx-auto h-40 w-40 object-contain"
+                  />
+                  <h2 className="mt-4 text-[26px] font-extrabold leading-snug text-ink">
+                    Thank you for using our services!
+                  </h2>
+                  <p className="mt-1.5 text-[15px] text-slate-500">Downloading your icons now.</p>
+                </div>
+                <div className="mx-6 mt-6 border-t border-slate-100" />
+                <p className="px-8 pt-5 text-[15px] leading-relaxed text-slate-500">
+                  If DrAppIcon saved you some time, a small coffee keeps it free for every
+                  developer who finds it next.
+                </p>
+                <div className="mt-5 bg-slate-50 px-6 py-5">
+                  <div className="flex items-center justify-center gap-2.5">
+                    <a
+                      href="https://www.buymeacoffee.com/"
+                      target="_blank"
+                      rel="noreferrer"
+                      className="flex items-center gap-2 rounded-lg bg-[#ffdd00] px-4 py-2.5 text-sm font-bold text-slate-900 shadow-sm transition hover:brightness-95"
+                    >
+                      <Coffee className="h-4 w-4" /> Buy me a coffee
+                    </a>
+                    <a
+                      href="/#api"
+                      onClick={() => actions.setShowThankYou(false)}
+                      className="flex h-[40px] w-[52px] items-center justify-center rounded-lg bg-slate-900 text-white shadow-sm transition hover:bg-slate-800"
+                      title="DrAppIcon API"
+                    >
+                      <SquareTerminal className="h-5 w-5" />
+                    </a>
+                  </div>
+                  <div className="mt-3 flex gap-2.5">
+                    <button
+                      type="button"
+                      onClick={actions.reset}
+                      className="flex-1 rounded-xl border border-slate-200 bg-white py-3 text-sm font-semibold text-slate-600 transition hover:bg-slate-100"
+                    >
+                      Start Over
+                    </button>
+                    <Link
+                      to="/support-us"
+                      onClick={() => actions.setShowThankYou(false)}
+                      className="flex-1 rounded-xl bg-primary-600 py-3 text-sm font-bold text-white transition hover:bg-primary-700"
+                    >
+                      Give us some help
+                    </Link>
+                  </div>
                 </div>
               </motion.div>
             </div>

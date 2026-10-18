@@ -30,22 +30,45 @@ function isLight(hex: string) {
   return 0.299 * r + 0.587 * g + 0.114 * b > 150
 }
 
-/** The "Upload & Customize" card — used in the desktop sidebar and the mobile sheet. */
-export default function Panel({ api, autoOpenPicker = false }: { api: GeneratorApi; autoOpenPicker?: boolean }) {
+/** Big two-option format switch (PNG / WebP) used on mobile surfaces. */
+export function FormatSwitch({ api, label }: { api: GeneratorApi; label?: string }) {
   const { state, actions } = api
+  const opts = [
+    { v: 'png', t: 'PNG', s: 'Lossless quality' },
+    { v: 'webp', t: 'WebP', s: 'Smaller files' },
+  ] as const
+  return (
+    <div>
+      {label && <p className="text-[15px] font-semibold text-slate-700">{label}</p>}
+      <div className="mt-2.5 flex rounded-2xl bg-slate-100 p-1.5">
+        {opts.map((o) => (
+          <button
+            key={o.v}
+            type="button"
+            onClick={() => actions.setAndroidFormat(o.v)}
+            className={`flex-1 rounded-xl px-3 py-3 text-center transition ${
+              state.androidFormat === o.v ? 'bg-white shadow' : 'text-slate-500'
+            }`}
+          >
+            <span className={`block text-[15px] font-bold ${state.androidFormat === o.v ? 'text-ink' : 'text-slate-600'}`}>{o.t}</span>
+            <span className="mt-0.5 block text-xs text-slate-400">{o.s}</span>
+          </button>
+        ))}
+      </div>
+    </div>
+  )
+}
+
+/**
+ * The customize controls. `card` = desktop sidebar card ("Upload & Customize");
+ * `sheet` = mobile bottom-sheet body (plain fields, sheet-style labels, format switch).
+ */
+export default function Panel({ api, variant = 'card' }: { api: GeneratorApi; variant?: 'card' | 'sheet' }) {
+  const { state, actions } = api
+  const sheet = variant === 'sheet'
   const [advOpen, setAdvOpen] = useState(false)
   const [pickerOpen, setPickerOpen] = useState(false)
   const pickerRef = useRef<HTMLDivElement>(null)
-  const wasUploaded = useRef(false)
-
-  // Desktop behaviour: the colour picker pops open right after an upload.
-  useEffect(() => {
-    if (state.foregroundUrl && !wasUploaded.current) {
-      wasUploaded.current = true
-      if (autoOpenPicker) setPickerOpen(true)
-    }
-    if (!state.foregroundUrl) wasUploaded.current = false
-  }, [state.foregroundUrl, autoOpenPicker])
 
   useEffect(() => {
     const onDoc = (e: MouseEvent) => {
@@ -73,19 +96,24 @@ export default function Panel({ api, autoOpenPicker = false }: { api: GeneratorA
   const bg = state.backgroundColor
   const bgIsTransparent = bg === 'transparent'
   const bgTextLight = bgIsTransparent ? false : !isLight(bg)
+  const labelCls = sheet ? 'text-[15px] font-semibold text-slate-700' : 'text-[13px] font-semibold text-slate-700'
 
-  return (
-    <div className="rounded-2xl border border-slate-200/80 bg-white p-5 shadow-card sm:p-6">
-      <h2 className="flex items-center gap-2 text-[17px] font-bold text-ink">
-        <Upload className="h-[18px] w-[18px] text-slate-500" />
-        Upload &amp; Customize
-      </h2>
+  const body = (
+    <>
+      {!sheet && (
+        <h2 className="flex items-center gap-2 text-[17px] font-bold text-ink">
+          <Upload className="h-[18px] w-[18px] text-slate-500" />
+          Upload &amp; Customize
+        </h2>
+      )}
 
       {/* Foreground image */}
-      <p className="mt-5 text-[13px] font-semibold text-slate-700">Foreground Image:</p>
+      <p className={`${sheet ? '' : 'mt-5'} ${labelCls}`}>Foreground Image{sheet ? '' : ':'}</p>
       <div
         {...dz.getRootProps()}
-        className={`mt-2 cursor-pointer rounded-xl border-2 border-dashed px-4 py-3.5 text-center transition ${
+        className={`mt-2 cursor-pointer rounded-lg border-2 border-dashed text-center transition ${
+          sheet ? 'px-4 py-5' : 'px-4 py-3.5'
+        } ${
           state.foregroundUrl
             ? 'border-green-400 bg-green-50/70 hover:bg-green-50'
             : dz.isDragActive
@@ -96,9 +124,13 @@ export default function Panel({ api, autoOpenPicker = false }: { api: GeneratorA
         <input {...dz.getInputProps()} />
         {state.foregroundUrl ? (
           <span className="flex items-center justify-center gap-3">
-            <img src={state.foregroundUrl} alt="Foreground" className="h-10 w-10 rounded-lg object-contain shadow-sm" />
+            <img
+              src={state.foregroundUrl}
+              alt="Foreground"
+              className={`${sheet ? 'h-14 w-14' : 'h-10 w-10'} rounded-lg object-contain shadow-sm`}
+            />
             <span className="flex items-center gap-1.5 text-sm font-medium text-green-600">
-              <Check className="h-4 w-4" /> Click to change
+              <Check className="h-4 w-4" /> {sheet ? 'Tap to change' : 'Click to change'}
             </span>
           </span>
         ) : (
@@ -115,10 +147,16 @@ export default function Panel({ api, autoOpenPicker = false }: { api: GeneratorA
       </div>
 
       {/* Size */}
-      <div className="mt-5 flex items-baseline justify-between">
-        <p className="text-[13px] font-semibold text-slate-700">Size:</p>
-        <p className="text-[13px] text-slate-500">{state.sizePercent}% zoom</p>
-      </div>
+      {sheet ? (
+        <p className={`mt-6 ${labelCls}`}>
+          Size: <span className="font-normal text-slate-500">{state.sizePercent}% zoom</span>
+        </p>
+      ) : (
+        <div className="mt-5 flex items-baseline justify-between">
+          <p className={labelCls}>Size:</p>
+          <p className="text-[13px] text-slate-500">{state.sizePercent}% zoom</p>
+        </div>
+      )}
       <input
         type="range"
         min={-50}
@@ -136,7 +174,7 @@ export default function Panel({ api, autoOpenPicker = false }: { api: GeneratorA
       </div>
 
       {/* Background colour */}
-      <p className="mt-5 text-[13px] font-semibold text-slate-700">Background Color:</p>
+      <p className={`mt-5 ${labelCls}`}>Background Color{sheet ? '' : ':'}</p>
       <div className="relative" ref={pickerRef}>
         <button
           type="button"
@@ -208,13 +246,20 @@ export default function Panel({ api, autoOpenPicker = false }: { api: GeneratorA
       </div>
 
       {/* Android file name */}
-      <p className="mt-5 text-[13px] font-semibold text-slate-700">Android File Name:</p>
+      <p className={`mt-5 ${labelCls}`}>Android File Name{sheet ? '' : ':'}</p>
       <input
         value={state.fileName}
         onChange={(e) => actions.setFileName(e.target.value.replace(/[^\w-]/g, '') || 'ic_launcher')}
         className="mt-2 w-full rounded-lg border border-slate-200 px-3.5 py-2.5 text-sm outline-none transition focus:border-primary-400 focus:ring-2 focus:ring-primary-100"
         placeholder="ic_launcher"
       />
+
+      {/* Mobile sheet: output format lives here too */}
+      {sheet && (
+        <div className="mt-6">
+          <FormatSwitch api={api} label="Android Output Format" />
+        </div>
+      )}
 
       {/* Advanced */}
       <div className="mt-5 border-t border-slate-100 pt-4">
@@ -237,7 +282,7 @@ export default function Panel({ api, autoOpenPicker = false }: { api: GeneratorA
                   type="checkbox"
                   checked={state.badge.enabled}
                   onChange={(e) => actions.setBadge({ ...state.badge, enabled: e.target.checked })}
-                  className="h-4.5 w-4.5 h-[18px] w-[18px] accent-primary-600"
+                  className="h-[18px] w-[18px] accent-primary-600"
                 />
               </label>
               {state.badge.enabled && (
@@ -299,27 +344,32 @@ export default function Panel({ api, autoOpenPicker = false }: { api: GeneratorA
         )}
       </div>
 
-      {/* Discover more */}
-      <div className="mt-6 overflow-hidden rounded-xl border border-slate-200/80">
-        <p className="bg-primary-50 px-4 py-2.5 text-sm font-bold text-slate-800">Discover more</p>
-        {[
-          { label: 'App Icon Generator', to: '#editor' },
-          { label: 'Icon setup guides', to: '#instructions' },
-          { label: 'Support DrAppIcon', to: '/support-us' },
-        ].map((l) =>
-          l.to.startsWith('#') ? (
-            <a key={l.label} href={l.to} className="flex items-center justify-between border-t border-slate-100 px-4 py-3 text-[15px] text-slate-700 transition hover:bg-slate-50">
-              {l.label}
-              <ChevronRight className="h-4 w-4 text-slate-400" />
-            </a>
-          ) : (
-            <Link key={l.label} to={l.to} className="flex items-center justify-between border-t border-slate-100 px-4 py-3 text-[15px] text-slate-700 transition hover:bg-slate-50">
-              {l.label}
-              <ChevronRight className="h-4 w-4 text-slate-400" />
-            </Link>
-          ),
-        )}
-      </div>
-    </div>
+      {/* Discover more (desktop card only) */}
+      {!sheet && (
+        <div className="mt-6 overflow-hidden rounded-xl border border-slate-200/80">
+          <p className="bg-primary-50 px-4 py-2.5 text-sm font-bold text-slate-800">Discover more</p>
+          {[
+            { label: 'App Icon Generator', to: '#editor' },
+            { label: 'Icon setup guides', to: '#instructions' },
+            { label: 'Support DrAppIcon', to: '/support-us' },
+          ].map((l) =>
+            l.to.startsWith('#') ? (
+              <a key={l.label} href={l.to} className="flex items-center justify-between border-t border-slate-100 px-4 py-3 text-[15px] text-slate-700 transition hover:bg-slate-50">
+                {l.label}
+                <ChevronRight className="h-4 w-4 text-slate-400" />
+              </a>
+            ) : (
+              <Link key={l.label} to={l.to} className="flex items-center justify-between border-t border-slate-100 px-4 py-3 text-[15px] text-slate-700 transition hover:bg-slate-50">
+                {l.label}
+                <ChevronRight className="h-4 w-4 text-slate-400" />
+              </Link>
+            ),
+          )}
+        </div>
+      )}
+    </>
   )
+
+  if (sheet) return <div>{body}</div>
+  return <div className="rounded-xl border border-slate-200/80 bg-white p-5 shadow-card">{body}</div>
 }

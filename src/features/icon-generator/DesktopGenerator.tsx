@@ -6,7 +6,7 @@ export default function DesktopGenerator({ api }: { api: GeneratorApi }) {
   const { state } = api
   return (
     <div data-panel-root className="mx-auto grid w-full max-w-7xl grid-cols-[400px_1fr] items-start gap-8 px-4 sm:px-6">
-      <Panel api={api} autoOpenPicker />
+      <Panel api={api} />
       <div className="min-w-0 pt-1">
         <Stage api={api} />
         {state.error && (

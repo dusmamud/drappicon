@@ -244,7 +244,7 @@ function SizesCard({ platform }: { platform: 'ios' | 'android' }) {
       </h3>
       <ul className="mt-5 space-y-2.5">
         {rows.map(([name, desc, size]) => (
-          <li key={name} className="flex items-center justify-between gap-3 rounded-xl bg-slate-50 px-4 py-3 ring-1 ring-slate-100">
+          <li key={name} className="flex items-center justify-between gap-3 rounded-xl bg-primary-50/70 px-4 py-3 ring-1 ring-primary-100/60">
             <span>
               <span className="block text-sm font-semibold text-ink">{name}</span>
               <span className="block text-xs text-slate-400">{desc}</span>

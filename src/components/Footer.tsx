@@ -13,7 +13,7 @@ export default function Footer() {
             <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-white/95 p-1">
               <img src={logo} alt="" className="h-full w-full" />
             </span>
-            <span className="font-hand text-3xl font-bold text-white">DrAppIcon</span>
+            <span className="text-xl font-extrabold tracking-tight text-white">DrAppIcon</span>
           </div>
           <p className="mt-4 max-w-sm text-sm leading-relaxed text-slate-400">
             A fast, private way to turn one image into a complete app icon set for iOS and

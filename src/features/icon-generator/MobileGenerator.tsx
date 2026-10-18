@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { ArrowDown, Download, Loader2, SlidersHorizontal, X } from 'lucide-react'
+import { ArrowDown, Download, Loader2, Settings, X } from 'lucide-react'
 import Panel from './Panel'
 import Stage from './Stage'
 import type { GeneratorApi } from './useGenerator'
@@ -7,7 +7,7 @@ import type { GeneratorApi } from './useGenerator'
 export default function MobileGenerator({ api }: { api: GeneratorApi }) {
   const { state, actions } = api
   const [sheetOpen, setSheetOpen] = useState(false)
-  const [pastHero, setPastHero] = useState(false)
+  const [pastApi, setPastApi] = useState(false)
   const lastUrl = useRef<string | null>(null)
 
   // Auto-open the Customize sheet shortly after a fresh upload.
@@ -23,7 +23,7 @@ export default function MobileGenerator({ api }: { api: GeneratorApi }) {
   useEffect(() => {
     const onScroll = () => {
       const el = document.getElementById('api')
-      if (el) setPastHero(el.getBoundingClientRect().top < window.innerHeight * 0.4)
+      if (el) setPastApi(el.getBoundingClientRect().top < window.innerHeight * 0.4)
     }
     onScroll()
     window.addEventListener('scroll', onScroll, { passive: true })
@@ -33,20 +33,21 @@ export default function MobileGenerator({ api }: { api: GeneratorApi }) {
   const scrollToApi = () => document.getElementById('api')?.scrollIntoView({ behavior: 'smooth' })
 
   return (
-    <div data-panel-root className="mx-auto w-full max-w-xl px-4">
-      <Stage api={api} compact />
+    <div data-mobile-root className="mx-auto w-full max-w-xl px-4">
+      {/* Always-mounted picker for the empty-state stage (the sheet's dropzone only exists while the sheet is open). */}
+      <input
+        type="file"
+        data-mobile-upload
+        accept="image/png,image/jpeg,image/svg+xml,image/webp"
+        className="hidden"
+        onChange={(e) => {
+          const f = e.target.files?.[0]
+          if (f) void actions.handleForeground(f)
+          e.target.value = ''
+        }}
+      />
+      <Stage api={api} mobile />
 
-      {state.foregroundUrl && (
-        <button
-          type="button"
-          disabled={state.generating}
-          onClick={() => void actions.generate()}
-          className="mt-5 flex w-full items-center justify-center gap-2 rounded-xl bg-primary-600 py-3.5 text-base font-bold text-white shadow-md transition active:scale-[0.99] disabled:opacity-60"
-        >
-          {state.generating ? <Loader2 className="h-5 w-5 animate-spin" /> : <Download className="h-5 w-5" />}
-          {state.generating ? 'Generating…' : 'Download Icons'}
-        </button>
-      )}
       {state.error && (
         <p className="mt-3 rounded-xl bg-red-50 px-3 py-2 text-sm font-medium text-red-600">{state.error}</p>
       )}
@@ -57,10 +58,10 @@ export default function MobileGenerator({ api }: { api: GeneratorApi }) {
           <button
             type="button"
             onClick={() => setSheetOpen(true)}
-            className="flex items-center gap-1.5 rounded-full bg-primary-600 px-4 py-2.5 text-[13px] font-bold text-white shadow-pillwarm shadow-primary-600/40"
+            className="flex items-center gap-1.5 rounded-full bg-primary-600 px-4 py-2.5 text-[13px] font-bold text-white"
             style={{ boxShadow: '0 10px 25px -6px rgb(37 99 235 / 0.5)' }}
           >
-            <SlidersHorizontal className="h-4 w-4" /> Customize
+            <Settings className="h-4 w-4" /> Customize
           </button>
         )}
         <button
@@ -70,7 +71,7 @@ export default function MobileGenerator({ api }: { api: GeneratorApi }) {
           style={{ background: 'linear-gradient(135deg,#f59e0b 0%,#f97316 40%,#ef4444 100%)' }}
         >
           Try our powerful API
-          <ArrowDown className={`h-4 w-4 transition-transform ${pastHero ? 'rotate-180' : ''}`} />
+          <ArrowDown className={`h-4 w-4 transition-transform ${pastApi ? 'rotate-180' : ''}`} />
         </button>
       </div>
 
@@ -78,24 +79,30 @@ export default function MobileGenerator({ api }: { api: GeneratorApi }) {
       {sheetOpen && (
         <div className="fixed inset-0 z-50">
           <div className="animate-fade-in absolute inset-0 bg-slate-900/50" onClick={() => setSheetOpen(false)} />
-          <div className="animate-sheet-up nice-scroll absolute inset-x-0 bottom-0 max-h-[88vh] overflow-y-auto rounded-t-3xl bg-slate-50 p-3 pb-6 shadow-2xl">
-            <div className="mx-auto mb-3 h-1.5 w-12 rounded-full bg-slate-300" />
-            <button
-              type="button"
-              onClick={() => setSheetOpen(false)}
-              className="absolute right-4 top-4 z-10 rounded-full bg-white p-1.5 text-slate-500 shadow"
-              aria-label="Close"
-            >
-              <X className="h-4 w-4" />
-            </button>
-            <Panel api={api} />
-            <button
-              type="button"
-              onClick={() => setSheetOpen(false)}
-              className="mt-4 w-full rounded-xl bg-slate-900 py-3.5 text-[15px] font-bold text-white"
-            >
-              Done
-            </button>
+          <div className="animate-sheet-up nice-scroll absolute inset-x-0 bottom-0 max-h-[92vh] overflow-y-auto rounded-t-2xl bg-white shadow-2xl">
+            <div className="sticky top-0 z-10 flex items-center justify-between border-b border-slate-100 bg-white px-5 py-4">
+              <h2 className="text-xl font-bold text-ink">Customize Icon</h2>
+              <button
+                type="button"
+                onClick={() => setSheetOpen(false)}
+                className="rounded-full p-1.5 text-slate-500 transition hover:bg-slate-100"
+                aria-label="Close"
+              >
+                <X className="h-5 w-5" />
+              </button>
+            </div>
+            <div className="px-5 py-5">
+              <Panel api={api} variant="sheet" />
+              <button
+                type="button"
+                disabled={state.generating}
+                onClick={() => void actions.generate()}
+                className="mt-6 flex w-full items-center justify-center gap-2 rounded-xl bg-primary-600 py-3.5 text-base font-bold text-white shadow-md transition active:scale-[0.99] disabled:opacity-60"
+              >
+                {state.generating ? <Loader2 className="h-5 w-5 animate-spin" /> : <Download className="h-5 w-5" />}
+                {state.generating ? 'Generating…' : 'Download Icons'}
+              </button>
+            </div>
           </div>
         </div>
       )}
