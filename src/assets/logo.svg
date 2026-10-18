@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024">
+  <title>Violet dancing character icon</title>
+  <g transform="translate(103,-18) scale(2)">
+    <!-- soft ground shadow -->
+    <ellipse cx="256" cy="488" rx="75" ry="16" fill="#281919" opacity="0.24"/>
+    <!-- tail -->
+    <path d="M189.1,370.7 L183.7,368.2 L178.6,365.7 L173.7,363.2 L169.1,360.5 L164.7,357.9 L160.5,355.2 L156.6,352.5 L152.9,349.7 L149.4,346.9 L146.2,344.1 L143.1,341.2 L140.3,338.3 L137.7,335.4 L135.2,332.4 L133.0,329.3 L130.9,326.2 L129.0,323.0 L127.3,319.8 L125.8,316.5 L124.5,313.0 L123.3,309.5 L122.3,305.9 L121.5,302.2 L120.9,298.4 L89.8,299.6 L89.8,305.2 L90.1,310.6 L90.7,316.1 L91.6,321.5 L92.7,326.9 L94.2,332.2 L96.0,337.5 L98.0,342.7 L100.4,347.8 L103.0,352.9 L105.9,357.8 L109.1,362.7 L112.5,367.5 L116.3,372.1 L120.2,376.7 L124.5,381.2 L128.9,385.5 L133.6,389.8 L138.6,393.9 L143.8,398.0 L149.2,402.0 L154.9,405.8 L160.8,409.6 L166.9,413.3 Z" fill="#8B5CF6"/>
+    <!-- tail tip with violet stroke (visible on light themes) -->
+    <circle cx="105.3" cy="299.0" r="20" fill="#DDD6FE" stroke="#8B5CF6" stroke-width="5"/>
+    <!-- body + belly -->
+    <ellipse cx="256" cy="362" rx="100" ry="110" fill="#8B5CF6"/>
+    <ellipse cx="256" cy="385" rx="58" ry="77" fill="#DDD6FE"/>
+    <!-- ears -->
+    <polygon points="220,148 188,46 150,108" fill="#8B5CF6"/>
+    <polygon points="292,148 324,46 362,108" fill="#8B5CF6"/>
+    <polygon points="206,128 186,70 168,104" fill="#DDD6FE"/>
+    <polygon points="306,128 326,70 344,104" fill="#DDD6FE"/>
+    <!-- head -->
+    <circle cx="256" cy="213" r="95" fill="#8B5CF6"/>
+    <!-- eyes -->
+    <ellipse cx="218" cy="208" rx="15" ry="20.5" fill="#2D2A32"/>
+    <ellipse cx="294" cy="208" rx="15" ry="20.5" fill="#2D2A32"/>
+    <!-- nose + mouth -->
+    <polygon points="247,232 265,232 256,242" fill="#2D2A32"/>
+    <path d="M234,251 A11,11 0 0 0 256,251" stroke="#2D2A32" stroke-width="5" fill="none" stroke-linecap="round"/>
+    <path d="M256,251 A11,11 0 0 0 278,251" stroke="#2D2A32" stroke-width="5" fill="none" stroke-linecap="round"/>
+    <!-- paws (rest pose) -->
+    <ellipse cx="200" cy="436" rx="22" ry="28" fill="#8B5CF6"/>
+    <ellipse cx="312" cy="436" rx="22" ry="28" fill="#8B5CF6"/>
+  </g>
+</svg>
