@@ -4,7 +4,6 @@ import {
   BadgeCheck,
   Check,
   ChevronDown,
-  ChevronRight,
   CircleDashed,
   Contrast,
   Pipette,
@@ -12,7 +11,6 @@ import {
   UploadCloud,
   X,
 } from 'lucide-react'
-import { Link } from 'react-router'
 import type { GeneratorApi } from './useGenerator'
 import { MAX_FILE_BYTES } from './useGenerator'
 
@@ -344,29 +342,6 @@ export default function Panel({ api, variant = 'card' }: { api: GeneratorApi; va
         )}
       </div>
 
-      {/* Discover more (desktop card only) */}
-      {!sheet && (
-        <div className="mt-6 overflow-hidden rounded-xl border border-slate-200/80">
-          <p className="bg-primary-50 px-4 py-2.5 text-sm font-bold text-slate-800">Discover more</p>
-          {[
-            { label: 'App Icon Generator', to: '#editor' },
-            { label: 'Icon setup guides', to: '#instructions' },
-            { label: 'Support DrAppIcon', to: '/support-us' },
-          ].map((l) =>
-            l.to.startsWith('#') ? (
-              <a key={l.label} href={l.to} className="flex items-center justify-between border-t border-slate-100 px-4 py-3 text-[15px] text-slate-700 transition hover:bg-slate-50">
-                {l.label}
-                <ChevronRight className="h-4 w-4 text-slate-400" />
-              </a>
-            ) : (
-              <Link key={l.label} to={l.to} className="flex items-center justify-between border-t border-slate-100 px-4 py-3 text-[15px] text-slate-700 transition hover:bg-slate-50">
-                {l.label}
-                <ChevronRight className="h-4 w-4 text-slate-400" />
-              </Link>
-            ),
-          )}
-        </div>
-      )}
     </>
   )
 

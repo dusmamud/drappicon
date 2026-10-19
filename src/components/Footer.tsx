@@ -1,5 +1,5 @@
 import { Link } from 'react-router'
-import { Coffee, Heart } from 'lucide-react'
+import { Heart } from 'lucide-react'
 import logo from '../assets/logo.svg'
 
 export default function Footer() {
@@ -19,14 +19,6 @@ export default function Footer() {
             A fast, private way to turn one image into a complete app icon set for iOS and
             Android — generated locally, right in your browser.
           </p>
-          <a
-            href="https://www.buymeacoffee.com/"
-            target="_blank"
-            rel="noreferrer"
-            className="mt-5 inline-flex items-center gap-2 rounded-lg bg-[#ffdd00] px-4 py-2.5 text-sm font-bold text-slate-900 transition hover:brightness-95"
-          >
-            <Coffee className="h-4 w-4" /> Buy me a coffee
-          </a>
         </div>
         <div>
           <h4 className={colTitle}>Product</h4>

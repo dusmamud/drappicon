@@ -1,6 +1,6 @@
 import { Link } from 'react-router'
 import { AnimatePresence, motion } from 'framer-motion'
-import { Coffee, SquareTerminal, X } from 'lucide-react'
+import { SquareTerminal, X } from 'lucide-react'
 import DesktopGenerator from './DesktopGenerator'
 import MobileGenerator from './MobileGenerator'
 import { useGenerator } from './useGenerator'
@@ -66,19 +66,11 @@ export default function IconGeneratorWrapper() {
                 </div>
                 <div className="mx-6 mt-6 border-t border-slate-100" />
                 <p className="px-8 pt-5 text-[15px] leading-relaxed text-slate-500">
-                  If DrAppIcon saved you some time, a small coffee keeps it free for every
-                  developer who finds it next.
+                  If DrAppIcon saved you some time, sharing it with a fellow developer
+                  keeps it free for everyone who finds it next.
                 </p>
                 <div className="mt-5 bg-slate-50 px-6 py-5">
                   <div className="flex items-center justify-center gap-2.5">
-                    <a
-                      href="https://www.buymeacoffee.com/"
-                      target="_blank"
-                      rel="noreferrer"
-                      className="flex items-center gap-2 rounded-lg bg-[#ffdd00] px-4 py-2.5 text-sm font-bold text-slate-900 shadow-sm transition hover:brightness-95"
-                    >
-                      <Coffee className="h-4 w-4" /> Buy me a coffee
-                    </a>
                     <a
                       href="/#api"
                       onClick={() => actions.setShowThankYou(false)}

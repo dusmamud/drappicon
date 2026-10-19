@@ -1,4 +1,4 @@
-import { Coffee, Heart, Mail } from 'lucide-react'
+import { Heart, Mail } from 'lucide-react'
 import mascotGif from '../assets/mascot.gif'
 
 export default function Support() {
@@ -9,17 +9,9 @@ export default function Support() {
         Support DrAppIcon
       </h1>
       <p className="mx-auto mt-3 max-w-md text-slate-500">
-        DrAppIcon is free for everyone, forever. If it saved you time, a coffee keeps the
-        generator running and new features coming.
+        DrAppIcon is free for everyone, forever. If it saved you time, sharing it with
+        another developer is the best way to keep it growing.
       </p>
-      <a
-        href="https://www.buymeacoffee.com/"
-        target="_blank"
-        rel="noreferrer"
-        className="mt-6 inline-flex items-center gap-2 rounded-2xl bg-[#ffdd00] px-6 py-3.5 font-bold text-slate-900 shadow"
-      >
-        <Coffee className="h-5 w-5" /> Buy me a coffee
-      </a>
       <div className="mt-10 grid gap-4 text-left sm:grid-cols-2">
         <div className="rounded-3xl bg-white p-5 shadow-soft ring-1 ring-slate-100">
           <Heart className="h-5 w-5 text-primary-600" />

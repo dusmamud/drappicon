@@ -1,7 +1,6 @@
 import { useCallback, useEffect, useRef } from 'react'
 import {
   Apple,
-  Coffee,
   Download,
   Loader2,
   Mail,
@@ -51,14 +50,6 @@ export default function Stage({ api, mobile = false }: { api: GeneratorApi; mobi
             </h1>
             <p className="mt-3 text-lg text-slate-500">iOS + Adaptive Android Icon</p>
             <div className="mt-5 flex items-center justify-center gap-2.5">
-              <a
-                href="https://www.buymeacoffee.com/"
-                target="_blank"
-                rel="noreferrer"
-                className="flex items-center gap-2 rounded-lg bg-[#ffdd00] px-4 py-2.5 text-[15px] font-bold text-slate-900 shadow-sm transition hover:brightness-95"
-              >
-                <Coffee className="h-[18px] w-[18px]" /> Buy me a coffee
-              </a>
               <a href="#api" title="DrAppIcon API" className="flex h-[42px] w-[42px] items-center justify-center rounded-lg bg-slate-900 text-white shadow-sm transition hover:bg-slate-800">
                 <SquareTerminal className="h-5 w-5" />
               </a>
