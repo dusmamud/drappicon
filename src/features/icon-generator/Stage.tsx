@@ -207,7 +207,7 @@ function ShapeRow({ api, small = false }: { api: GeneratorApi; small?: boolean }
       ].map((s) => (
         <figure key={s.label} className="text-center">
           <div
-            className={`relative mx-auto aspect-square w-full ${small ? 'max-w-[104px]' : 'max-w-[132px]'} overflow-hidden shadow-md ${s.cls} ${bg === 'transparent' ? 'checkerboard' : ''}`}
+            className={`relative mx-auto aspect-square w-full ${small ? 'max-w-[104px]' : 'max-w-[132px]'} overflow-hidden app-icon-shadow ${s.cls} ${bg === 'transparent' ? 'checkerboard' : ''}`}
             style={bg === 'transparent' ? undefined : { backgroundColor: bg }}
           >
             <img

@@ -15,6 +15,24 @@ html.dark body { background-color: #08080b; }
 .nice-scroll::-webkit-scrollbar { width: 6px; height: 6px; }
 .nice-scroll::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 999px; }
 
+/* Professional app-icon shadow for the preview shapes: a definition ring
+   (visible on every side, whatever colour the user picks) + contact, ambient
+   and diffuse layers — like a real home-screen icon. */
+.app-icon-shadow {
+  box-shadow:
+    0 0 0 1px rgb(15 23 42 / 0.09),
+    0 1px 2px rgb(15 23 42 / 0.12),
+    0 6px 14px -2px rgb(15 23 42 / 0.16),
+    0 18px 34px -10px rgb(15 23 42 / 0.28);
+}
+html.dark .app-icon-shadow {
+  box-shadow:
+    0 0 0 1px rgb(255 255 255 / 0.20),
+    0 2px 5px rgb(0 0 0 / 0.50),
+    0 10px 22px -4px rgb(0 0 0 / 0.55),
+    0 24px 44px -12px rgb(0 0 0 / 0.65);
+}
+
 /* transparent-artwork checkerboard */
 .checkerboard {
   background-image: linear-gradient(45deg, #e5e7eb 25%, transparent 25%), linear-gradient(-45deg, #e5e7eb 25%, transparent 25%), linear-gradient(45deg, transparent 75%, #e5e7eb 75%), linear-gradient(-45deg, transparent 75%, #e5e7eb 75%);
