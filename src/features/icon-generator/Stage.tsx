@@ -279,6 +279,82 @@ const THEMED_VARIANTS = [
   { label: 'Light', bg: '#f3f4f6', filter: 'brightness(0)' },
 ] as const
 
+/**
+ * Platform status bars drawn for the phone screens — iOS and Android get
+ * deliberately different designs (Enzurien's ask, 2026-10-19): iOS = white
+ * semibold time + bar signal + fan wifi + pill battery; Android = dark
+ * medium time with a notification dot + filled-fan wifi + stair signal +
+ * squarer battery. Sizes shrink on the mobile preview phones.
+ */
+function StatusBar({ kind, mobile }: { kind: 'ios' | 'android'; mobile: boolean }) {
+  const ios = kind === 'ios'
+  const c = ios ? '#ffffff' : '#1e293b'
+  const timeSize = mobile ? 7 : 12
+  const gh = mobile ? 7 : 11 // glyph height px
+  return (
+    <div
+      className="absolute inset-x-0 top-0 flex items-center justify-between"
+      style={{ height: '5.6%', paddingLeft: ios ? '9%' : '7%', paddingRight: ios ? '7.5%' : '7%' }}
+    >
+      <span className="flex items-center" style={{ gap: mobile ? 2 : 4 }}>
+        <span
+          className={ios ? 'font-semibold tracking-wide' : 'font-medium'}
+          style={{ fontSize: timeSize, color: c, lineHeight: 1 }}
+        >
+          9:41
+        </span>
+        {!ios && <span className="rounded-full" style={{ width: mobile ? 2.5 : 4, height: mobile ? 2.5 : 4, backgroundColor: c, opacity: 0.75 }} />}
+      </span>
+      <span className="flex items-center" style={{ gap: mobile ? 2.5 : 5 }}>
+        {ios ? (
+          <>
+            {/* iOS signal: four rounded bars */}
+            <svg height={gh} viewBox="0 0 18 11" fill={c} aria-hidden>
+              <rect x="0" y="7" width="3" height="4" rx="0.9" />
+              <rect x="4.8" y="5" width="3" height="6" rx="0.9" />
+              <rect x="9.6" y="2.5" width="3" height="8.5" rx="0.9" />
+              <rect x="14.4" y="0" width="3" height="11" rx="0.9" />
+            </svg>
+            {/* iOS wifi: stroked fan arcs */}
+            <svg height={gh} viewBox="0 0 16 11" fill="none" stroke={c} strokeWidth="1.7" strokeLinecap="round" aria-hidden>
+              <path d="M1.6 3.4a10.5 10.5 0 0 1 12.8 0" />
+              <path d="M4.2 6.1a6.8 6.8 0 0 1 7.6 0" />
+              <circle cx="8" cy="9.2" r="1.05" fill={c} stroke="none" />
+            </svg>
+            {/* iOS battery: soft pill outline + fill + nub */}
+            <svg height={gh} viewBox="0 0 27 12" aria-hidden>
+              <rect x="0.6" y="0.6" width="21.8" height="10.8" rx="3.4" fill="none" stroke={c} strokeOpacity="0.45" strokeWidth="1.1" />
+              <rect x="2.2" y="2.2" width="15.5" height="7.6" rx="2" fill={c} />
+              <path d="M24.6 4v4a2.4 2.4 0 0 0 0-4Z" fill={c} fillOpacity="0.5" />
+            </svg>
+          </>
+        ) : (
+          <>
+            {/* Android wifi: filled fan */}
+            <svg height={gh} viewBox="0 0 16 11" fill={c} aria-hidden>
+              <path d="M8 10.6 1.2 3.9a11.5 11.5 0 0 1 13.6 0L8 10.6Z" opacity="0.95" />
+              <path d="M8 10.6 4.1 6.7a6.4 6.4 0 0 1 7.8 0L8 10.6Z" />
+            </svg>
+            {/* Android signal: stair/triangle bars */}
+            <svg height={gh} viewBox="0 0 16 11" fill={c} aria-hidden>
+              <rect x="0" y="8" width="2.8" height="3" rx="0.6" />
+              <rect x="4.2" y="5.8" width="2.8" height="5.2" rx="0.6" />
+              <rect x="8.4" y="3.4" width="2.8" height="7.6" rx="0.6" />
+              <rect x="12.6" y="0.8" width="2.8" height="10.2" rx="0.6" />
+            </svg>
+            {/* Android battery: squarer outline + fill + nub */}
+            <svg height={gh} viewBox="0 0 25 12" aria-hidden>
+              <rect x="0.6" y="0.6" width="20.5" height="10.8" rx="2" fill="none" stroke={c} strokeOpacity="0.55" strokeWidth="1.1" />
+              <rect x="2.2" y="2.2" width="13.5" height="7.6" rx="1" fill={c} />
+              <path d="M23.2 3.8v4.4a2.2 2.2 0 0 0 0-4.4Z" fill={c} fillOpacity="0.6" />
+            </svg>
+          </>
+        )}
+      </span>
+    </div>
+  )
+}
+
 function PhoneMock({ kind, api, captionBelow = false }: { kind: 'ios' | 'android'; api: GeneratorApi; captionBelow?: boolean }) {
   const { state } = api
   const spec = DEVICES[kind]
@@ -299,7 +375,8 @@ function PhoneMock({ kind, api, captionBelow = false }: { kind: 'ios' | 'android
         style={{ left: `${sx}%`, top: `${sy}%`, width: `${sw}%`, height: `${sh}%`, borderRadius: spec.radius }}
       >
         <img src={wallpaper} alt="" className="absolute inset-0 h-full w-full object-cover" />
-        {/* App icon + name, as on a home screen (no status bar — reference behaviour) */}
+        <StatusBar kind={kind} mobile={mobile} />
+        {/* App icon + name, as on a home screen */}
         <div className="absolute flex flex-col items-center" style={{ left: '9%', top: '10.5%', width: iconW }}>
           <div
             className="relative aspect-square w-full overflow-hidden shadow-lg"
