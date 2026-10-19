@@ -6,7 +6,7 @@ export default function Footer() {
   const colTitle = 'text-[15px] font-bold text-white'
   const link = 'text-sm text-slate-400 transition hover:text-white'
   return (
-    <footer className="bg-[#0b1220] text-slate-300">
+    <footer className="bg-[#0b1220] text-slate-300 dark:border-t dark:border-white/5">
       <div className="mx-auto grid w-full max-w-7xl gap-10 px-4 py-14 sm:px-6 md:grid-cols-[1.4fr_1fr_1fr_1fr]">
         <div>
           <div className="flex items-center gap-2.5">

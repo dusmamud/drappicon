@@ -51,22 +51,22 @@ export default function Stage({ api, mobile = false }: { api: GeneratorApi; mobi
       <div className="text-center">
         <div className="flex items-center justify-center gap-3">
           <img src={logo} alt="DrAppIcon logo" className={uploaded ? 'h-12 w-12' : 'h-20 w-20'} />
-          <span className={`font-hand font-bold text-ink ${uploaded ? 'text-4xl' : 'text-5xl'}`}>DrAppIcon</span>
+          <span className={`font-hand font-bold text-ink dark:text-white ${uploaded ? 'text-4xl' : 'text-5xl'}`}>DrAppIcon</span>
         </div>
         {!uploaded && (
           <>
-            <h1 className="mt-5 text-4xl font-extrabold leading-[1.1] tracking-tight text-gray-900 sm:text-[44px]">
+            <h1 className="mt-5 text-4xl font-extrabold leading-[1.1] tracking-tight text-gray-900 dark:text-white sm:text-[44px]">
               Generate your app icon easily.
             </h1>
-            <p className="mt-3 text-lg text-slate-500">iOS + Adaptive Android Icon</p>
+            <p className="mt-3 text-lg text-slate-500 dark:text-slate-400">iOS + Adaptive Android Icon</p>
             <div className="mt-5 flex items-center justify-center gap-2.5">
-              <a href="#api" title="DrAppIcon API" className="flex h-[42px] w-[42px] items-center justify-center rounded-lg bg-slate-900 text-white shadow-sm transition hover:bg-slate-800">
+              <a href="#api" title="DrAppIcon API" className="flex h-[42px] w-[42px] items-center justify-center rounded-lg bg-slate-900 text-white shadow-sm transition hover:bg-slate-800 dark:bg-white/10 dark:hover:bg-white/15">
                 <SquareTerminal className="h-5 w-5" />
               </a>
-              <a href="mailto:support@drappicon.dusrel.com" title="Email us" className="flex h-[42px] w-[42px] items-center justify-center rounded-lg border border-slate-200 bg-white text-slate-500 shadow-sm transition hover:bg-slate-50">
+              <a href="mailto:support@drappicon.dusrel.com" title="Email us" className="flex h-[42px] w-[42px] items-center justify-center rounded-lg border border-slate-200 dark:border-white/10 bg-white text-slate-500 dark:text-slate-400 shadow-sm transition hover:bg-slate-50 dark:bg-night-800 dark:hover:bg-night-700">
                 <Mail className="h-5 w-5" />
               </a>
-              <a href="mailto:support@drappicon.dusrel.com?subject=DrAppIcon%20feedback" title="Chat with us" className="hidden h-[42px] w-[42px] items-center justify-center rounded-lg border border-slate-200 bg-white text-slate-500 shadow-sm transition hover:bg-slate-50 min-[420px]:flex">
+              <a href="mailto:support@drappicon.dusrel.com?subject=DrAppIcon%20feedback" title="Chat with us" className="hidden h-[42px] w-[42px] items-center justify-center rounded-lg border border-slate-200 dark:border-white/10 bg-white text-slate-500 dark:text-slate-400 shadow-sm transition hover:bg-slate-50 dark:bg-night-800 dark:hover:bg-night-700 min-[420px]:flex">
                 <MessageCircle className="h-5 w-5" />
               </a>
             </div>
@@ -80,17 +80,17 @@ export default function Stage({ api, mobile = false }: { api: GeneratorApi; mobi
           <button
             type="button"
             onClick={pickFile}
-            className="block w-full rounded-xl border-2 border-dashed border-slate-300 bg-white/70 px-6 py-16 text-center transition hover:border-primary-300 hover:bg-white sm:py-20"
+            className="block w-full rounded-xl border-2 border-dashed border-slate-300 dark:border-slate-600 bg-white/70 px-6 py-16 text-center transition hover:border-primary-300 hover:bg-white dark:bg-white/[0.03] dark:hover:bg-white/5 sm:py-20"
           >
             <span className="flex items-center justify-center gap-5 text-slate-300">
               <Apple className="h-12 w-12" />
               <AndroidBot className="h-11 w-11" />
             </span>
-            <span className="mt-5 block text-xl font-semibold text-slate-800">Ready to Create?</span>
-            <span className="mx-auto mt-2 block max-w-sm text-[15px] leading-relaxed text-slate-500">
+            <span className="mt-5 block text-xl font-semibold text-slate-800 dark:text-slate-100">Ready to Create?</span>
+            <span className="mx-auto mt-2 block max-w-sm text-[15px] leading-relaxed text-slate-500 dark:text-slate-400">
               Upload an image to see live previews for iOS and Android
             </span>
-            <span className="mt-3 block text-sm text-slate-400">Or drag &amp; drop your image anywhere here</span>
+            <span className="mt-3 block text-sm text-slate-400 dark:text-slate-500">Or drag &amp; drop your image anywhere here</span>
           </button>
         ) : (
           <LivePreview api={api} mobile={mobile} />
@@ -105,9 +105,9 @@ function LivePreview({ api, mobile }: { api: GeneratorApi; mobile: boolean }) {
 
   if (mobile) {
     return (
-      <div className="animate-fade-in rounded-xl border border-slate-200/80 bg-white p-5 shadow-card">
-        <h3 className="flex items-center gap-2 text-xl font-bold text-ink">
-          <Smartphone className="h-5 w-5 text-slate-500" /> Live Preview
+      <div className="animate-fade-in rounded-xl border border-slate-200 dark:border-white/10/80 dark:border-white/10 bg-white p-5 shadow-card dark:bg-night-800">
+        <h3 className="flex items-center gap-2 text-xl font-bold text-ink dark:text-white">
+          <Smartphone className="h-5 w-5 text-slate-500 dark:text-slate-400" /> Live Preview
         </h3>
         <div className="mt-5">
           <FormatSwitch api={api} label="Android Output Format" />
@@ -133,21 +133,21 @@ function LivePreview({ api, mobile }: { api: GeneratorApi; mobile: boolean }) {
   }
 
   return (
-    <div className="animate-fade-in rounded-xl border border-slate-200/80 bg-white p-6 shadow-card">
+    <div className="animate-fade-in rounded-xl border border-slate-200 dark:border-white/10/80 dark:border-white/10 bg-white p-6 shadow-card dark:bg-night-800">
       <div className="flex flex-wrap items-center gap-3">
-        <h3 className="flex items-center gap-2 text-lg font-bold text-ink">
-          <Smartphone className="h-5 w-5 text-slate-500" /> Live Preview
+        <h3 className="flex items-center gap-2 text-lg font-bold text-ink dark:text-white">
+          <Smartphone className="h-5 w-5 text-slate-500 dark:text-slate-400" /> Live Preview
         </h3>
         <div className="ml-auto flex flex-wrap items-center gap-3">
-          <span className="text-sm font-medium text-slate-500">Format:</span>
-          <div className="flex rounded-lg bg-slate-100 p-1">
+          <span className="text-sm font-medium text-slate-500 dark:text-slate-400">Format:</span>
+          <div className="flex rounded-lg bg-slate-100 dark:bg-white/10 p-1">
             {(['png', 'webp'] as const).map((f) => (
               <button
                 key={f}
                 type="button"
                 onClick={() => actions.setAndroidFormat(f)}
                 className={`rounded-md px-3.5 py-1.5 text-[13px] font-semibold uppercase transition ${
-                  state.androidFormat === f ? 'bg-white text-ink shadow-sm' : 'text-slate-500 hover:text-slate-700'
+                  state.androidFormat === f ? 'bg-white text-ink shadow-sm dark:bg-night-600 dark:text-white' : 'text-slate-500 dark:text-slate-400 hover:text-slate-700'
                 }`}
               >
                 {f}
@@ -180,13 +180,13 @@ function ProgressBar({ api }: { api: GeneratorApi }) {
   if (!state.progress) return null
   return (
     <div className="mt-4">
-      <div className="h-2 overflow-hidden rounded-full bg-slate-100">
+      <div className="h-2 overflow-hidden rounded-full bg-slate-100 dark:bg-white/10">
         <div
           className="h-full rounded-full bg-primary-600 transition-all"
           style={{ width: `${Math.round((state.progress.done / Math.max(1, state.progress.total)) * 100)}%` }}
         />
       </div>
-      <p className="mt-1.5 text-xs text-slate-400">
+      <p className="mt-1.5 text-xs text-slate-400 dark:text-slate-500">
         {state.progress.label} · {state.progress.done}/{state.progress.total}
       </p>
     </div>
@@ -234,7 +234,7 @@ function ShapeRow({ api, small = false }: { api: GeneratorApi; small?: boolean }
               </span>
             )}
           </div>
-          <figcaption className="mt-2.5 text-sm text-slate-500">{s.label}</figcaption>
+          <figcaption className="mt-2.5 text-sm text-slate-500 dark:text-slate-400">{s.label}</figcaption>
         </figure>
       ))}
     </div>
@@ -468,7 +468,7 @@ function PhoneMock({ kind, api, captionBelow = false }: { kind: 'ios' | 'android
     return (
       <figure className="w-[150px] max-w-[46vw]">
         <div className="drop-shadow-[0_16px_22px_rgb(15_23_42/0.22)]">{phone}</div>
-        <figcaption className="mt-2 flex items-center justify-center gap-1 text-xs font-medium text-gray-600">
+        <figcaption className="mt-2 flex items-center justify-center gap-1 text-xs font-medium text-gray-600 dark:text-slate-300">
           {kind === 'ios' ? <Apple className="h-3 w-3" /> : <AndroidBot className="h-3 w-3" />}
           {kind === 'ios' ? 'iPhone' : 'Android'}
         </figcaption>
@@ -484,8 +484,8 @@ function PhoneMock({ kind, api, captionBelow = false }: { kind: 'ios' | 'android
       <div className="relative overflow-hidden drop-shadow-[0_16px_22px_rgb(15_23_42/0.22)]" style={{ aspectRatio: cropRatio }}>
         <div className="absolute inset-x-0 top-0">{phone}</div>
         <span className="absolute bottom-[6%] left-1/2 flex -translate-x-1/2 items-center gap-1.5 whitespace-nowrap rounded-full bg-white/90 px-3 py-1 shadow-sm backdrop-blur-sm">
-          {kind === 'ios' ? <Apple className="h-4 w-4 text-gray-600" /> : <AndroidBot className="h-4 w-4 text-gray-600" />}
-          <span className="text-sm font-medium text-gray-600">{kind === 'ios' ? 'iPhone Preview' : 'Android Preview'}</span>
+          {kind === 'ios' ? <Apple className="h-4 w-4 text-gray-600 dark:text-slate-300" /> : <AndroidBot className="h-4 w-4 text-gray-600 dark:text-slate-300" />}
+          <span className="text-sm font-medium text-gray-600 dark:text-slate-300">{kind === 'ios' ? 'iPhone Preview' : 'Android Preview'}</span>
         </span>
       </div>
     </figure>
@@ -500,10 +500,10 @@ function ThemedIconsSection({ api }: { api: GeneratorApi }) {
   const padding = state.sizePercent < 0 ? Math.min(45, -state.sizePercent) : 0
   const zoom = state.sizePercent > 0 ? 1 + state.sizePercent / 100 : 1
   return (
-    <div className="mt-6 rounded-lg bg-gray-50 p-4">
+    <div className="mt-6 rounded-lg bg-gray-50 dark:bg-white/5 p-4">
       <div className="mb-3 flex items-center gap-2">
         <span className="h-2 w-2 rounded-full bg-green-400" />
-        <span className="text-sm font-medium text-gray-700">Android Themed Icons Preview</span>
+        <span className="text-sm font-medium text-gray-700 dark:text-slate-200">Android Themed Icons Preview</span>
       </div>
       <div className="grid grid-cols-4 gap-3">
         {THEMED_VARIANTS.map((v) => (
@@ -530,7 +530,7 @@ function ThemedIconsSection({ api }: { api: GeneratorApi }) {
                 </span>
               )}
             </div>
-            <p className="mt-1 text-xs text-gray-600">{v.label}</p>
+            <p className="mt-1 text-xs text-gray-600 dark:text-slate-300">{v.label}</p>
           </div>
         ))}
       </div>

@@ -6,6 +6,10 @@
 
 html { scroll-behavior: smooth; }
 body { @apply font-sans text-slate-800 antialiased; }
+html.dark { color-scheme: dark; }
+html.dark body { background-color: #0a0812; }
+.dark .nice-scroll::-webkit-scrollbar-thumb { background: #3f3557; }
+.dark .checkerboard { background-color: #171221; background-image: linear-gradient(45deg, #241b38 25%, transparent 25%), linear-gradient(-45deg, #241b38 25%, transparent 25%), linear-gradient(45deg, transparent 75%, #241b38 75%), linear-gradient(-45deg, transparent 75%, #241b38 75%); }
 
 /* slim scrollbars for panels */
 .nice-scroll::-webkit-scrollbar { width: 6px; height: 6px; }
@@ -19,10 +23,10 @@ body { @apply font-sans text-slate-800 antialiased; }
   background-color: #f8fafc;
 }
 
-/* blue size slider */
+/* violet size slider (logo colour) */
 input[type='range'].drapp-range { -webkit-appearance: none; appearance: none; height: 6px; border-radius: 9999px; background: #e5e7eb; outline: none; cursor: pointer; }
-input[type='range'].drapp-range::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 20px; height: 20px; border-radius: 9999px; background: #2563eb; border: 3px solid #fff; box-shadow: 0 1px 4px rgb(15 23 42 / 0.35); }
-input[type='range'].drapp-range::-moz-range-thumb { width: 20px; height: 20px; border-radius: 9999px; background: #2563eb; border: 3px solid #fff; box-shadow: 0 1px 4px rgb(15 23 42 / 0.35); }
+input[type='range'].drapp-range::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 20px; height: 20px; border-radius: 9999px; background: #8b5cf6; border: 3px solid #fff; box-shadow: 0 1px 4px rgb(15 23 42 / 0.35); }
+input[type='range'].drapp-range::-moz-range-thumb { width: 20px; height: 20px; border-radius: 9999px; background: #8b5cf6; border: 3px solid #fff; box-shadow: 0 1px 4px rgb(15 23 42 / 0.35); }
 
 @keyframes fade-in { from { opacity: 0 } to { opacity: 1 } }
 @keyframes sheet-up { from { transform: translateY(48px); opacity: 0.4 } to { transform: translateY(0); opacity: 1 } }

@@ -43,13 +43,13 @@ export default function IconGeneratorWrapper() {
                 animate={{ opacity: 1, scale: 1, y: 0 }}
                 exit={{ opacity: 0, scale: 0.95, y: 8 }}
                 transition={{ type: 'spring', damping: 24, stiffness: 300 }}
-                className="pointer-events-auto w-full max-w-md overflow-hidden rounded-2xl bg-white text-center shadow-2xl"
+                className="pointer-events-auto w-full max-w-md overflow-hidden rounded-2xl bg-white text-center shadow-2xl dark:bg-night-800"
               >
                 <div className="relative px-6 pt-7">
                   <button
                     type="button"
                     onClick={() => actions.setShowThankYou(false)}
-                    className="absolute right-4 top-4 rounded-full p-1.5 text-slate-400 transition hover:bg-slate-100 hover:text-slate-600"
+                    className="absolute right-4 top-4 rounded-full p-1.5 text-slate-400 transition hover:bg-slate-100 hover:text-slate-600 dark:hover:bg-white/10 dark:hover:text-slate-200"
                     aria-label="Close"
                   >
                     <X className="h-5 w-5" />
@@ -59,22 +59,22 @@ export default function IconGeneratorWrapper() {
                     alt="DrAppIcon mascot"
                     className="mx-auto h-40 w-40 object-contain"
                   />
-                  <h2 className="mt-4 text-[26px] font-extrabold leading-snug text-ink">
+                  <h2 className="mt-4 text-[26px] font-extrabold leading-snug text-ink dark:text-white">
                     Thank you for using our services!
                   </h2>
-                  <p className="mt-1.5 text-[15px] text-slate-500">Downloading your icons now.</p>
+                  <p className="mt-1.5 text-[15px] text-slate-500 dark:text-slate-400">Downloading your icons now.</p>
                 </div>
-                <div className="mx-6 mt-6 border-t border-slate-100" />
-                <p className="px-8 pt-5 text-[15px] leading-relaxed text-slate-500">
+                <div className="mx-6 mt-6 border-t border-slate-100 dark:border-white/10" />
+                <p className="px-8 pt-5 text-[15px] leading-relaxed text-slate-500 dark:text-slate-400">
                   If DrAppIcon saved you some time, sharing it with a fellow developer
                   keeps it free for everyone who finds it next.
                 </p>
-                <div className="mt-5 bg-slate-50 px-6 py-5">
+                <div className="mt-5 bg-slate-50 px-6 py-5 dark:bg-white/5">
                   <div className="flex items-center justify-center gap-2.5">
                     <a
                       href="/#api"
                       onClick={() => actions.setShowThankYou(false)}
-                      className="flex h-[40px] w-[52px] items-center justify-center rounded-lg bg-slate-900 text-white shadow-sm transition hover:bg-slate-800"
+                      className="flex h-[40px] w-[52px] items-center justify-center rounded-lg bg-slate-900 text-white shadow-sm transition hover:bg-slate-800 dark:bg-white/10 dark:hover:bg-white/15"
                       title="DrAppIcon API"
                     >
                       <SquareTerminal className="h-5 w-5" />
@@ -84,7 +84,7 @@ export default function IconGeneratorWrapper() {
                     <button
                       type="button"
                       onClick={actions.reset}
-                      className="flex-1 rounded-xl border border-slate-200 bg-white py-3 text-sm font-semibold text-slate-600 transition hover:bg-slate-100"
+                      className="flex-1 rounded-xl border border-slate-200 bg-white py-3 text-sm font-semibold text-slate-600 transition hover:bg-slate-100 dark:border-white/10 dark:bg-night-700 dark:text-slate-200 dark:hover:bg-night-600"
                     >
                       Start Over
                     </button>

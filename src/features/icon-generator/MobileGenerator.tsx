@@ -49,7 +49,7 @@ export default function MobileGenerator({ api }: { api: GeneratorApi }) {
       <Stage api={api} mobile />
 
       {state.error && (
-        <p className="mt-3 rounded-xl bg-red-50 px-3 py-2 text-sm font-medium text-red-600">{state.error}</p>
+        <p className="mt-3 rounded-xl bg-red-50 px-3 py-2 text-sm font-medium text-red-600 dark:bg-red-500/10 dark:text-red-300">{state.error}</p>
       )}
 
       {/* Floating pills, stacked so they never collide. */}
@@ -59,7 +59,7 @@ export default function MobileGenerator({ api }: { api: GeneratorApi }) {
             type="button"
             onClick={() => setSheetOpen(true)}
             className="flex items-center gap-1.5 rounded-full bg-primary-600 px-4 py-2.5 text-[13px] font-bold text-white"
-            style={{ boxShadow: '0 10px 25px -6px rgb(37 99 235 / 0.5)' }}
+            style={{ boxShadow: '0 10px 25px -6px rgb(124 58 237 / 0.55)' }}
           >
             <Settings className="h-4 w-4" /> Customize
           </button>
@@ -79,13 +79,13 @@ export default function MobileGenerator({ api }: { api: GeneratorApi }) {
       {sheetOpen && (
         <div className="fixed inset-0 z-50">
           <div className="animate-fade-in absolute inset-0 bg-slate-900/50" onClick={() => setSheetOpen(false)} />
-          <div className="animate-sheet-up nice-scroll absolute inset-x-0 bottom-0 max-h-[92vh] overflow-y-auto rounded-t-2xl bg-white shadow-2xl">
-            <div className="sticky top-0 z-10 flex items-center justify-between border-b border-slate-100 bg-white px-5 py-4">
-              <h2 className="text-xl font-bold text-ink">Customize Icon</h2>
+          <div className="animate-sheet-up nice-scroll absolute inset-x-0 bottom-0 max-h-[92vh] overflow-y-auto rounded-t-2xl bg-white shadow-2xl dark:bg-night-850">
+            <div className="sticky top-0 z-10 flex items-center justify-between border-b border-slate-100 bg-white px-5 py-4 dark:border-white/10 dark:bg-night-850">
+              <h2 className="text-xl font-bold text-ink dark:text-white">Customize Icon</h2>
               <button
                 type="button"
                 onClick={() => setSheetOpen(false)}
-                className="rounded-full p-1.5 text-slate-500 transition hover:bg-slate-100"
+                className="rounded-full p-1.5 text-slate-500 transition hover:bg-slate-100 dark:text-slate-400 dark:hover:bg-white/10"
                 aria-label="Close"
               >
                 <X className="h-5 w-5" />

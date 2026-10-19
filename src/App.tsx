@@ -2,6 +2,7 @@ import { useEffect } from 'react'
 import { BrowserRouter, Outlet, Route, Routes, useLocation } from 'react-router'
 import Header from './components/Header'
 import Footer from './components/Footer'
+import ThemeToggle from './components/ThemeToggle'
 import Home from './pages/Home'
 import Legal from './pages/Legal'
 import Support from './pages/Support'
@@ -18,7 +19,7 @@ function ScrollToTop() {
 // Sub-pages share the slim header + dark footer; the home page leads with its own brand hero.
 function SiteLayout() {
   return (
-    <div className="flex min-h-screen flex-col bg-white">
+    <div className="flex min-h-screen flex-col bg-white dark:bg-night-950">
       <Header />
       <div className="flex-1">
         <Outlet />
@@ -32,6 +33,7 @@ export default function App() {
   return (
     <BrowserRouter>
       <ScrollToTop />
+      <ThemeToggle />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route element={<SiteLayout />}>
