@@ -113,10 +113,11 @@ function LivePreview({ api, mobile }: { api: GeneratorApi; mobile: boolean }) {
         </button>
         <ProgressBar api={api} />
         <ShapeRow api={api} small />
-        <div className="mt-6 flex items-end justify-center gap-2">
+        <div className="mt-6 flex items-start justify-center gap-6">
           <PhoneMock kind="ios" api={api} captionBelow />
           <PhoneMock kind="android" api={api} captionBelow />
         </div>
+        <ThemedIconsSection api={api} />
       </div>
     )
   }
@@ -156,7 +157,7 @@ function LivePreview({ api, mobile }: { api: GeneratorApi; mobile: boolean }) {
       </div>
       <ProgressBar api={api} />
       <ShapeRow api={api} />
-      <div className="mt-8 flex items-end justify-center gap-3 min-[420px]:gap-6">
+      <div className="mt-10 flex items-start justify-center gap-6 lg:gap-12">
         <PhoneMock kind="ios" api={api} />
         <PhoneMock kind="android" api={api} />
       </div>
@@ -230,34 +231,11 @@ function ShapeRow({ api, small = false }: { api: GeneratorApi; small?: boolean }
   )
 }
 
-/** Small status-bar glyphs drawn as inline SVG (signal / wifi / battery). */
-function StatusGlyphs({ dark = false }: { dark?: boolean }) {
-  const c = dark ? '#0f172a' : '#ffffff'
-  return (
-    <span className="flex items-center gap-[5px]" style={{ color: c }}>
-      <svg width="15" height="10" viewBox="0 0 16 11" fill={c} aria-hidden="true">
-        <rect x="0" y="7" width="3" height="4" rx="0.8" />
-        <rect x="4.3" y="5" width="3" height="6" rx="0.8" />
-        <rect x="8.6" y="2.6" width="3" height="8.4" rx="0.8" />
-        <rect x="12.9" y="0" width="3" height="11" rx="0.8" opacity="0.4" />
-      </svg>
-      <svg width="14" height="10" viewBox="0 0 16 12" fill="none" stroke={c} strokeWidth="1.7" strokeLinecap="round" aria-hidden="true">
-        <path d="M1.5 4.2a10 10 0 0 1 13 0" />
-        <path d="M4 6.9a6.4 6.4 0 0 1 8 0" />
-        <circle cx="8" cy="10" r="1.15" fill={c} stroke="none" />
-      </svg>
-      <svg width="22" height="10" viewBox="0 0 25 12" fill="none" aria-hidden="true">
-        <rect x="0.6" y="0.6" width="20" height="10.8" rx="3" stroke={c} opacity="0.5" strokeWidth="1" />
-        <rect x="2.2" y="2.2" width="14.5" height="7.6" rx="1.8" fill={c} />
-        <path d="M23.2 4v4a2.2 2.2 0 0 0 0-4Z" fill={c} opacity="0.6" />
-      </svg>
-    </span>
-  )
-}
-
 type DeviceSpec = {
   frame: string
   ratio: string
+  frameW: number
+  frameH: number
   /** Screen cutout as % of the frame image: [left, top, width, height]. */
   screen: [number, number, number, number]
   /** Screen corner radius: [x% of screen width, y% of screen height]. */
@@ -267,80 +245,201 @@ type DeviceSpec = {
 /**
  * Straight front-facing device frames from Enzurien's own Creestion Studio
  * project (geometry measured in its src/cli/frame.ts; artwork credits in
- * CREDITS.md). Each frame PNG/WebP has a transparent screen cutout; the live
- * screen (wallpaper + the user's icon) sits underneath it.
+ * CREDITS.md). Each frame has a transparent screen cutout; the live screen
+ * (wallpaper + the user's icon) sits underneath it.
+ *
+ * Presentation follows the reference behaviour measured live via REA/CDP on
+ * 2026-10-19: no status bar or home indicator on the screens; desktop shows
+ * the top ~54% of each phone with a floating white caption pill over the
+ * crop; mobile shows the full phones with a small caption below.
  */
 const DEVICES: Record<'ios' | 'android', DeviceSpec> = {
   ios: {
     frame: frameIphone,
     ratio: '606 / 1252',
+    frameW: 606,
+    frameH: 1252,
     screen: [(24 / 606) * 100, (21 / 1252) * 100, (557 / 606) * 100, (1210 / 1252) * 100],
     radius: `${(82 / 557) * 100}% / ${(82 / 1210) * 100}%`,
   },
   android: {
     frame: frameAndroid,
     ratio: '1410 / 2968',
+    frameW: 1410,
+    frameH: 2968,
     screen: [(59 / 1410) * 100, (60 / 2968) * 100, (1280 / 1410) * 100, (2856 / 2968) * 100],
     radius: `${(178 / 1280) * 100}% / ${(178 / 2856) * 100}%`,
   },
 }
 
+const THEMED_VARIANTS = [
+  { label: 'Blue', bg: '#3b82f6', filter: 'brightness(0) invert(1)' },
+  { label: 'Green', bg: '#22c55e', filter: 'brightness(0) invert(1)' },
+  { label: 'Dark', bg: '#1f2937', filter: 'brightness(0) invert(1)' },
+  { label: 'Light', bg: '#f3f4f6', filter: 'brightness(0)' },
+] as const
+
 function PhoneMock({ kind, api, captionBelow = false }: { kind: 'ios' | 'android'; api: GeneratorApi; captionBelow?: boolean }) {
   const { state } = api
   const spec = DEVICES[kind]
+  const mobile = captionBelow
   const bg = state.backgroundColor === 'transparent' ? '#f1f5f9' : state.backgroundColor
   const padding = state.sizePercent < 0 ? Math.min(45, -state.sizePercent) : 0
   const zoom = state.sizePercent > 0 ? 1 + state.sizePercent / 100 : 1
   const wallpaper = kind === 'ios' ? wallpaperIos : wallpaperAndroid
   const [sx, sy, sw, sh] = spec.screen
+  const iconW = mobile ? '25%' : '14%'
+  const iconRadius = kind === 'ios' ? '22%' : '16%'
 
-  return (
-    <figure>
+  const phone = (
+    <div className="relative w-full" style={{ aspectRatio: spec.ratio }}>
+      {/* Live screen inside the frame's transparent cutout */}
       <div
-        className="relative mx-auto h-[196px] min-[420px]:h-[236px] lg:h-[336px] drop-shadow-[0_16px_22px_rgb(15_23_42/0.22)]"
-        style={{ aspectRatio: spec.ratio }}
+        className="absolute overflow-hidden bg-black"
+        style={{ left: `${sx}%`, top: `${sy}%`, width: `${sw}%`, height: `${sh}%`, borderRadius: spec.radius }}
       >
-        {/* Live screen inside the frame's transparent cutout */}
-        <div
-          className="absolute overflow-hidden bg-black"
-          style={{ left: `${sx}%`, top: `${sy}%`, width: `${sw}%`, height: `${sh}%`, borderRadius: spec.radius }}
-        >
-          <img src={wallpaper} alt="" className="absolute inset-0 h-full w-full object-cover" />
-          {/* Status bar (camera hardware is part of the frame art) */}
-          <div className="absolute inset-x-0 top-0 flex items-center justify-between px-[9%] pt-[4.2%]">
-            <span className={`text-[11px] font-semibold tracking-wide ${kind === 'android' ? 'text-slate-800' : 'text-white'}`}>9:41</span>
-            <StatusGlyphs dark={kind === 'android'} />
+        <img src={wallpaper} alt="" className="absolute inset-0 h-full w-full object-cover" />
+        {/* App icon + name, as on a home screen (no status bar — reference behaviour) */}
+        <div className="absolute flex flex-col items-center" style={{ left: '9%', top: '10.5%', width: iconW }}>
+          <div
+            className="relative aspect-square w-full overflow-hidden shadow-lg"
+            style={{ backgroundColor: bg, borderRadius: iconRadius }}
+          >
+            <img
+              src={state.foregroundUrl!}
+              alt="App icon on device"
+              className="absolute object-contain"
+              style={{
+                inset: `${padding}%`,
+                width: `${100 - padding * 2}%`,
+                height: `${100 - padding * 2}%`,
+                transform: `scale(${zoom})`,
+              }}
+            />
+            {state.badge.enabled && (
+              <span
+                className="absolute inset-x-0 bottom-0 py-px text-center font-semibold leading-none"
+                style={{ backgroundColor: state.badge.background, color: state.badge.color, fontSize: mobile ? 4 : 6 }}
+              >
+                {state.badge.text || 'NEW'}
+              </span>
+            )}
           </div>
-          {/* The user's app icon on the home screen */}
-          <div className="absolute left-[10%] top-[12%] w-[23%] text-center">
-            <div className="relative aspect-square w-full overflow-hidden rounded-[24%] shadow-[0_4px_10px_rgb(0_0_0/0.3)]" style={{ backgroundColor: bg }}>
+          <span
+            className="mt-1 whitespace-nowrap font-medium text-white"
+            style={{ fontSize: mobile ? 6 : 9, textShadow: '0 1px 3px rgb(0 0 0 / 0.4)' }}
+          >
+            [App name]
+          </span>
+        </div>
+        {/* Themed-icons demo on the Android phone (desktop only) */}
+        {kind === 'android' && state.monoUrl && !mobile && (
+          <div className="absolute" style={{ left: '9%', top: '30%', width: '82%' }}>
+            <div className="mb-2 flex w-max items-center gap-1.5 rounded-full bg-black/70 px-2 py-1 backdrop-blur-sm">
+              <span className="h-2 w-2 rounded-full bg-green-400" />
+              <span className="text-[10px] font-medium text-white">Themed Icons Demo</span>
+            </div>
+            <div className="flex gap-3">
+              {THEMED_VARIANTS.slice(0, 3).map((v) => (
+                <div key={v.label} className="text-center" style={{ width: '18.5%' }}>
+                  <div className="relative aspect-square w-full overflow-hidden shadow-lg" style={{ backgroundColor: v.bg, borderRadius: '16%' }}>
+                    <img
+                      src={state.monoUrl ?? undefined}
+                      alt={`${v.label} themed icon`}
+                      className="absolute object-contain"
+                      style={{
+                        inset: `${padding}%`,
+                        width: `${100 - padding * 2}%`,
+                        height: `${100 - padding * 2}%`,
+                        transform: `scale(${zoom})`,
+                        filter: v.filter,
+                      }}
+                    />
+                  </div>
+                  <span className="mt-1 block text-[8px] font-medium text-white" style={{ textShadow: '0 1px 3px rgb(0 0 0 / 0.4)' }}>
+                    {v.label}
+                  </span>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+      </div>
+      {/* Bezel art on top: body, buttons, Dynamic Island / punch-hole camera */}
+      <img src={spec.frame} alt={kind === 'ios' ? 'iPhone' : 'Android phone'} className="pointer-events-none absolute inset-0 h-full w-full" />
+    </div>
+  )
+
+  if (mobile) {
+    return (
+      <figure className="w-[150px] max-w-[46vw]">
+        <div className="drop-shadow-[0_16px_22px_rgb(15_23_42/0.22)]">{phone}</div>
+        <figcaption className="mt-2 flex items-center justify-center gap-1 text-xs font-medium text-gray-600">
+          {kind === 'ios' ? <Apple className="h-3 w-3" /> : <AndroidBot className="h-3 w-3" />}
+          {kind === 'ios' ? 'iPhone' : 'Android'}
+        </figcaption>
+      </figure>
+    )
+  }
+
+  // Desktop: only the top ~54% of the phone is visible; a white caption pill
+  // floats over the lower part of the crop (reference behaviour).
+  const cropRatio = `${spec.frameW} / ${Math.round(spec.frameH * 0.54)}`
+  return (
+    <figure className="w-[330px] max-w-[44vw]">
+      <div className="relative overflow-hidden drop-shadow-[0_16px_22px_rgb(15_23_42/0.22)]" style={{ aspectRatio: cropRatio }}>
+        <div className="absolute inset-x-0 top-0">{phone}</div>
+        <span className="absolute bottom-[6%] left-1/2 flex -translate-x-1/2 items-center gap-1.5 whitespace-nowrap rounded-full bg-white/90 px-3 py-1 shadow-sm backdrop-blur-sm">
+          {kind === 'ios' ? <Apple className="h-4 w-4 text-gray-600" /> : <AndroidBot className="h-4 w-4 text-gray-600" />}
+          <span className="text-sm font-medium text-gray-600">{kind === 'ios' ? 'iPhone Preview' : 'Android Preview'}</span>
+        </span>
+      </div>
+    </figure>
+  )
+}
+
+/** Mobile-only themed icons section under the phones (reference behaviour). */
+function ThemedIconsSection({ api }: { api: GeneratorApi }) {
+  const { state } = api
+  if (!state.monoUrl) return null
+  const monoUrl = state.monoUrl
+  const padding = state.sizePercent < 0 ? Math.min(45, -state.sizePercent) : 0
+  const zoom = state.sizePercent > 0 ? 1 + state.sizePercent / 100 : 1
+  return (
+    <div className="mt-6 rounded-lg bg-gray-50 p-4">
+      <div className="mb-3 flex items-center gap-2">
+        <span className="h-2 w-2 rounded-full bg-green-400" />
+        <span className="text-sm font-medium text-gray-700">Android Themed Icons Preview</span>
+      </div>
+      <div className="grid grid-cols-4 gap-3">
+        {THEMED_VARIANTS.map((v) => (
+          <div key={v.label} className="text-center">
+            <div className="relative mx-auto aspect-square w-10 overflow-hidden rounded-lg shadow-lg" style={{ backgroundColor: v.bg }}>
               <img
-                src={state.foregroundUrl!}
-                alt="App icon on device"
+                src={monoUrl}
+                alt={`${v.label} themed icon`}
                 className="absolute object-contain"
                 style={{
                   inset: `${padding}%`,
                   width: `${100 - padding * 2}%`,
                   height: `${100 - padding * 2}%`,
                   transform: `scale(${zoom})`,
+                  filter: v.filter,
                 }}
               />
+              {state.badge.enabled && (
+                <span
+                  className="absolute inset-x-0 bottom-0 py-px text-center font-semibold leading-none"
+                  style={{ backgroundColor: state.badge.background, color: state.badge.color, fontSize: 4 }}
+                >
+                  {state.badge.text || 'NEW'}
+                </span>
+              )}
             </div>
-            <span className="mx-auto mt-[7%] block w-max text-[10px] font-medium text-white" style={{ textShadow: '0 1px 4px rgb(0 0 0 / 0.55)' }}>
-              [App name]
-            </span>
+            <p className="mt-1 text-xs text-gray-600">{v.label}</p>
           </div>
-          {/* Home / gesture indicator */}
-          <span className={`absolute bottom-[1.6%] left-1/2 h-[4px] w-[35%] -translate-x-1/2 rounded-full ${kind === 'android' ? 'bg-slate-800/40' : 'bg-white/80'}`} />
-          <span className="pointer-events-none absolute inset-0 bg-gradient-to-br from-white/[0.08] via-transparent to-transparent" />
-        </div>
-        {/* Bezel art on top: body, buttons, Dynamic Island / punch-hole camera */}
-        <img src={spec.frame} alt={kind === 'ios' ? 'iPhone' : 'Android phone'} className="pointer-events-none absolute inset-0 h-full w-full" />
+        ))}
       </div>
-      <figcaption className="mt-2.5 flex items-center justify-center gap-1.5 text-sm font-medium text-slate-600">
-        {kind === 'ios' ? <Apple className="h-4 w-4" /> : <AndroidBot className="h-4 w-4" />}
-        {kind === 'ios' ? (captionBelow ? 'iPhone' : 'iPhone Preview') : captionBelow ? 'Android' : 'Android Preview'}
-      </figcaption>
-    </figure>
+    </div>
   )
 }
