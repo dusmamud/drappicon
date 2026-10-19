@@ -27,6 +27,16 @@ export default function Stage({ api, mobile = false }: { api: GeneratorApi; mobi
     if (uploaded) cardRef.current?.scrollIntoView({ behavior: 'smooth', block: 'nearest' })
   }, [uploaded])
 
+  // Preload the phone frames + wallpapers as soon as the page is visited, so
+  // the moment a logo is uploaded the phones render fully — never black.
+  useEffect(() => {
+    for (const src of [frameIphone, frameAndroid, wallpaperIos, wallpaperAndroid]) {
+      const img = new Image()
+      img.src = src
+      img.decode?.().catch(() => {})
+    }
+  }, [])
+
   const pickFile = useCallback(() => {
     if (mobile) {
       document.querySelector<HTMLInputElement>('[data-mobile-root] input[data-mobile-upload]')?.click()
@@ -371,8 +381,15 @@ function PhoneMock({ kind, api, captionBelow = false }: { kind: 'ios' | 'android
     <div className="relative w-full" style={{ aspectRatio: spec.ratio }}>
       {/* Live screen inside the frame's transparent cutout */}
       <div
-        className="absolute overflow-hidden bg-black"
-        style={{ left: `${sx}%`, top: `${sy}%`, width: `${sw}%`, height: `${sh}%`, borderRadius: spec.radius }}
+        className="absolute overflow-hidden"
+        style={{
+          left: `${sx}%`,
+          top: `${sy}%`,
+          width: `${sw}%`,
+          height: `${sh}%`,
+          borderRadius: spec.radius,
+          backgroundColor: kind === 'ios' ? '#3b1560' : '#a9d7f5',
+        }}
       >
         <img src={wallpaper} alt="" className="absolute inset-0 h-full w-full object-cover" />
         <StatusBar kind={kind} mobile={mobile} />
