@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef } from 'react'
+import { useCallback, useEffect, useRef, type CSSProperties } from 'react'
 import {
   Apple,
   Download,
@@ -16,6 +16,23 @@ import frameIphone from '../../assets/frame-iphone.png'
 import frameAndroid from '../../assets/frame-android.webp'
 import { AndroidBot } from './PreviewBits'
 import { FormatSwitch } from './Panel'
+
+
+/** Preview sizing for the Size slider value (-100..100), cross-verified against
+ *  the reference's behaviour (REA analysis, 2026-10-20): positive = padding —
+ *  the artwork shrinks via the img's own CSS padding (half the total per side);
+ *  negative = zoom — a compositor-only transform scale. The img box itself never
+ *  changes geometry, so drags stay smooth. Effective padding caps at 95 so the
+ *  artwork never fully vanishes (and the ZIP engine uses the same total). */
+function sizePreviewStyle(v: number): CSSProperties {
+  const padSide = v > 0 ? Math.min(95, v) / 2 : 0
+  const zoom = v < 0 ? 1 + -v / 100 : 1
+  return {
+    padding: padSide ? `${padSide}%` : undefined,
+    transform: zoom !== 1 ? `scale(${zoom})` : undefined,
+    boxSizing: 'border-box',
+  }
+}
 
 /** The stage column: brand hero + empty state / live preview. */
 export default function Stage({ api, mobile = false }: { api: GeneratorApi; mobile?: boolean }) {
@@ -196,8 +213,6 @@ function ProgressBar({ api }: { api: GeneratorApi }) {
 function ShapeRow({ api, small = false }: { api: GeneratorApi; small?: boolean }) {
   const { state } = api
   const bg = state.backgroundColor === 'transparent' ? 'transparent' : state.backgroundColor
-  const padding = state.sizePercent < 0 ? Math.min(45, -state.sizePercent) : 0
-  const zoom = state.sizePercent > 0 ? 1 + state.sizePercent / 100 : 1
   return (
     <div className={`${small ? 'mt-6' : 'mt-8'} grid grid-cols-3 gap-4`}>
       {[
@@ -213,13 +228,8 @@ function ShapeRow({ api, small = false }: { api: GeneratorApi; small?: boolean }
             <img
               src={state.foregroundUrl!}
               alt={s.label}
-              className="absolute object-contain"
-              style={{
-                inset: `${padding}%`,
-                width: `${100 - padding * 2}%`,
-                height: `${100 - padding * 2}%`,
-                transform: `scale(${zoom})`,
-              }}
+              className="absolute inset-0 h-full w-full object-contain"
+              style={sizePreviewStyle(state.sizePercent)}
             />
             {state.badge.enabled && (
               <span
@@ -370,8 +380,6 @@ function PhoneMock({ kind, api, captionBelow = false }: { kind: 'ios' | 'android
   const spec = DEVICES[kind]
   const mobile = captionBelow
   const bg = state.backgroundColor === 'transparent' ? '#f1f5f9' : state.backgroundColor
-  const padding = state.sizePercent < 0 ? Math.min(45, -state.sizePercent) : 0
-  const zoom = state.sizePercent > 0 ? 1 + state.sizePercent / 100 : 1
   const wallpaper = kind === 'ios' ? wallpaperIos : wallpaperAndroid
   const [sx, sy, sw, sh] = spec.screen
   const iconW = mobile ? '25%' : '14%'
@@ -402,13 +410,8 @@ function PhoneMock({ kind, api, captionBelow = false }: { kind: 'ios' | 'android
             <img
               src={state.foregroundUrl!}
               alt="App icon on device"
-              className="absolute object-contain"
-              style={{
-                inset: `${padding}%`,
-                width: `${100 - padding * 2}%`,
-                height: `${100 - padding * 2}%`,
-                transform: `scale(${zoom})`,
-              }}
+              className="absolute inset-0 h-full w-full object-contain"
+              style={sizePreviewStyle(state.sizePercent)}
             />
             {state.badge.enabled && (
               <span
@@ -440,14 +443,8 @@ function PhoneMock({ kind, api, captionBelow = false }: { kind: 'ios' | 'android
                     <img
                       src={state.monoUrl ?? undefined}
                       alt={`${v.label} themed icon`}
-                      className="absolute object-contain"
-                      style={{
-                        inset: `${padding}%`,
-                        width: `${100 - padding * 2}%`,
-                        height: `${100 - padding * 2}%`,
-                        transform: `scale(${zoom})`,
-                        filter: v.filter,
-                      }}
+                      className="absolute inset-0 h-full w-full object-contain"
+                      style={{ ...sizePreviewStyle(state.sizePercent), filter: v.filter }}
                     />
                   </div>
                   <span className="mt-1 block text-[8px] font-medium text-white" style={{ textShadow: '0 1px 3px rgb(0 0 0 / 0.4)' }}>
@@ -497,8 +494,6 @@ function ThemedIconsSection({ api }: { api: GeneratorApi }) {
   const { state } = api
   if (!state.monoUrl) return null
   const monoUrl = state.monoUrl
-  const padding = state.sizePercent < 0 ? Math.min(45, -state.sizePercent) : 0
-  const zoom = state.sizePercent > 0 ? 1 + state.sizePercent / 100 : 1
   return (
     <div className="mt-6 rounded-lg bg-gray-50 dark:bg-white/5 p-4">
       <div className="mb-3 flex items-center gap-2">
@@ -512,14 +507,8 @@ function ThemedIconsSection({ api }: { api: GeneratorApi }) {
               <img
                 src={monoUrl}
                 alt={`${v.label} themed icon`}
-                className="absolute object-contain"
-                style={{
-                  inset: `${padding}%`,
-                  width: `${100 - padding * 2}%`,
-                  height: `${100 - padding * 2}%`,
-                  transform: `scale(${zoom})`,
-                  filter: v.filter,
-                }}
+                className="absolute inset-0 h-full w-full object-contain"
+                style={{ ...sizePreviewStyle(state.sizePercent), filter: v.filter }}
               />
               {state.badge.enabled && (
                 <span

@@ -96,6 +96,7 @@ export default function Panel({ api, variant = 'card' }: { api: GeneratorApi; va
   const bg = state.backgroundColor
   const bgIsTransparent = bg === 'transparent'
   const bgTextLight = bgIsTransparent ? false : !isLight(bg)
+  const sizeLabel = state.sizePercent > 0 ? `${state.sizePercent}% padding` : `${Math.abs(state.sizePercent)}% zoom`
   const labelCls = sheet ? 'text-[15px] font-semibold text-slate-700 dark:text-slate-200' : 'text-[13px] font-semibold text-slate-700 dark:text-slate-200'
 
   const body = (
@@ -149,18 +150,18 @@ export default function Panel({ api, variant = 'card' }: { api: GeneratorApi; va
       {/* Size */}
       {sheet ? (
         <p className={`mt-6 ${labelCls}`}>
-          Size: <span className="font-normal text-slate-500 dark:text-slate-400">{state.sizePercent}% zoom</span>
+          Size: <span className="font-normal text-slate-500 dark:text-slate-400">{sizeLabel}</span>
         </p>
       ) : (
         <div className="mt-5 flex items-baseline justify-between">
           <p className={labelCls}>Size:</p>
-          <p className="text-[13px] text-slate-500 dark:text-slate-400">{state.sizePercent}% zoom</p>
+          <p className="text-[13px] text-slate-500 dark:text-slate-400">{sizeLabel}</p>
         </div>
       )}
       <input
         type="range"
-        min={-50}
-        max={50}
+        min={-100}
+        max={100}
         step={1}
         value={state.sizePercent}
         onChange={(e) => actions.setSizePercent(Number(e.target.value))}

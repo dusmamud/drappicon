@@ -21,7 +21,7 @@ export function useGenerator() {
   const [mono, setMono] = useState<HTMLImageElement | null>(null)
   const [monoUrl, setMonoUrl] = useState<string | null>(null)
   const [backgroundColor, setBackgroundColor] = useState('#ffffff')
-  const [sizePercent, setSizePercent] = useState(0) // -50 = padded .. 0 = normal .. +50 = zoomed
+  const [sizePercent, setSizePercent] = useState(0) // -100 = zoomed .. 0 = normal .. +100 = padded (reference-style value)
   const [fileName, setFileName] = useState('ic_launcher')
   const [androidFormat, setAndroidFormat] = useState<'png' | 'webp'>('png')
   const [badge, setBadge] = useState<BadgeOptions>({
@@ -103,8 +103,8 @@ export function useGenerator() {
           foreground,
           monochrome: mono,
           backgroundColor,
-          padding: sizePercent < 0 ? Math.min(45, -sizePercent) : 0,
-          zoom: sizePercent > 0 ? 1 + sizePercent / 100 : 1,
+          padding: sizePercent > 0 ? Math.min(95, sizePercent) : 0,
+          zoom: sizePercent < 0 ? 1 + -sizePercent / 100 : 1,
           fileName,
           androidFormat,
           badge,
