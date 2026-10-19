@@ -54,23 +54,21 @@ export function ApiPromotion() {
     { icon: ImageIcon, title: 'Multiple Formats', text: 'PNG or WebP output, packaged and ready to drop in.' },
   ]
   return (
-    <section id="api" className="relative mt-16 overflow-hidden bg-[#0b1526] py-20">
-      <div className="pointer-events-none absolute -left-32 top-0 h-96 w-96 rounded-full bg-primary-600/20 blur-3xl" />
-      <div className="pointer-events-none absolute -right-24 bottom-0 h-96 w-96 rounded-full bg-emerald-500/15 blur-3xl" />
-      <div className="relative mx-auto w-full max-w-7xl px-4 sm:px-6">
+    <section id="api" className="relative mt-16 px-4 sm:px-6">
+      <div className="relative mx-auto w-full max-w-7xl overflow-hidden rounded-[2rem] border border-slate-200/70 bg-white px-5 py-14 shadow-card dark:border-white/10 dark:bg-night-800 sm:px-10">
         <div className="text-center">
           <div className="flex items-center justify-center gap-2.5">
             <img src={logo} alt="" className="h-9 w-9 rounded-lg bg-white/95 p-0.5" />
-            <span className="font-hand text-4xl font-bold text-white">DrAppIcon</span>
+            <span className="font-hand text-4xl font-bold text-ink dark:text-white">DrAppIcon</span>
             <span className="rounded-md bg-orange-500 px-1.5 py-0.5 text-[10px] font-extrabold uppercase tracking-wide text-white">API</span>
           </div>
-          <h2 className="mt-6 text-4xl font-extrabold tracking-tight text-white sm:text-[44px]">
+          <h2 className="mt-6 text-4xl font-extrabold tracking-tight text-ink dark:text-white sm:text-[44px]">
             Simple{' '}
             <span className="bg-gradient-to-r from-primary-400 to-emerald-400 bg-clip-text text-transparent">
               Integration
             </span>
           </h2>
-          <p className="mx-auto mt-4 max-w-xl text-[17px] leading-relaxed text-slate-300">
+          <p className="mx-auto mt-4 max-w-xl text-[17px] leading-relaxed text-slate-500 dark:text-slate-400">
             One REST call turns an image into a complete icon set. Post your artwork, get back a
             ZIP with every size your apps need.
           </p>
@@ -85,11 +83,11 @@ export function ApiPromotion() {
         <div className="mt-14 grid items-start gap-5 [&>*]:min-w-0 lg:grid-cols-2">
           <div className="grid gap-5 sm:grid-cols-2">
             {mini.map((m) => (
-              <div key={m.title} className="rounded-2xl border border-white/10 bg-white/[0.04] p-5">
-                <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-to-br from-primary-500/30 to-emerald-500/20 text-primary-300">
+              <div key={m.title} className="rounded-2xl border border-slate-200/70 bg-slate-50 p-5 dark:border-white/10 dark:bg-white/5">
+                <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-to-br from-primary-500/20 to-emerald-500/15 text-primary-600 dark:text-primary-300">
                   <m.icon className="h-5.5 w-5.5 h-[22px] w-[22px]" />
                 </span>
-                <h3 className="mt-3.5 font-bold text-white">{m.title}</h3>
+                <h3 className="mt-3.5 font-bold text-ink dark:text-white">{m.title}</h3>
                 <p className="mt-1 text-sm leading-relaxed text-slate-400 dark:text-slate-500">{m.text}</p>
               </div>
             ))}
@@ -137,7 +135,7 @@ export function Features() {
     { n: '0', l: 'Data Collected' },
   ]
   return (
-    <section id="features" className="bg-white py-20 dark:bg-night-900">
+    <section id="features" className="py-20">
       <div className="mx-auto w-full max-w-7xl px-4 sm:px-6">
         <h2 className="text-center text-[32px] font-extrabold tracking-tight text-ink dark:text-white sm:text-4xl">
           Why Choose DrAppIcon?
@@ -244,7 +242,7 @@ function SizesCard({ platform }: { platform: 'ios' | 'android' }) {
       </h3>
       <ul className="mt-5 space-y-2.5">
         {rows.map(([name, desc, size]) => (
-          <li key={name} className="flex items-center justify-between gap-3 rounded-xl bg-primary-50/70 dark:bg-primary-500/10 px-4 py-3 ring-1 ring-primary-100/60">
+          <li key={name} className="flex items-center justify-between gap-3 rounded-xl bg-primary-50/70 px-4 py-3 ring-1 ring-primary-100/60 dark:bg-white/5 dark:ring-white/10">
             <span>
               <span className="block text-sm font-semibold text-ink dark:text-white">{name}</span>
               <span className="block text-xs text-slate-400 dark:text-slate-500">{desc}</span>
@@ -266,7 +264,7 @@ export function Instructions() {
     'Follow the App Store and Google Play icon guidelines for review-safe results.',
   ]
   return (
-    <section id="instructions" className="bg-slate-50/80 dark:bg-white/5 py-20">
+    <section id="instructions" className="py-20">
       <div className="mx-auto w-full max-w-7xl px-4 sm:px-6">
         <h2 className="text-center text-[32px] font-extrabold tracking-tight text-ink dark:text-white sm:text-4xl">
           How to Use Your Icons
@@ -296,13 +294,13 @@ export function Instructions() {
           <StepsCard platform={tab} />
           <SizesCard platform={tab} />
         </div>
-        <div className="mt-6 rounded-2xl border border-primary-100 bg-gradient-to-br from-primary-50 to-indigo-50 p-6 sm:p-7">
-          <h3 className="flex items-center gap-2 font-bold text-primary-900">
+        <div className="mt-6 rounded-2xl border border-primary-100 bg-gradient-to-br from-primary-50 to-indigo-50 p-6 dark:border-primary-500/25 dark:from-primary-500/10 dark:to-primary-500/5 sm:p-7">
+          <h3 className="flex items-center gap-2 font-bold text-primary-900 dark:text-primary-200">
             <Lightbulb className="h-5 w-5 text-amber-500" /> Pro Tips
           </h3>
           <ul className="mt-3 space-y-2">
             {tips.map((t) => (
-              <li key={t} className="flex gap-2.5 text-[15px] text-primary-900/80">
+              <li key={t} className="flex gap-2.5 text-[15px] text-primary-900/80 dark:text-primary-100/80">
                 <span className="mt-[9px] h-1.5 w-1.5 shrink-0 rounded-full bg-primary-400" />
                 {t}
               </li>

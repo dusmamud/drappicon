@@ -19,7 +19,7 @@ function ScrollToTop() {
 // Sub-pages share the slim header + dark footer; the home page leads with its own brand hero.
 function SiteLayout() {
   return (
-    <div className="flex min-h-screen flex-col bg-white dark:bg-night-950">
+    <div className="flex min-h-screen flex-col bg-slate-50 dark:bg-night-950">
       <Header />
       <div className="flex-1">
         <Outlet />

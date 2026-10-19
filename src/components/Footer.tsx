@@ -3,19 +3,19 @@ import { Heart } from 'lucide-react'
 import logo from '../assets/logo.svg'
 
 export default function Footer() {
-  const colTitle = 'text-[15px] font-bold text-white'
-  const link = 'text-sm text-slate-400 transition hover:text-white'
+  const colTitle = 'text-[15px] font-bold text-slate-900 dark:text-white'
+  const link = 'text-sm text-slate-500 transition hover:text-slate-900 dark:text-slate-400 dark:hover:text-white'
   return (
-    <footer className="bg-[#0b1220] text-slate-300 dark:border-t dark:border-white/5">
+    <footer className="border-t border-slate-200/70 text-slate-500 dark:border-white/10 dark:text-slate-400">
       <div className="mx-auto grid w-full max-w-7xl gap-10 px-4 py-14 sm:px-6 md:grid-cols-[1.4fr_1fr_1fr_1fr]">
         <div>
           <div className="flex items-center gap-2.5">
             <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-white/95 p-1">
               <img src={logo} alt="" className="h-full w-full" />
             </span>
-            <span className="text-xl font-extrabold tracking-tight text-white">DrAppIcon</span>
+            <span className="text-xl font-extrabold tracking-tight text-slate-900 dark:text-white">DrAppIcon</span>
           </div>
-          <p className="mt-4 max-w-sm text-sm leading-relaxed text-slate-400">
+          <p className="mt-4 max-w-sm text-sm leading-relaxed text-slate-500 dark:text-slate-400">
             A fast, private way to turn one image into a complete app icon set for iOS and
             Android — generated locally, right in your browser.
           </p>
@@ -55,7 +55,7 @@ export default function Footer() {
           </ul>
         </div>
       </div>
-      <div className="border-t border-white/10">
+      <div className="border-t border-slate-200/70 dark:border-white/10">
         <div className="mx-auto flex w-full max-w-7xl flex-wrap items-center justify-between gap-2 px-4 py-5 text-[13px] text-slate-500 sm:px-6">
           <p>© {new Date().getFullYear()} DrAppIcon · A Dusrel product · support@drappicon.dusrel.com</p>
           <p className="flex items-center gap-1.5">
