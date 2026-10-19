@@ -484,8 +484,8 @@ function PhoneMock({ kind, api, captionBelow = false }: { kind: 'ios' | 'android
       <div className="relative overflow-hidden drop-shadow-[0_16px_22px_rgb(15_23_42/0.22)]" style={{ aspectRatio: cropRatio }}>
         <div className="absolute inset-x-0 top-0">{phone}</div>
         <span className="absolute bottom-[6%] left-1/2 flex -translate-x-1/2 items-center gap-1.5 whitespace-nowrap rounded-full bg-white/90 px-3 py-1 shadow-sm backdrop-blur-sm">
-          {kind === 'ios' ? <Apple className="h-4 w-4 text-gray-600 dark:text-slate-300" /> : <AndroidBot className="h-4 w-4 text-gray-600 dark:text-slate-300" />}
-          <span className="text-sm font-medium text-gray-600 dark:text-slate-300">{kind === 'ios' ? 'iPhone Preview' : 'Android Preview'}</span>
+          {kind === 'ios' ? <Apple className="h-4 w-4 text-gray-900" /> : <AndroidBot className="h-4 w-4 text-gray-900" />}
+          <span className="text-sm font-medium text-gray-900">{kind === 'ios' ? 'iPhone Preview' : 'Android Preview'}</span>
         </span>
       </div>
     </figure>
