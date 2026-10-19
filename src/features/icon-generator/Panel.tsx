@@ -346,6 +346,7 @@ export default function Panel({ api, variant = 'card' }: { api: GeneratorApi; va
 
       {/* Discover more (desktop card only) */}
       {!sheet && (
+        <div className="mt-auto">
         <div className="mt-6 overflow-hidden rounded-xl border border-slate-200 dark:border-white/10/80 dark:border-white/10">
           <p className="bg-primary-50 dark:bg-primary-500/10 px-4 py-2.5 text-sm font-bold text-slate-800 dark:text-slate-100">Discover more</p>
           {[
@@ -366,10 +367,11 @@ export default function Panel({ api, variant = 'card' }: { api: GeneratorApi; va
             ),
           )}
         </div>
+        </div>
       )}
     </>
   )
 
   if (sheet) return <div>{body}</div>
-  return <div className="rounded-xl border border-slate-200 dark:border-white/10/80 dark:border-white/10 bg-white p-5 shadow-card dark:border-white/10 dark:bg-night-800">{body}</div>
+  return <div className="flex h-full flex-col rounded-xl border border-slate-200 dark:border-white/10/80 dark:border-white/10 bg-white p-5 shadow-card dark:border-white/10 dark:bg-night-800">{body}</div>
 }
