@@ -1,6 +1,5 @@
 import { useCallback, useEffect, useRef, type CSSProperties } from 'react'
 import {
-  Apple,
   Download,
   Loader2,
   Mail,
@@ -14,7 +13,7 @@ import wallpaperIos from '../../assets/wallpaper-ios.jpg'
 import wallpaperAndroid from '../../assets/wallpaper-android.jpg'
 import frameIphone from '../../assets/frame-iphone.png'
 import frameAndroid from '../../assets/frame-android.webp'
-import { AndroidBot } from './PreviewBits'
+import { AndroidBrand, AppleBrand } from './PreviewBits'
 import { FormatSwitch } from './Panel'
 
 
@@ -100,8 +99,8 @@ export default function Stage({ api, mobile = false }: { api: GeneratorApi; mobi
             className="block w-full rounded-xl border-2 border-dashed border-slate-300 dark:border-slate-600 bg-white/70 px-6 py-16 text-center transition hover:border-primary-300 hover:bg-white dark:bg-white/[0.03] dark:hover:bg-white/5 sm:py-20"
           >
             <span className="flex items-center justify-center gap-5 text-slate-300">
-              <Apple className="h-12 w-12" />
-              <AndroidBot className="h-11 w-11" />
+              <AppleBrand className="h-12 w-12" />
+              <AndroidBrand className="h-11 w-11" />
             </span>
             <span className="mt-5 block text-xl font-semibold text-slate-800 dark:text-slate-100">Ready to Create?</span>
             <span className="mx-auto mt-2 block max-w-sm text-[15px] leading-relaxed text-slate-500 dark:text-slate-400">
@@ -466,7 +465,7 @@ function PhoneMock({ kind, api, captionBelow = false }: { kind: 'ios' | 'android
       <figure className="w-[150px] max-w-[46vw]">
         <div className="drop-shadow-[0_16px_22px_rgb(15_23_42/0.22)]">{phone}</div>
         <figcaption className="mt-2 flex items-center justify-center gap-1 text-xs font-medium text-gray-600 dark:text-slate-300">
-          {kind === 'ios' ? <Apple className="h-3 w-3" /> : <AndroidBot className="h-3 w-3" />}
+          {kind === 'ios' ? <AppleBrand className="h-3 w-3" /> : <AndroidBrand className="h-3 w-3" />}
           {kind === 'ios' ? 'iPhone' : 'Android'}
         </figcaption>
       </figure>
@@ -481,7 +480,7 @@ function PhoneMock({ kind, api, captionBelow = false }: { kind: 'ios' | 'android
       <div className="relative overflow-hidden drop-shadow-[0_16px_22px_rgb(15_23_42/0.22)]" style={{ aspectRatio: cropRatio }}>
         <div className="absolute inset-x-0 top-0">{phone}</div>
         <span className="absolute bottom-[6%] left-1/2 flex -translate-x-1/2 items-center gap-1.5 whitespace-nowrap rounded-full bg-white/90 px-3 py-1 shadow-sm backdrop-blur-sm">
-          {kind === 'ios' ? <Apple className="h-4 w-4 text-gray-900" /> : <AndroidBot className="h-4 w-4 text-gray-900" />}
+          {kind === 'ios' ? <AppleBrand className="h-4 w-4 text-gray-900" /> : <AndroidBrand className="h-4 w-4" />}
           <span className="text-sm font-medium text-gray-900">{kind === 'ios' ? 'iPhone Preview' : 'Android Preview'}</span>
         </span>
       </div>
