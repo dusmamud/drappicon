@@ -298,7 +298,7 @@ const THEMED_VARIANTS = [
  */
 function StatusBar({ kind, mobile }: { kind: 'ios' | 'android'; mobile: boolean }) {
   const ios = kind === 'ios'
-  const c = ios ? '#ffffff' : '#1e293b'
+  const c = '#1e293b' // both platforms dark (Enzurien: iPhone status bar bhi Android jaise dark)
   const timeSize = mobile ? 7 : 12
   const gh = mobile ? 7 : 11 // glyph height px
   return (
