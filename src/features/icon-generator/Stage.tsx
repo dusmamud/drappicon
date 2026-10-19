@@ -423,7 +423,7 @@ function PhoneMock({ kind, api, captionBelow = false }: { kind: 'ios' | 'android
             className="mt-1 whitespace-nowrap font-medium text-white"
             style={{ fontSize: mobile ? 6 : 9, textShadow: '0 1px 3px rgb(0 0 0 / 0.4)' }}
           >
-            [App name]
+            {mobile ? 'App name' : '[App name]'}
           </span>
         </div>
         {/* Themed-icons demo on the Android phone (desktop only) */}
