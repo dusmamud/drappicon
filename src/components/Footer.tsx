@@ -29,7 +29,7 @@ export default function Footer() {
           </ul>
         </div>
         <div>
-          <h4 className={`${colTitle} invisible`} aria-hidden="true">Product</h4>
+          <h4 className={colTitle}>Explore</h4>
           <ul className="mt-4 space-y-2.5">
             <li><Link to="/how-it-works" className={link}>How It Works</Link></li>
             <li><Link to="/about" className={link}>About</Link></li>
