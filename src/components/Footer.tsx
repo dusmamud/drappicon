@@ -10,7 +10,7 @@ export default function Footer() {
       <div className="mx-auto grid w-full max-w-7xl grid-cols-2 gap-10 px-4 py-14 sm:px-6 lg:grid-cols-[1.4fr_1fr_1fr_1fr_1fr]">
         <div className="col-span-2 lg:col-span-1">
           <div className="flex items-center gap-2.5">
-            <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-white/95 p-1">
+            <span className="flex h-10 w-10 items-center justify-center rounded-xl p-1">
               <img src={logo} alt="" className="h-full w-full" />
             </span>
             <span className="text-xl font-extrabold tracking-tight text-slate-900 dark:text-white">DrAppIcon</span>
