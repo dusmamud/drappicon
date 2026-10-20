@@ -1,6 +1,7 @@
 import { Link } from 'react-router'
 import { Heart } from 'lucide-react'
 import logo from '../assets/logo.svg'
+import ThemeToggle from './ThemeToggle'
 
 export default function Footer() {
   const colTitle = 'text-[15px] font-bold text-slate-900 dark:text-white'
@@ -19,6 +20,9 @@ export default function Footer() {
             A fast, private way to turn one image into a complete app icon set for iOS and
             Android — generated locally, right in your browser.
           </p>
+          <div className="mt-5">
+            <ThemeToggle variant="footer" />
+          </div>
         </div>
         <div>
           <h4 className={colTitle}>Product</h4>
