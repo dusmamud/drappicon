@@ -27,6 +27,9 @@ jobs:
           name: dist
           path: dist
           retention-days: 1
+          # Hidden files must ship too: dist/.well-known/security.txt lives in
+          # a dot-directory, which upload-artifact excludes by default.
+          include-hidden-files: true
 
   deploy:
     needs: verify
