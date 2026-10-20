@@ -21,7 +21,7 @@ export default function Footer() {
             Android — generated locally, right in your browser.
           </p>
           <div className="mt-5">
-            <ThemeToggle variant="footer" />
+            <ThemeToggle />
           </div>
         </div>
         <div>
