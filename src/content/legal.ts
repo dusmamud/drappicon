@@ -157,9 +157,17 @@ If your use of the Service or the images you process causes a claim against us b
 
 You may stop using the Service at any time. We may suspend or block access to the Service for anyone who breaches these terms or misuses the Service. Sections that by their nature should survive termination (ownership, disclaimers, liability, indemnity, governing law) will survive.
 
-## Governing law
+## Governing law and worldwide use
 
-These terms are governed by the **laws of India**, and any dispute relating to the Service will be subject to the jurisdiction of the courts of India, unless mandatory consumer-protection law in your country of residence gives you the right to bring a claim locally. If any provision of these terms is found unenforceable, the remaining provisions continue in full effect. These terms, together with the Privacy Policy, are the entire agreement between you and us about the Service; a failure to enforce a provision is not a waiver of it. You may not assign your rights under these terms; we may assign ours in connection with a transfer of the Service.
+DrAppIcon is operated by Dusrel from India and is made available to users **worldwide**. These terms — and any dispute or claim arising out of or in connection with the Service — are governed by the **laws of India**, without regard to conflict-of-law principles. Subject to the consumer carve-out below, the courts of **India** have exclusive jurisdiction over any such dispute.
+
+If you access the Service from outside India, you do so on your own initiative, and you are responsible for complying with the laws that apply where you live (for example, rules about the images and content you process). The fact that the Service can be accessed in your country does not make it governed by your country's law.
+
+**Consumer carve-out:** nothing in these terms deprives you of the protection of mandatory consumer-protection provisions that cannot be waived under the law of your country of residence — for example, the protection preserved for EEA consumers by Article 6 of the Rome I Regulation (EC) No 593/2008 — and nothing prevents you from bringing a claim in your local courts where such mandatory law gives you that right.
+
+## General
+
+If any provision of these terms is found unenforceable, the remaining provisions continue in full effect. These terms, together with the Privacy Policy, are the entire agreement between you and us about the Service; a failure to enforce a provision is not a waiver of it. You may not assign your rights under these terms; we may assign ours in connection with a transfer of the Service.
 
 ## Changes to these terms
 
