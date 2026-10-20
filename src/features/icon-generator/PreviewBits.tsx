@@ -23,6 +23,22 @@ export function AppleBrand({ className = '' }: { className?: string }) {
 export function AndroidBrand({ className = '' }: { className?: string }) {
   return (
     <svg viewBox="0 0 256 256" className={className} aria-hidden="true">
+      <path fill="url(#drapp-android-grade)" d="M207.06,80.67c-.74-.74-1.49-1.46-2.24-2.17l24.84-24.84a8,8,0,0,0-11.32-11.32l-26,26a111.43,111.43,0,0,0-128.55.19L37.66,42.34A8,8,0,0,0,26.34,53.66L51.4,78.72A113.38,113.38,0,0,0,16,161.13V184a16,16,0,0,0,16,16H224a16,16,0,0,0,16-16V160A111.25,111.25,0,0,0,207.06,80.67ZM92,160a12,12,0,1,1,12-12A12,12,0,0,1,92,160Zm72,0a12,12,0,1,1,12-12A12,12,0,0,1,164,160Z" />
+    </svg>
+  )
+}
+
+/**
+ * The AndroidBrand gradient, defined ONCE at the app root. It previously lived
+ * inside every AndroidBrand instance; when the first instance in the DOM sat in
+ * a display:none subtree (the hidden mobile/desktop generator twin), Chrome
+ * refused to resolve the paint server and the icon painted nothing in the
+ * visible tree. This host svg is zero-size but NOT display:none, which keeps
+ * the reference resolvable everywhere. Mount exactly once (App).
+ */
+export function BrandGradientDefs() {
+  return (
+    <svg aria-hidden="true" focusable="false" style={{ position: 'absolute', width: 0, height: 0 }}>
       <defs>
         <linearGradient id="drapp-android-grade" x1="0" y1="0" x2="0" y2="1">
           <stop offset="0%" stopColor="#4ADE80" />
@@ -30,7 +46,6 @@ export function AndroidBrand({ className = '' }: { className?: string }) {
           <stop offset="100%" stopColor="#16A34A" />
         </linearGradient>
       </defs>
-      <path fill="url(#drapp-android-grade)" d="M207.06,80.67c-.74-.74-1.49-1.46-2.24-2.17l24.84-24.84a8,8,0,0,0-11.32-11.32l-26,26a111.43,111.43,0,0,0-128.55.19L37.66,42.34A8,8,0,0,0,26.34,53.66L51.4,78.72A113.38,113.38,0,0,0,16,161.13V184a16,16,0,0,0,16,16H224a16,16,0,0,0,16-16V160A111.25,111.25,0,0,0,207.06,80.67ZM92,160a12,12,0,1,1,12-12A12,12,0,0,1,92,160Zm72,0a12,12,0,1,1,12-12A12,12,0,0,1,164,160Z" />
     </svg>
   )
 }

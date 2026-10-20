@@ -3,6 +3,7 @@ import { BrowserRouter, Outlet, Route, Routes, useLocation } from 'react-router'
 import Header from './components/Header'
 import Footer from './components/Footer'
 import ThemeToggle from './components/ThemeToggle'
+import { BrandGradientDefs } from './features/icon-generator/PreviewBits'
 import Home from './pages/Home'
 import Legal from './pages/Legal'
 import Support from './pages/Support'
@@ -38,6 +39,7 @@ export default function App() {
     <BrowserRouter>
       <ScrollToTop />
       <ThemeToggle />
+      <BrandGradientDefs />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route element={<SiteLayout />}>
