@@ -1,5 +1,5 @@
 import { Link } from 'react-router'
-import { ArrowRight, Eye, Heart, Mail, Zap } from 'lucide-react'
+import { ArrowRight, Eye, Heart, Mail, Smartphone, User, Zap } from 'lucide-react'
 import logo from '../assets/logo.svg'
 import { usePageMeta } from '../lib/useTitle'
 
@@ -21,6 +21,39 @@ const PRINCIPLES = [
   },
 ]
 
+const MAKES: Array<{ label: string; text: string }> = [
+  {
+    label: 'For iOS',
+    text: 'The complete AppIcon.appiconset: 18 icon files covering notifications, settings, spotlight and the home screen for iPhone and iPad, the 1024×1024 App Store icon, and the Contents.json manifest that ties them together.',
+  },
+  {
+    label: 'For Android',
+    text: 'Legacy and round launcher icons at every density from ldpi to xxxhdpi, adaptive icon foregrounds with anydpi-v26 descriptors and a background colour resource, an optional monochrome layer for themed icons, and the 512×512 Play Store icon.',
+  },
+  {
+    label: 'For the web',
+    text: 'A matching 512×512 web icon rendered from the same artwork, ready for a web app manifest or a favicon set.',
+  },
+]
+
+const AUDIENCE = [
+  {
+    icon: User,
+    title: 'Indie developers',
+    text: 'One person shipping an app should not lose an evening to icon exports. DrAppIcon turns the chore into a one-minute step.',
+  },
+  {
+    icon: Smartphone,
+    title: 'Cross-platform teams',
+    text: 'Flutter, React Native and dual native projects need both platforms\u2019 sets from the same artwork — generated together, always in sync.',
+  },
+  {
+    icon: Eye,
+    title: 'Designers handing off',
+    text: 'Deliver one master image and let the tool produce every size with correct names, instead of exporting dozens of files by hand.',
+  },
+]
+
 const FACTS = [
   { n: '18+', l: 'Icon sizes in every set' },
   { n: '2', l: 'Platforms — iOS & Android' },
@@ -29,7 +62,10 @@ const FACTS = [
 ]
 
 export default function About() {
-  usePageMeta('About · DrAppIcon', 'About DrAppIcon: a free, private, browser-based app icon generator by Dusrel — one image becomes the complete iOS and Android icon set, with nothing uploaded.')
+  usePageMeta(
+    'About · DrAppIcon',
+    'About DrAppIcon in detail: what it makes for iOS, Android and the web, who it is for, the principles behind it, and who builds it — a free, private, browser-based app icon generator by Dusrel.',
+  )
   return (
     <main className="mx-auto w-full max-w-3xl px-4 py-14 sm:px-6">
       <div className="text-center">
@@ -57,16 +93,65 @@ export default function About() {
           an independent one-person studio. It is part of a family of small,
           single-purpose tools made to be fast, honest and pleasant to use.
         </p>
+        <p>
+          The tool is deliberately narrow. It does one job — app icons — and tries
+          to do it completely: both stores, every density, the adaptive and
+          themed-icon layers modern Android expects, and the manifests that make
+          the files land in the right places without manual renaming. When a
+          platform rule exists (a size, a file-name constraint, an alpha-channel
+          requirement), DrAppIcon follows it quietly instead of leaving you a
+          warning to fix.
+        </p>
       </div>
 
-      <div className="mt-12 grid gap-5 sm:grid-cols-3">
+      <h2 className="mt-14 text-center text-2xl font-extrabold tracking-tight text-ink dark:text-white">
+        What DrAppIcon makes
+      </h2>
+      <div className="mt-6 overflow-hidden rounded-3xl bg-white shadow-soft ring-1 ring-slate-100 dark:bg-night-800 dark:ring-white/10">
+        {MAKES.map((m, i) => (
+          <div
+            key={m.label}
+            className={`flex flex-col gap-1 px-6 py-5 sm:flex-row sm:gap-6 ${
+              i > 0 ? 'border-t border-slate-100 dark:border-white/5' : ''
+            }`}
+          >
+            <span className="w-28 shrink-0 font-bold text-ink dark:text-white">{m.label}</span>
+            <p className="text-[15px] leading-relaxed text-slate-500 dark:text-slate-400">
+              {m.text}
+            </p>
+          </div>
+        ))}
+      </div>
+
+      <h2 className="mt-14 text-center text-2xl font-extrabold tracking-tight text-ink dark:text-white">
+        Who it is for
+      </h2>
+      <div className="mt-6 grid gap-5 sm:grid-cols-3">
+        {AUDIENCE.map((a) => (
+          <div
+            key={a.title}
+            className="rounded-3xl bg-white p-6 shadow-soft ring-1 ring-slate-100 dark:bg-night-800 dark:ring-white/10"
+          >
+            <a.icon className="h-6 w-6 text-primary-600 dark:text-primary-300" />
+            <h3 className="mt-3 font-bold text-ink dark:text-white">{a.title}</h3>
+            <p className="mt-1.5 text-sm leading-relaxed text-slate-500 dark:text-slate-400">
+              {a.text}
+            </p>
+          </div>
+        ))}
+      </div>
+
+      <h2 className="mt-14 text-center text-2xl font-extrabold tracking-tight text-ink dark:text-white">
+        The principles
+      </h2>
+      <div className="mt-6 grid gap-5 sm:grid-cols-3">
         {PRINCIPLES.map((p) => (
           <div
             key={p.title}
             className="rounded-3xl bg-white p-6 shadow-soft ring-1 ring-slate-100 dark:bg-night-800 dark:ring-white/10"
           >
             <p.icon className="h-6 w-6 text-primary-600 dark:text-primary-300" />
-            <h2 className="mt-3 font-bold text-ink dark:text-white">{p.title}</h2>
+            <h3 className="mt-3 font-bold text-ink dark:text-white">{p.title}</h3>
             <p className="mt-1.5 text-sm leading-relaxed text-slate-500 dark:text-slate-400">
               {p.text}
             </p>

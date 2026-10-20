@@ -150,6 +150,30 @@ export default function HowItWorks() {
         ))}
       </div>
 
+      <h2 className="mt-16 text-center text-2xl font-extrabold tracking-tight text-ink dark:text-white">
+        Under the hood
+      </h2>
+      <div className="mt-6 space-y-4 text-[16px] leading-relaxed text-slate-600 dark:text-slate-300">
+        <p>
+          When you drop an image into DrAppIcon, the browser decodes it locally and
+          draws it onto a canvas once per output size, at the exact pixel
+          dimensions each platform requires — the 1024×1024 App Store icon, the
+          432×432 xxxhdpi adaptive foreground, and every step in between. Because
+          each file is rendered from your original at its target size, edges stay
+          as sharp as the source allows; nothing is upscaled from a smaller copy.
+        </p>
+        <p>
+          The background colour is chosen by sampling your artwork and weighing its
+          most frequent opaque colours, which is why the proposal usually feels
+          native to the design. Badge text is measured and shrunk until it fits its
+          strip, so a long badge never overflows the icon, and the round Android
+          variant clips only the artwork — never the badge. Finally, the files are
+          named to the rules each platform enforces (including Android's lowercase
+          resource names), packed with their manifests, and handed to you as one
+          ZIP.
+        </p>
+      </div>
+
       <div className="mt-10 flex items-start gap-4 rounded-3xl bg-primary-50 p-6 ring-1 ring-primary-100 dark:bg-primary-500/10 dark:ring-primary-500/20">
         <ShieldCheck className="mt-0.5 h-6 w-6 shrink-0 text-primary-600 dark:text-primary-300" />
         <div>
