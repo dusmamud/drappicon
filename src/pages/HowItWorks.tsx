@@ -1,3 +1,4 @@
+import { useEffect } from 'react'
 import { Link } from 'react-router'
 import {
   ArrowRight,
@@ -7,7 +8,7 @@ import {
   SlidersHorizontal,
   Upload,
 } from 'lucide-react'
-import { useTitle } from '../lib/useTitle'
+import { usePageMeta } from '../lib/useTitle'
 
 const STEPS = [
   {
@@ -54,8 +55,53 @@ const ZIP_ROWS: Array<{ label: string; items: string }> = [
   },
 ]
 
+const FAQS: Array<{ q: string; a: string }> = [
+  {
+    q: 'Is DrAppIcon free?',
+    a: 'Yes — completely free, with no watermarks, no locked sizes and no account to create.',
+  },
+  {
+    q: 'Are my images uploaded to a server?',
+    a: 'No. Generation runs entirely in your browser tab using canvas; your artwork never leaves your device and nothing is stored.',
+  },
+  {
+    q: 'What image should I upload?',
+    a: 'A PNG, JPG, SVG or WebP up to 10 MB. A square image of 1024×1024 px or larger gives the sharpest results at every size.',
+  },
+  {
+    q: 'Which icon sizes do I get?',
+    a: 'For iOS, all 18 AppIcon sizes including the 1024 px App Store icon, with Contents.json. For Android, legacy and round icons from ldpi 36 px to xxxhdpi 192 px, adaptive foregrounds up to 432 px, and the 512 px Play Store icon.',
+  },
+  {
+    q: 'Does it support Android adaptive and themed icons?',
+    a: 'Yes. The ZIP includes adaptive-icon foregrounds, a background colour resource, mipmap-anydpi-v26 descriptors, and — if you add a monochrome image — the monochrome layer Android uses for themed icons.',
+  },
+  {
+    q: 'Can I choose PNG or WebP for Android?',
+    a: 'Yes. Android output can be generated as PNG or WebP; iOS icons are always PNG, as Xcode requires.',
+  },
+]
+
 export default function HowItWorks() {
-  useTitle('How It Works · DrAppIcon')
+  useEffect(() => {
+    const script = document.createElement('script')
+    script.type = 'application/ld+json'
+    script.id = 'faq-jsonld'
+    script.text = JSON.stringify({
+      '@context': 'https://schema.org',
+      '@type': 'FAQPage',
+      mainEntity: FAQS.map((f) => ({
+        '@type': 'Question',
+        name: f.q,
+        acceptedAnswer: { '@type': 'Answer', text: f.a },
+      })),
+    })
+    document.head.appendChild(script)
+    return () => {
+      script.remove()
+    }
+  }, [])
+  usePageMeta('How It Works · DrAppIcon', 'How DrAppIcon works: upload one image, customize background, size, badge and monochrome, download one ZIP with every iOS and Android icon size, and drop it into your project.')
   return (
     <main className="mx-auto w-full max-w-4xl px-4 py-14 sm:px-6">
       <div className="text-center">
@@ -115,6 +161,23 @@ export default function HowItWorks() {
             artwork.
           </p>
         </div>
+      </div>
+
+      <h2 className="mt-16 text-center text-2xl font-extrabold tracking-tight text-ink dark:text-white">
+        Common questions
+      </h2>
+      <div className="mt-6 space-y-4">
+        {FAQS.map((f) => (
+          <div
+            key={f.q}
+            className="rounded-3xl bg-white p-6 shadow-soft ring-1 ring-slate-100 dark:bg-night-800 dark:ring-white/10"
+          >
+            <h3 className="font-bold text-ink dark:text-white">{f.q}</h3>
+            <p className="mt-1.5 text-[15px] leading-relaxed text-slate-500 dark:text-slate-400">
+              {f.a}
+            </p>
+          </div>
+        ))}
       </div>
 
       <div className="mt-12 text-center">

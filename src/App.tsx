@@ -46,10 +46,10 @@ export default function App() {
           <Route path="/instructions" element={<InstructionsPage />} />
           <Route path="/how-it-works" element={<HowItWorks />} />
           <Route path="/about" element={<About />} />
-          <Route path="/privacy-policy" element={<Legal markdown={PRIVACY_MD} />} />
-          <Route path="/terms-of-service" element={<Legal markdown={TERMS_MD} />} />
-          <Route path="/cookie-policy" element={<Legal markdown={COOKIE_MD} />} />
-          <Route path="/dpa" element={<Legal markdown={DPA_MD} />} />
+          <Route path="/privacy-policy" element={<Legal markdown={PRIVACY_MD} title="Privacy Policy · DrAppIcon" description="DrAppIcon privacy policy: icon generation runs entirely in your browser, your images are never uploaded or stored, and no account is needed." />} />
+          <Route path="/terms-of-service" element={<Legal markdown={TERMS_MD} title="Terms of Service · DrAppIcon" description="The terms for using DrAppIcon, the free browser-based iOS and Android app icon generator by Dusrel." />} />
+          <Route path="/cookie-policy" element={<Legal markdown={COOKIE_MD} title="Cookie Policy · DrAppIcon" description="How DrAppIcon uses cookies and local storage — a theme preference only; no advertising or cross-site tracking cookies." />} />
+          <Route path="/dpa" element={<Legal markdown={DPA_MD} title="Data Processing Addendum · DrAppIcon" description="DrAppIcon data processing addendum: because generation is fully client-side, DrAppIcon does not receive, store or process your images." />} />
         </Route>
         <Route path="*" element={<Home />} />
       </Routes>

@@ -1,7 +1,7 @@
 import { Link } from 'react-router'
 import { ArrowRight, Eye, Heart, Mail, Zap } from 'lucide-react'
 import logo from '../assets/logo.svg'
-import { useTitle } from '../lib/useTitle'
+import { usePageMeta } from '../lib/useTitle'
 
 const PRINCIPLES = [
   {
@@ -29,7 +29,7 @@ const FACTS = [
 ]
 
 export default function About() {
-  useTitle('About · DrAppIcon')
+  usePageMeta('About · DrAppIcon', 'About DrAppIcon: a free, private, browser-based app icon generator by Dusrel — one image becomes the complete iOS and Android icon set, with nothing uploaded.')
   return (
     <main className="mx-auto w-full max-w-3xl px-4 py-14 sm:px-6">
       <div className="text-center">

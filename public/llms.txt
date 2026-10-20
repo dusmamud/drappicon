@@ -1,0 +1,28 @@
+# DrAppIcon
+
+> DrAppIcon is a free web tool that turns a single image into a complete, store-ready app icon set for iOS and Android. It runs entirely in the visitor's browser — no uploads, no accounts, no watermarks.
+
+Key facts:
+- Input: one PNG, JPG, SVG or WebP image (up to 10 MB; 1024x1024 or larger recommended).
+- iOS output: AppIcon.appiconset with all 18 sizes including the 1024 px App Store icon, plus a ready-made Contents.json.
+- Android output: legacy and round launcher icons for ldpi (36 px) through xxxhdpi (192 px) in PNG or WebP; adaptive icon foregrounds (108-432 px), an optional monochrome layer for themed icons, mipmap-anydpi-v26 XML descriptors, a background colour resource, the 512 px Play Store icon and a web icon.
+- Customization: background colour (auto-picked from the artwork's dominant colour), size (padding/zoom), badge text, monochrome artwork, custom icon file name.
+- Privacy: generation happens on a canvas in the browser tab; images never leave the device.
+- Price: free.
+- Maker: Dusrel, an independent one-person studio. Contact: support@drappicon.dusrel.com.
+
+## Pages
+
+- [Generator](https://drappicon.pages.dev/): Upload an image and download the complete icon set as one ZIP.
+- [Features](https://drappicon.pages.dev/features): What DrAppIcon does — iOS ready, Android compatible, fast, customizable, private.
+- [Instructions](https://drappicon.pages.dev/instructions): Step-by-step guides and full size tables for adding generated icons to iOS and Android projects.
+- [How It Works](https://drappicon.pages.dev/how-it-works): The four steps from upload to project, what is inside the ZIP, and common questions.
+- [About](https://drappicon.pages.dev/about): What DrAppIcon is, who makes it, and the principles behind it.
+- [Support Us](https://drappicon.pages.dev/support-us): How to support the project.
+
+## Policies
+
+- [Privacy Policy](https://drappicon.pages.dev/privacy-policy)
+- [Terms of Service](https://drappicon.pages.dev/terms-of-service)
+- [Cookie Policy](https://drappicon.pages.dev/cookie-policy)
+- [Data Processing Addendum](https://drappicon.pages.dev/dpa)

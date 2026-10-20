@@ -1,10 +1,10 @@
 import { Link } from 'react-router'
 import { ArrowRight } from 'lucide-react'
 import { Instructions } from '../features/home/Sections'
-import { useTitle } from '../lib/useTitle'
+import { usePageMeta } from '../lib/useTitle'
 
 export default function InstructionsPage() {
-  useTitle('Instructions · DrAppIcon')
+  usePageMeta('Instructions · DrAppIcon', 'How to add generated app icons to your iOS and Android projects: step-by-step Xcode and Android Studio guides with the full icon size tables for both platforms.')
   return (
     <main className="py-14">
       <div className="mx-auto w-full max-w-7xl px-4 text-center sm:px-6">

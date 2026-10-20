@@ -1,10 +1,10 @@
 import { Link } from 'react-router'
 import { ArrowRight } from 'lucide-react'
 import { Features } from '../features/home/Sections'
-import { useTitle } from '../lib/useTitle'
+import { usePageMeta } from '../lib/useTitle'
 
 export default function FeaturesPage() {
-  useTitle('Features · DrAppIcon')
+  usePageMeta('Features · DrAppIcon', 'DrAppIcon features: complete iOS icon sets with Contents.json, Android adaptive icons with monochrome layers, PNG and WebP output, and private in-browser generation — free.')
   return (
     <main className="py-14">
       <div className="mx-auto w-full max-w-7xl px-4 text-center sm:px-6">
