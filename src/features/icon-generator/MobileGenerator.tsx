@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { ArrowDown, Download, Loader2, Settings, X } from 'lucide-react'
+import { Download, Loader2, Settings, X } from 'lucide-react'
 import Panel from './Panel'
 import Stage from './Stage'
 import type { GeneratorApi } from './useGenerator'
@@ -7,7 +7,6 @@ import type { GeneratorApi } from './useGenerator'
 export default function MobileGenerator({ api }: { api: GeneratorApi }) {
   const { state, actions } = api
   const [sheetOpen, setSheetOpen] = useState(false)
-  const [pastApi, setPastApi] = useState(false)
   const lastUrl = useRef<string | null>(null)
 
   // Auto-open the Customize sheet shortly after a fresh upload.
@@ -18,19 +17,6 @@ export default function MobileGenerator({ api }: { api: GeneratorApi }) {
       return () => clearTimeout(t)
     }
   }, [state.foregroundUrl])
-
-  // The API pill arrow flips once the API section has been scrolled past.
-  useEffect(() => {
-    const onScroll = () => {
-      const el = document.getElementById('api')
-      if (el) setPastApi(el.getBoundingClientRect().top < window.innerHeight * 0.4)
-    }
-    onScroll()
-    window.addEventListener('scroll', onScroll, { passive: true })
-    return () => window.removeEventListener('scroll', onScroll)
-  }, [])
-
-  const scrollToApi = () => document.getElementById('api')?.scrollIntoView({ behavior: 'smooth' })
 
   return (
     <div data-mobile-root className="mx-auto w-full max-w-xl px-4">
@@ -64,15 +50,6 @@ export default function MobileGenerator({ api }: { api: GeneratorApi }) {
             <Settings className="h-4 w-4" /> Customize
           </button>
         )}
-        <button
-          type="button"
-          onClick={scrollToApi}
-          className="flex items-center gap-1.5 rounded-full px-4 py-2.5 text-[13px] font-bold text-white shadow-pillwarm"
-          style={{ background: 'linear-gradient(135deg,#f59e0b 0%,#f97316 40%,#ef4444 100%)' }}
-        >
-          Try our powerful API
-          <ArrowDown className={`h-4 w-4 transition-transform ${pastApi ? 'rotate-180' : ''}`} />
-        </button>
       </div>
 
       {/* Customize bottom sheet */}

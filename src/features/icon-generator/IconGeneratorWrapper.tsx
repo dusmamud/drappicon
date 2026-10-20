@@ -1,6 +1,6 @@
 import { Link } from 'react-router'
 import { AnimatePresence, motion } from 'framer-motion'
-import { SquareTerminal, X } from 'lucide-react'
+import { X } from 'lucide-react'
 import DesktopGenerator from './DesktopGenerator'
 import MobileGenerator from './MobileGenerator'
 import { useGenerator } from './useGenerator'
@@ -70,16 +70,6 @@ export default function IconGeneratorWrapper() {
                   keeps it free for everyone who finds it next.
                 </p>
                 <div className="mt-5 bg-slate-50 px-6 py-5 dark:bg-white/5">
-                  <div className="flex items-center justify-center gap-2.5">
-                    <a
-                      href="/#api"
-                      onClick={() => actions.setShowThankYou(false)}
-                      className="flex h-[40px] w-[52px] items-center justify-center rounded-lg bg-slate-900 text-white shadow-sm transition hover:bg-slate-800 dark:bg-white/10 dark:hover:bg-white/15"
-                      title="DrAppIcon API"
-                    >
-                      <SquareTerminal className="h-5 w-5" />
-                    </a>
-                  </div>
                   <div className="mt-3 flex gap-2.5">
                     <button
                       type="button"

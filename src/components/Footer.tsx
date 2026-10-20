@@ -42,7 +42,7 @@ export default function Footer() {
                 Android Guidelines
               </a>
             </li>
-            <li><a href="/#api" className={link}>API</a></li>
+            
           </ul>
         </div>
         <div>

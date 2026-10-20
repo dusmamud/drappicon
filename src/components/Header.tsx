@@ -16,9 +16,6 @@ export default function Header() {
           <Link to="/" className="text-sm font-semibold text-slate-600 transition hover:text-primary-700 dark:text-slate-300 dark:hover:text-primary-300">
             Generator
           </Link>
-          <a href="/#api" className="hidden text-sm font-semibold text-slate-600 transition hover:text-primary-700 dark:text-slate-300 dark:hover:text-primary-300 sm:block">
-            API
-          </a>
           <NavLink to="/support-us" className={linkCls}>
             Support Us
           </NavLink>

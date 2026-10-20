@@ -5,7 +5,6 @@ import {
   Mail,
   MessageCircle,
   Smartphone,
-  SquareTerminal,
 } from 'lucide-react'
 import type { GeneratorApi } from './useGenerator'
 import logo from '../../assets/logo.svg'
@@ -76,9 +75,6 @@ export default function Stage({ api, mobile = false }: { api: GeneratorApi; mobi
             </h1>
             <p className="mt-3 text-lg text-slate-500 dark:text-slate-400">iOS + Adaptive Android Icon</p>
             <div className="mt-5 flex items-center justify-center gap-2.5">
-              <a href="#api" title="DrAppIcon API" className="flex h-[42px] w-[42px] items-center justify-center rounded-lg bg-slate-900 text-white shadow-sm transition hover:bg-slate-800 dark:bg-white/10 dark:hover:bg-white/15">
-                <SquareTerminal className="h-5 w-5" />
-              </a>
               <a href="mailto:support@drappicon.dusrel.com" title="Email us" className="flex h-[42px] w-[42px] items-center justify-center rounded-lg border border-slate-200 dark:border-white/10 bg-white text-slate-500 dark:text-slate-400 shadow-sm transition hover:bg-slate-50 dark:bg-night-800 dark:hover:bg-night-700">
                 <Mail className="h-5 w-5" />
               </a>

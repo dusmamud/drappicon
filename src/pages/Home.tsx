@@ -1,5 +1,5 @@
 import IconGeneratorWrapper from '../features/icon-generator/IconGeneratorWrapper'
-import { ApiPromotion, Features, Instructions } from '../features/home/Sections'
+import { Features, Instructions } from '../features/home/Sections'
 import Footer from '../components/Footer'
 
 export default function Home() {
@@ -7,7 +7,6 @@ export default function Home() {
     <div className="min-h-screen bg-slate-50 dark:bg-night-950">
       <main className="py-8">
         <IconGeneratorWrapper />
-        <ApiPromotion />
         <Features />
         <Instructions />
       </main>

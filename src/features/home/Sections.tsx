@@ -1,16 +1,11 @@
 import { useState } from 'react'
 import {
   Apple,
-  ArrowRight,
-  BadgeCheck,
   Code2,
-  Copy,
-  Check,
   Download,
   FileArchive,
   FolderOpen,
   Gauge,
-  Image as ImageIcon,
   Layers,
   Lightbulb,
   Palette,
@@ -18,104 +13,6 @@ import {
   Smartphone,
 } from 'lucide-react'
 import { AndroidBot } from '../icon-generator/PreviewBits'
-import logo from '../../assets/logo.svg'
-
-/* ---------------------------------- API ---------------------------------- */
-
-const API_CODE = `const response = await fetch('https://api.drappicon.dusrel.com/generate', {
-  method: 'POST',
-  headers: {
-    'Content-Type': 'application/json',
-    'Authorization': 'YOUR_API_KEY'
-  },
-  body: JSON.stringify({
-    uploadedImage: 'data:image/png;base64,YOUR_BASE64_IMAGE',
-    showBadge: false,
-    format: 'png',
-    ...
-  })
-});
-
-// Returns a ZIP with every iOS & Android icon size`
-
-export function ApiPromotion() {
-  const [copied, setCopied] = useState(false)
-  const copy = async () => {
-    try {
-      await navigator.clipboard.writeText(API_CODE)
-      setCopied(true)
-      setTimeout(() => setCopied(false), 1600)
-    } catch { /* clipboard unavailable */ }
-  }
-  const mini = [
-    { icon: Apple, title: 'All iOS Sizes', text: 'Every size from 20×20 up to the 1024×1024 App Store icon.' },
-    { icon: AndroidBot, title: 'All Android Sizes', text: 'Adaptive icons for every density, mdpi through xxxhdpi.' },
-    { icon: BadgeCheck, title: 'Badge Support', text: 'Optional text badges baked into the generated set.' },
-    { icon: ImageIcon, title: 'Multiple Formats', text: 'PNG or WebP output, packaged and ready to drop in.' },
-  ]
-  return (
-    <section id="api" className="relative mt-16 px-4 sm:px-6">
-      <div className="relative mx-auto w-full max-w-7xl overflow-hidden rounded-[2rem] border border-slate-200/70 bg-white px-5 py-14 shadow-card dark:border-white/10 dark:bg-night-800 sm:px-10">
-        <div className="text-center">
-          <div className="flex items-center justify-center gap-2.5">
-            <img src={logo} alt="" className="h-9 w-9 rounded-lg bg-white/95 p-0.5" />
-            <span className="font-hand text-4xl font-bold text-ink dark:text-white">DrAppIcon</span>
-            <span className="rounded-md bg-orange-500 px-1.5 py-0.5 text-[10px] font-extrabold uppercase tracking-wide text-white">API</span>
-          </div>
-          <h2 className="mt-6 text-4xl font-extrabold tracking-tight text-ink dark:text-white sm:text-[44px]">
-            Simple{' '}
-            <span className="bg-gradient-to-r from-primary-400 to-emerald-400 bg-clip-text text-transparent">
-              Integration
-            </span>
-          </h2>
-          <p className="mx-auto mt-4 max-w-xl text-[17px] leading-relaxed text-slate-500 dark:text-slate-400">
-            One REST call turns an image into a complete icon set. Post your artwork, get back a
-            ZIP with every size your apps need.
-          </p>
-          <a
-            href="mailto:support@drappicon.dusrel.com?subject=DrAppIcon%20API%20access"
-            className="mt-7 inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-primary-500 to-emerald-500 px-6 py-3.5 text-[15px] font-bold text-white shadow-lg shadow-primary-900/40 transition hover:brightness-110"
-          >
-            Explore the API <ArrowRight className="h-4.5 w-4.5 h-[18px] w-[18px]" />
-          </a>
-        </div>
-
-        <div className="mt-14 grid items-start gap-5 [&>*]:min-w-0 lg:grid-cols-2">
-          <div className="grid gap-5 sm:grid-cols-2">
-            {mini.map((m) => (
-              <div key={m.title} className="rounded-2xl border border-slate-200/70 bg-slate-50 p-5 dark:border-white/10 dark:bg-white/5">
-                <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-to-br from-primary-500/20 to-emerald-500/15 text-primary-600 dark:text-primary-300">
-                  <m.icon className="h-5.5 w-5.5 h-[22px] w-[22px]" />
-                </span>
-                <h3 className="mt-3.5 font-bold text-ink dark:text-white">{m.title}</h3>
-                <p className="mt-1 text-sm leading-relaxed text-slate-400 dark:text-slate-500">{m.text}</p>
-              </div>
-            ))}
-          </div>
-          <div className="overflow-hidden rounded-2xl border border-white/10 bg-[#0d1b30] shadow-2xl">
-            <div className="flex items-center gap-2 border-b border-white/10 px-4 py-3">
-              <span className="h-3 w-3 rounded-full bg-[#ff5f57]" />
-              <span className="h-3 w-3 rounded-full bg-[#febc2e]" />
-              <span className="h-3 w-3 rounded-full bg-[#28c840]" />
-              <span className="ml-auto flex items-center gap-1.5 font-mono text-xs text-slate-400 dark:text-slate-500">
-                <Code2 className="h-3.5 w-3.5" /> example.js
-              </span>
-              <button
-                type="button"
-                onClick={copy}
-                className="ml-2 flex items-center gap-1 rounded-md border border-white/10 px-2 py-1 text-[11px] font-semibold text-slate-300 transition hover:bg-white/5"
-              >
-                {copied ? <Check className="h-3 w-3 text-emerald-400" /> : <Copy className="h-3 w-3" />}
-                {copied ? 'Copied' : 'Copy'}
-              </button>
-            </div>
-            <pre className="nice-scroll overflow-x-auto p-5 font-mono text-[12.5px] leading-relaxed text-emerald-300/90">{API_CODE}</pre>
-          </div>
-        </div>
-      </div>
-    </section>
-  )
-}
 
 /* -------------------------------- Features -------------------------------- */
 
