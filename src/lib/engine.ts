@@ -105,10 +105,17 @@ function roundRectPath(
 function drawBadge(ctx: CanvasRenderingContext2D, size: number, badge: BadgeOptions) {
   if (!badge.enabled || !badge.text.trim()) return
   const text = badge.text.trim()
-  const fontPx = Math.max(10, Math.round(size * 0.11))
+  let fontPx = Math.max(10, Math.round(size * 0.11))
   ctx.save()
   ctx.font = `700 ${fontPx}px Inter, system-ui, sans-serif`
-  const tw = ctx.measureText(text).width
+  let tw = ctx.measureText(text).width
+  // Auto-fit: shrink the font until the pill fits inside the icon (long badge
+  // text on the tiny densities used to overflow the canvas edge).
+  while (tw + fontPx * 1.1 > size * 0.94 && fontPx > 6) {
+    fontPx -= 1
+    ctx.font = `700 ${fontPx}px Inter, system-ui, sans-serif`
+    tw = ctx.measureText(text).width
+  }
   const padX = fontPx * 0.55
   const h = fontPx * 1.55
   const w = tw + padX * 2
@@ -144,6 +151,10 @@ export function renderIconCanvas(spec: RenderSpec): HTMLCanvasElement {
   canvas.height = size
   const ctx = canvas.getContext('2d')!
 
+  // The clip applies to artwork + background only; the badge is drawn after a
+  // restore so a round icon's badge is not sliced by the circle (it should sit
+  // ON the icon like a notification badge).
+  ctx.save()
   if (clip === 'circle') {
     ctx.beginPath()
     ctx.arc(size / 2, size / 2, size / 2, 0, Math.PI * 2)
@@ -162,6 +173,7 @@ export function renderIconCanvas(spec: RenderSpec): HTMLCanvasElement {
   const box = size * zone * (1 - padding / 100) * (spec.zoom ?? 1)
   drawContained(ctx, image, size / 2, size / 2, box)
 
+  ctx.restore()
   if (spec.badge) drawBadge(ctx, size, spec.badge)
   return canvas
 }
@@ -194,14 +206,16 @@ export const ANDROID_FG_SIZES: Array<{ name: string; size: number }> = [
 ]
 
 function adaptiveXml(fileName: string, mono: boolean): string {
-  const fg = mono
-    ? `<foreground android:drawable="@drawable/${fileName}_foreground"/>
-    <monochrome android:drawable="@drawable/${fileName}_foreground"/>`
-    : `<foreground android:drawable="@drawable/${fileName}_foreground"/>`
+  // Foreground is always the colour artwork; <monochrome> is a SEPARATE layer
+  // (its own drawable) that launchers use only for themed icons (Android 13+).
+  const monoLine = mono
+    ? `
+    <monochrome android:drawable="@drawable/${fileName}_monochrome"/>`
+    : ''
   return `<?xml version="1.0" encoding="utf-8"?>
 <adaptive-icon xmlns:android="http://schemas.android.com/apk/res/android">
-    <background android:drawable="@color/ic_launcher_background"/>
-    ${fg}
+    <background android:drawable="@color/${fileName}_background"/>
+    <foreground android:drawable="@drawable/${fileName}_foreground"/>${monoLine}
 </adaptive-icon>
 `
 }
@@ -237,17 +251,37 @@ function iosFileName(e: IosEntry): string {
   return `icon-${e.pt}@${e.scale}x.png`
 }
 
+/**
+ * Android resource names must be lowercase [a-z0-9_] and cannot start with a
+ * digit (AAPT rejects anything else, which breaks the user's build). Whatever
+ * the user types, the generated set always uses a valid name.
+ */
+export function sanitizeIconName(raw: string): string {
+  let n = raw
+    .toLowerCase()
+    .replace(/[^a-z0-9_]+/g, '_')
+    .replace(/_+/g, '_')
+    .replace(/^_+|_+$/g, '')
+  if (!n) return 'ic_launcher'
+  if (/^[0-9]/.test(n)) n = `ic_${n}`
+  return n.slice(0, 40)
+}
+
 /** Generates the full file set. Returns ordered [path, blob] pairs ready for JSZip. */
 export async function generateIconSet(
   opts: IconSetOptions,
   onProgress?: ProgressFn,
 ): Promise<Array<[string, Blob]>> {
   const files: Array<[string, Blob]> = []
-  const name = (opts.fileName || 'ic_launcher').trim() || 'ic_launcher'
+  const name = sanitizeIconName(opts.fileName || 'ic_launcher')
   const ext = opts.androidFormat
 
   let total = 0
-  if (opts.includeAndroid) total += ANDROID_BUCKETS.length * 2 + ANDROID_FG_SIZES.length + 2
+  if (opts.includeAndroid)
+    total +=
+      ANDROID_BUCKETS.length * 2 +
+      ANDROID_FG_SIZES.length * (opts.monochrome ? 2 : 1) +
+      2
   if (opts.includeIos) total += IOS_ENTRIES.length
   let done = 0
   const tick = (label: string) => onProgress?.(++done, total, label)
@@ -283,7 +317,7 @@ export async function generateIconSet(
     for (const b of ANDROID_FG_SIZES) {
       const fg = renderIconCanvas({
         size: b.size,
-        image: opts.monochrome ?? opts.foreground,
+        image: opts.foreground,
         background: 'transparent',
         padding: opts.padding,
         zoom: opts.zoom,
@@ -294,22 +328,37 @@ export async function generateIconSet(
         await canvasBlob(fg, ext),
       ])
       tick(`Android ${b.name} foreground`)
+      if (opts.monochrome) {
+        const mono = renderIconCanvas({
+          size: b.size,
+          image: opts.monochrome,
+          background: 'transparent',
+          padding: opts.padding,
+          zoom: opts.zoom,
+          safeZone: true,
+        })
+        files.push([
+          `android/mipmap-${b.name}/${name}_monochrome.${ext}`,
+          await canvasBlob(mono, ext),
+        ])
+        tick(`Android ${b.name} monochrome`)
+      }
     }
     files.push([
-      'android/mipmap-anydpi-v26/ic_launcher.xml',
+      `android/mipmap-anydpi-v26/${name}.xml`,
       new Blob([adaptiveXml(name, !!opts.monochrome)], { type: 'text/xml' }),
     ])
     files.push([
-      'android/mipmap-anydpi-v26/ic_launcher_round.xml',
+      `android/mipmap-anydpi-v26/${name}_round.xml`,
       new Blob([adaptiveXml(name, !!opts.monochrome)], { type: 'text/xml' }),
     ])
     const bgValue =
       opts.backgroundColor === 'transparent' ? '@android:color/transparent' : opts.backgroundColor
     files.push([
-      'android/values/ic_launcher_background.xml',
+      `android/values/${name}_background.xml`,
       new Blob(
         [
-          `<?xml version="1.0" encoding="utf-8"?>\n<resources>\n    <color name="ic_launcher_background">${bgValue}</color>\n</resources>\n`,
+          `<?xml version="1.0" encoding="utf-8"?>\n<resources>\n    <color name="${name}_background">${bgValue}</color>\n</resources>\n`,
         ],
         { type: 'text/xml' },
       ),
