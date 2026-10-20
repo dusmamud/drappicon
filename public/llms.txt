@@ -25,4 +25,4 @@ Key facts:
 - [Privacy Policy](https://drappicon.pages.dev/privacy-policy)
 - [Terms of Service](https://drappicon.pages.dev/terms-of-service)
 - [Cookie Policy](https://drappicon.pages.dev/cookie-policy)
-- [Data Processing Addendum](https://drappicon.pages.dev/dpa)
+- [Data Processing Agreement](https://drappicon.pages.dev/dpa)
