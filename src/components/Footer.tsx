@@ -7,7 +7,7 @@ export default function Footer() {
   const link = 'text-sm text-slate-500 transition hover:text-slate-900 dark:text-slate-400 dark:hover:text-white'
   return (
     <footer className="border-t border-slate-200/70 text-slate-500 dark:border-white/10 dark:text-slate-400">
-      <div className="mx-auto grid w-full max-w-7xl grid-cols-2 gap-10 px-4 py-14 sm:px-6 lg:grid-cols-[1.4fr_1fr_1fr_1fr]">
+      <div className="mx-auto grid w-full max-w-7xl grid-cols-2 gap-10 px-4 py-14 sm:px-6 lg:grid-cols-[1.4fr_1fr_1fr_1fr_1fr]">
         <div className="col-span-2 lg:col-span-1">
           <div className="flex items-center gap-2.5">
             <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-white/95 p-1">
@@ -26,6 +26,11 @@ export default function Footer() {
             <li><a href="/#editor" className={link}>Editor</a></li>
             <li><Link to="/features" className={link}>Features</Link></li>
             <li><Link to="/instructions" className={link}>Instructions</Link></li>
+          </ul>
+        </div>
+        <div>
+          <h4 className={`${colTitle} invisible`} aria-hidden="true">Product</h4>
+          <ul className="mt-4 space-y-2.5">
             <li><Link to="/how-it-works" className={link}>How It Works</Link></li>
             <li><Link to="/about" className={link}>About</Link></li>
             <li><Link to="/support-us" className={link}>Support Us</Link></li>
@@ -47,7 +52,7 @@ export default function Footer() {
             
           </ul>
         </div>
-        <div className="col-span-2 lg:col-span-1">
+        <div>
           <h4 className={colTitle}>Legal</h4>
           <ul className="mt-4 space-y-2.5">
             <li><Link to="/privacy-policy" className={link}>Privacy Policy</Link></li>
