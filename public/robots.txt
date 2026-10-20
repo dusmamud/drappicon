@@ -1,36 +1,55 @@
 # DrAppIcon — everyone welcome, including AI answer engines.
+#
+# Content Signals (contentsignals.org): how this site's content may be used
+# after it is accessed. search = building a search index and providing search
+# results; ai-input = inputting content into AI models for real-time answers
+# (RAG / grounding); ai-train = training or fine-tuning AI models.
+# DrAppIcon is a free tool that wants to be found and cited, so all three are
+# expressly allowed below.
+
 User-agent: *
+Content-Signal: search=yes, ai-input=yes, ai-train=yes
 Allow: /
 
 # AI crawlers and assistants (AEO: being cited starts with being readable)
 User-agent: GPTBot
+Content-Signal: search=yes, ai-input=yes, ai-train=yes
 Allow: /
 
 User-agent: ChatGPT-User
+Content-Signal: search=yes, ai-input=yes, ai-train=yes
 Allow: /
 
 User-agent: OAI-SearchBot
+Content-Signal: search=yes, ai-input=yes, ai-train=yes
 Allow: /
 
 User-agent: ClaudeBot
+Content-Signal: search=yes, ai-input=yes, ai-train=yes
 Allow: /
 
 User-agent: Claude-User
+Content-Signal: search=yes, ai-input=yes, ai-train=yes
 Allow: /
 
 User-agent: PerplexityBot
+Content-Signal: search=yes, ai-input=yes, ai-train=yes
 Allow: /
 
 User-agent: Perplexity-User
+Content-Signal: search=yes, ai-input=yes, ai-train=yes
 Allow: /
 
 User-agent: Google-Extended
+Content-Signal: search=yes, ai-input=yes, ai-train=yes
 Allow: /
 
 User-agent: Applebot-Extended
+Content-Signal: search=yes, ai-input=yes, ai-train=yes
 Allow: /
 
 User-agent: CCBot
+Content-Signal: search=yes, ai-input=yes, ai-train=yes
 Allow: /
 
 Sitemap: https://drappicon.pages.dev/sitemap.xml

@@ -2,6 +2,10 @@
   X-Content-Type-Options: nosniff
   Referrer-Policy: strict-origin-when-cross-origin
   X-Frame-Options: SAMEORIGIN
+  Strict-Transport-Security: max-age=31536000; includeSubDomains; preload
+  Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=(), usb=()
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'sha256-sPYtFLBPHTeXJgGeWS7ihg5HWAbv23De//VKK9D0y5I='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob:; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'self'; upgrade-insecure-requests
+  Link: </llms.txt>; rel="describedby"; type="text/plain"
 
 /assets/*
   Cache-Control: public, max-age=31536000, immutable

@@ -1,0 +1,623 @@
+# DrAppIcon — Full Text
+
+> DrAppIcon is a free web tool that turns a single image into a complete, store-ready app icon set for iOS and Android. It runs entirely in the visitor's browser — no uploads, no accounts, no watermarks. This file is the full-text companion to /llms.txt: it contains the complete text of every page on the site, including the legal policies, so AI systems can answer questions about DrAppIcon without crawling each page.
+
+Site: https://drappicon.pages.dev/
+Maker: Dusrel, an independent one-person studio. Contact: support@drappicon.dusrel.com
+Price: free. Privacy: generation happens on a canvas in the browser tab; images never leave the device.
+
+---
+
+## Generator (home page)
+
+URL: https://drappicon.pages.dev/
+
+Upload one image and download the complete icon set as one ZIP.
+
+Key facts:
+- Input: one PNG, JPG, SVG or WebP image (up to 10 MB; 1024x1024 or larger recommended).
+- iOS output: AppIcon.appiconset with all 18 sizes including the 1024 px App Store icon, plus a ready-made Contents.json.
+- Android output: legacy and round launcher icons for ldpi (36 px) through xxxhdpi (192 px) in PNG or WebP; adaptive icon foregrounds (108–432 px), an optional monochrome layer for themed icons, mipmap-anydpi-v26 XML descriptors, a background colour resource, the 512 px Play Store icon and a web icon.
+- Customization: background colour (auto-picked from the artwork's dominant colour), size (padding/zoom), badge text, monochrome artwork, custom icon file name.
+- The background colour is sampled from your artwork automatically and can be overridden by hex or swatch. A live preview shows the icons on real iPhone and Android device frames, in light and dark contexts, before you download.
+
+### Why choose DrAppIcon?
+
+- iOS Ready: The complete AppIcon set — App Store, iPhone and iPad sizes, with a ready-made Contents.json.
+- Android Compatible: Adaptive icons done properly: foreground, background colour XML and the anydpi descriptors.
+- Lightning Fast: The whole set renders in seconds on your own machine — no queues, no uploads, no waiting.
+- Easy Customization: Background colour is picked from your artwork automatically, then fine-tune size, badges and more.
+- Multiple Formats: One tidy ZIP with everything inside, or PNG and WebP variants for Android — your choice.
+- Privacy First: Generation happens entirely in your browser. Your artwork never leaves your device.
+
+---
+
+## Features
+
+URL: https://drappicon.pages.dev/features
+
+Everything a developer needs to ship polished app icons, without the busywork — free, private, and entirely in your browser.
+
+### iOS icons: the complete AppIcon set, generated correctly
+
+An iOS app icon is not one image — it is a set of 18 files at exact pixel sizes, described by a Contents.json manifest that Xcode reads to match every file to a device and context. DrAppIcon generates the whole set from your single image: notification, settings, spotlight, and app icons for iPhone and iPad, at the @1x, @2x and @3x scale factors each context requires.
+
+The set also includes the 1024×1024 App Store icon, rendered without an alpha channel as Apple requires, so the same download that fills your asset catalog also covers your store listing. File names follow the convention Xcode expects, and the Contents.json is written for you — drag the folder into Assets.xcassets and the set is complete, with no warnings to chase.
+
+- All 18 sizes: 20, 29, 40, 60, 76 and 83.5 points at their required scales
+- 1024×1024 marketing icon included, alpha removed as the App Store requires
+- Ready-made Contents.json with matching file names
+- Badge overlays only on sizes of 40 points and up, where they stay legible
+
+### Android: legacy, round and adaptive icons in one pass
+
+Android needs three families of launcher icons. Legacy and round icons ship at five densities, from ldpi at 36×36 pixels to xxxhdpi at 192×192. Adaptive icons — the modern standard — are built from layers: a foreground image at up to 432×432 pixels, a background colour, and XML descriptors in mipmap-anydpi-v26 that tell the launcher how to combine them.
+
+DrAppIcon generates all three families together, in PNG or WebP. If you add a monochrome version of your artwork, it is exported as its own drawable and wired into the adaptive XML as the monochrome layer — the layer Android 13 and later use to build themed icons that match the user's wallpaper and dark or light theme.
+
+- Legacy and round icons for ldpi, mdpi, hdpi, xhdpi, xxhdpi and xxxhdpi
+- Adaptive foregrounds at 108–432 px with anydpi-v26 XML descriptors
+- Optional monochrome layer for Android themed icons
+- Background colour exported as a named colour resource
+- Icon file names validated to the lowercase rules Android build tools enforce
+
+### Customization that respects the artwork
+
+When you upload an image, DrAppIcon reads its dominant colour and proposes it as the icon background, so the set feels designed rather than pasted. The size control works the way icon designers think: add padding to shrink the artwork inside its canvas, or zoom to fill more of the frame — and the live preview on real iPhone and Android device frames shows exactly what each setting does before you download.
+
+A badge adds a short strip of text — a version number, a "NEW" flag, a beta marker — across the bottom of the icon, automatically fitted so it never clips at small sizes. Every choice is previewed on the shapes tab and on both phone mockups, in light and dark contexts.
+
+- Background colour auto-picked from your artwork, editable by hex or swatch
+- Size slider from 100% padding to 100% zoom, mirrored exactly in the export
+- Badge text with automatic fitting, drawn above the artwork on every shape
+- Live preview on straight iPhone and Pixel frames with your wallpaper of choice
+
+### Fast and private, because nothing leaves your device
+
+There is no upload step. Your image is drawn onto canvases inside your own browser tab, every size is rendered there, and the ZIP is assembled there too. That is why a full set is ready in seconds, why there is no queue at busy times, and why the tool works the same for a hobby project as for an unreleased product whose artwork is still confidential.
+
+Nothing about your image is transmitted, stored or logged, and there is no account system to sign up for. Close the tab and the artwork is gone from memory; the only copy of the generated set is the ZIP you downloaded.
+
+- 100% client-side rendering — no server receives your image
+- A complete iOS + Android set in seconds, no queues or waiting rooms
+- No accounts, no sign-up, no watermarks, no locked sizes
+- Free to use for personal and commercial apps
+
+### The full set at a glance
+
+| | iOS | Android |
+|---|---|---|
+| Deliverable | AppIcon.appiconset + Contents.json | mipmap folders + anydpi XML |
+| Sizes | 18 files, 20×20 up to 1024×1024 | 36×36 up to 432×432 per density |
+| Store icon | 1024×1024, no alpha | 512×512 Play Store icon |
+| Formats | PNG (as Xcode requires) | PNG or WebP |
+| Extras | Badge on 40 pt and larger | Adaptive + monochrome (themed) layers |
+
+### Features FAQ
+
+Q: What does DrAppIcon generate?
+A: From one uploaded image, DrAppIcon generates the complete app icon set for iOS (AppIcon.appiconset with 18 sizes and Contents.json) and Android (legacy, round and adaptive icons for every density), plus the 512×512 Play Store icon — delivered as a single ZIP.
+
+Q: Does DrAppIcon support Android adaptive icons?
+A: Yes. Adaptive icons are generated with a foreground layer per density, a background colour resource, mipmap-anydpi-v26 descriptors, and an optional monochrome layer used for themed icons on Android 13 and later.
+
+Q: Which image formats can I upload and download?
+A: Uploads can be PNG, JPG, SVG or WebP up to 10 MB. iOS icons download as PNG, as Xcode requires; Android icons can be PNG or WebP.
+
+Q: Is there a watermark or a size limit on the free version?
+A: No. DrAppIcon has no paid tier: every size, every format and every feature is free, with no watermarks and no account required.
+
+---
+
+## Instructions
+
+URL: https://drappicon.pages.dev/instructions
+
+Step-by-step guides for adding your generated icons to iOS and Android projects, with every size the stores expect.
+
+### Before you start
+
+- Start from a square image — 1024×1024 pixels or larger gives the sharpest result at every generated size.
+- PNG, JPG, SVG and WebP are accepted, up to 10 MB. Vector artwork (SVG) stays crisp at the largest sizes.
+- Keep important details away from the edges: launchers crop icons into circles and rounded shapes, and adaptive icons reserve the outer ring as a safe-zone margin.
+- If your artwork has a transparent background, pick the background colour deliberately — DrAppIcon proposes the dominant colour of your image, and you can override it.
+
+### iOS integration steps
+
+1. Download & Extract: Download the generated ZIP file and extract the iOS folder. (ios/AppIcon.appiconset/)
+2. Open Xcode Project: Open your iOS project in Xcode and navigate to Assets.xcassets.
+3. Replace AppIcon Set: Drag the AppIcon.appiconset folder into Assets.xcassets to replace the existing one.
+4. Verify in Project Settings: Go to your target settings and ensure the App Icon Source is set correctly. (Target → General → App Icons and Launch Images)
+
+### iOS icon sizes
+
+| Name | Use | Size |
+|---|---|---|
+| App Store | App Store submission | 1024×1024 |
+| iPhone @3x | iPhone home screen (3x) | 180×180 |
+| iPhone @2x | iPhone home screen (2x) | 120×120 |
+| iPad Pro | iPad Pro home screen | 167×167 |
+| iPad @2x | iPad home screen (2x) | 152×152 |
+| Spotlight @3x | Spotlight search (3x) | 120×120 |
+| Settings @3x | Settings app (3x) | 87×87 |
+
+(The generated set contains all 18 AppIcon files, including the smaller notification, settings and spotlight scales described by Contents.json.)
+
+### Android integration steps
+
+1. Download & Extract: Download the generated ZIP file and extract the Android folder. (android/mipmap-*/)
+2. Copy the mipmap Folders: Copy every mipmap folder into your project's res/ directory, replacing the old ones.
+3. Check the Manifest: Make sure android:icon and android:roundIcon point at your launcher name. (@mipmap/ic_launcher · @mipmap/ic_launcher_round)
+4. Rebuild & Run: Rebuild the app and check the icon on a real launcher, light and dark themes included.
+
+### Android icon sizes
+
+| Name | Use | Size |
+|---|---|---|
+| Play Store | Store listing icon | 512×512 |
+| xxxhdpi | Adaptive foreground | 432×432 |
+| xxhdpi | Adaptive foreground | 324×324 |
+| xhdpi | Adaptive foreground | 216×216 |
+| hdpi | Adaptive foreground | 162×162 |
+| mdpi | Adaptive foreground | 108×108 |
+| Legacy | ldpi → xxxhdpi round + square | 36→192 |
+
+### Tips
+
+- Always check your icons on a real device — tiny sizes hide nothing.
+- See how the icon reads on both light and dark wallpapers before shipping.
+- Simple artwork wins at small sizes; fine detail disappears below 48 px.
+- Follow the App Store and Google Play icon guidelines for review-safe results.
+
+### Common mistakes to avoid
+
+- Uploading a small or rectangular source: A 200-pixel or wide-format source has to be stretched and upscaled, which blurs the big sizes. Use a square source of at least 1024×1024 whenever you can.
+- Designing right up to the edge: Android launchers mask adaptive icons into circles, squircles and teardrops. Artwork that touches the corners will be clipped — keep the key content inside the centre safe zone.
+- Putting text in the icon: Words become unreadable below about 48 pixels and app names already appear under the icon. A simple, bold symbol reads better at home-screen size.
+- Skipping the monochrome layer on Android: Without a monochrome version, Android themed icons fall back to a plain rendering of your colour icon. Add the monochrome artwork in the Advanced options so themed icons look intentional.
+- Renaming files after download: The generated names are load-bearing: Xcode matches files through Contents.json and Android build tools require lowercase resource names. Keep the names as generated.
+
+### Instructions FAQ
+
+Q: How do I add the generated icons to an iOS project?
+A: Unzip the download, open your project in Xcode, select Assets.xcassets, and drag the AppIcon.appiconset folder onto the asset catalog. Xcode matches every size automatically through the included Contents.json.
+
+Q: How do I add the generated icons to an Android project?
+A: Copy the mipmap-* folders and the mipmap-anydpi-v26 folder from the ZIP into your app's res/ directory, replacing the generated defaults. The adaptive icon XML and background colour resource are already wired to your chosen icon name.
+
+Q: What size should my source image be?
+A: 1024×1024 pixels or larger, square. That matches the largest generated size (the App Store icon), so no generated file ever has to be upscaled.
+
+Q: Why does my Android icon name have to be lowercase?
+A: Android build tools (AAPT) only accept resource file names with lowercase letters, digits and underscores. DrAppIcon validates the name for you and falls back to ic_launcher if the field is left empty.
+
+Q: Do the generated icons work for the Play Store and App Store listings?
+A: Yes. The ZIP includes the 512×512 Play Store icon and the 1024×1024 App Store icon (without alpha, as Apple requires), alongside the in-project icon sets.
+
+---
+
+## How It Works
+
+URL: https://drappicon.pages.dev/how-it-works
+
+From a single image to a complete, store-ready icon set in four steps — all inside your browser.
+
+1. Upload one image: Drop in a PNG, JPG, SVG or WebP — ideally 1024×1024 or larger. The image is read locally on your device; nothing is sent anywhere.
+2. Customize the look: The background colour is picked from your artwork automatically. Fine-tune the size, add a badge, or include a monochrome layer for Android themed icons.
+3. Download the ZIP: One click renders every size and packs it into a single tidy ZIP — iOS AppIcon set, Android mipmaps, adaptive-icon files and the Play Store icon.
+4. Drop it into your project: Drag the AppIcon.appiconset into Xcode, or the mipmap folders into Android Studio. Names, sizes and descriptors are already exactly where the tools expect them.
+
+### What's inside the ZIP
+
+- iOS: AppIcon.appiconset with all 18 sizes (20 pt through the 1024 App Store icon) and a ready-made Contents.json.
+- Android legacy: Round and square launcher icons for every density — ldpi 36 px up to xxxhdpi 192 px — in PNG or WebP.
+- Android adaptive: Foreground artwork for each density, an optional monochrome layer for themed icons, the mipmap-anydpi-v26 descriptors and the background colour XML.
+- Store & web: The 512×512 Play Store icon and a matching web icon, rendered from the same artwork.
+
+### Under the hood
+
+When you drop an image into DrAppIcon, the browser decodes it locally and draws it onto a canvas once per output size, at the exact pixel dimensions each platform requires — the 1024×1024 App Store icon, the 432×432 xxxhdpi adaptive foreground, and every step in between. Because each file is rendered from your original at its target size, edges stay as sharp as the source allows; nothing is upscaled from a smaller copy.
+
+The background colour is chosen by sampling your artwork and weighing its most frequent opaque colours, which is why the proposal usually feels native to the design. Badge text is measured and shrunk until it fits its strip, so a long badge never overflows the icon, and the round Android variant clips only the artwork — never the badge. Finally, the files are named to the rules each platform enforces (including Android's lowercase resource names), packed with their manifests, and handed to you as one ZIP.
+
+### Private by design
+
+There is no server in the middle. Your image is drawn onto canvases in your own browser tab and the ZIP is assembled there too — close the tab and nothing remains. No accounts, no uploads, no tracking of your artwork.
+
+### Common questions
+
+Q: Is DrAppIcon free?
+A: Yes — completely free, with no watermarks, no locked sizes and no account to create.
+
+Q: Are my images uploaded to a server?
+A: No. Generation runs entirely in your browser tab using canvas; your artwork never leaves your device and nothing is stored.
+
+Q: What image should I upload?
+A: A PNG, JPG, SVG or WebP up to 10 MB. A square image of 1024×1024 px or larger gives the sharpest results at every size.
+
+Q: Which icon sizes do I get?
+A: For iOS, all 18 AppIcon sizes including the 1024 px App Store icon, with Contents.json. For Android, legacy and round icons from ldpi 36 px to xxxhdpi 192 px, adaptive foregrounds up to 432 px, and the 512 px Play Store icon.
+
+Q: Does it support Android adaptive and themed icons?
+A: Yes. The ZIP includes adaptive-icon foregrounds, a background colour resource, mipmap-anydpi-v26 descriptors, and — if you add a monochrome image — the monochrome layer Android uses for themed icons.
+
+Q: Can I choose PNG or WebP for Android?
+A: Yes. Android output can be generated as PNG or WebP; iOS icons are always PNG, as Xcode requires.
+
+---
+
+## About
+
+URL: https://drappicon.pages.dev/about
+
+A small, careful tool that turns one image into the complete app icon set your iOS and Android projects need.
+
+Every app ships with the same quiet chore: one piece of artwork has to become dozens of correctly sized, correctly named icon files before a store will even look at it. DrAppIcon exists to make that chore disappear — drop in your artwork, adjust the background, size, badge or monochrome layer with a live preview on real device frames, and download a single ZIP that drops straight into Xcode or Android Studio.
+
+DrAppIcon is built and maintained by Dusrel, an independent one-person studio. It is part of a family of small, single-purpose tools made to be fast, honest and pleasant to use.
+
+The tool is deliberately narrow. It does one job — app icons — and tries to do it completely: both stores, every density, the adaptive and themed-icon layers modern Android expects, and the manifests that make the files land in the right places without manual renaming. When a platform rule exists (a size, a file-name constraint, an alpha-channel requirement), DrAppIcon follows it quietly instead of leaving you a warning to fix.
+
+### What DrAppIcon makes
+
+- For iOS: The complete AppIcon.appiconset: 18 icon files covering notifications, settings, spotlight and the home screen for iPhone and iPad, the 1024×1024 App Store icon, and the Contents.json manifest that ties them together.
+- For Android: Legacy and round launcher icons at every density from ldpi to xxxhdpi, adaptive icon foregrounds with anydpi-v26 descriptors and a background colour resource, an optional monochrome layer for themed icons, and the 512×512 Play Store icon.
+- For the web: A matching 512×512 web icon rendered from the same artwork, ready for a web app manifest or a favicon set.
+
+### Who it is for
+
+- Indie developers: One person shipping an app should not lose an evening to icon exports. DrAppIcon turns the chore into a one-minute step.
+- Cross-platform teams: Flutter, React Native and dual native projects need both platforms' sets from the same artwork — generated together, always in sync.
+- Designers handing off: Deliver one master image and let the tool produce every size with correct names, instead of exporting dozens of files by hand.
+
+### The principles
+
+- No busywork: Resizing one icon into dozens of files by hand is exactly the kind of task a tool should absorb. One upload, one download, done.
+- Private by design: Generation runs entirely in your browser. Your artwork never leaves your device, and there is no account to create.
+- Free, for everyone: DrAppIcon is free to use, with no watermarks and no locked sizes. If it saves you time, sharing it is the best support.
+
+### Facts
+
+- 18+ icon sizes in every set
+- 2 platforms — iOS & Android
+- 0 images uploaded or stored
+- 100% free, no watermarks
+
+Contact: support@drappicon.dusrel.com
+
+---
+
+## Support Us
+
+URL: https://drappicon.pages.dev/support-us
+
+DrAppIcon is free for everyone, forever. If it saved you time, sharing it with another developer is the best way to keep it growing.
+
+### Ways to support
+
+- Share it: Send DrAppIcon to a developer friend or mention it in your community. Most people find the tool because someone they trust pointed at it.
+- Send feedback: A missing size, a confusing step, an idea for the next feature — feedback is how a one-person tool knows what to build next.
+- Link to it: Writing a tutorial, a README or a resource list? A link to DrAppIcon helps other developers find it and helps the site grow.
+
+### Why it matters
+
+DrAppIcon is a one-person project with no ads and no paid tier. Every share and every piece of feedback directly decides whether it keeps improving — and who hears about it next.
+
+Contact: support@drappicon.dusrel.com
+
+### Support FAQ
+
+Q: Is DrAppIcon really free?
+A: Yes. Every size, every format and every feature is free, with no watermarks, no locked options and no account. There is no paid tier.
+
+Q: Will DrAppIcon stay free?
+A: That is the plan. The tool costs little to run because generation happens in the visitor's own browser, and it is maintained by Dusrel as part of a family of free developer tools.
+
+Q: Who makes DrAppIcon?
+A: Dusrel, an independent one-person studio. The same studio maintains the tool, answers the support mail and ships the updates.
+
+Q: How do I report a bug or request a feature?
+A: Write to support@drappicon.dusrel.com with the details — what you uploaded, what you expected, and what happened. Reports with a sample image are the easiest to act on.
+
+---
+
+## Policies (full text)
+
+The four legal documents follow in full, exactly as published on the site.
+
+---
+
+# Privacy Policy
+
+**Effective date: 20 October 2026 · Last updated: 20 October 2026**
+
+DrAppIcon is an app icon generator operated by Dusrel ("DrAppIcon", "Dusrel", "we", "us"). DrAppIcon is built to work without collecting your data: there are no accounts, no analytics, no advertising, and your images are never uploaded anywhere. This policy explains the very limited information that is processed when you visit the site, why, and what rights you have over it.
+
+## The short version
+
+- **Your images never leave your device.** All icon generation happens locally, in your browser.
+- **We run no analytics, no ad trackers and no profiling** of any kind.
+- **We set no cookies ourselves.** One preference (light/dark theme) is stored on your device only.
+- The only personal data that reaches infrastructure we use is the technical data any website needs to be delivered (such as your IP address, handled by our hosting provider Cloudflare), the data Google receives when your browser loads our fonts, and an email if you choose to write to us.
+
+## Your images and generated files
+
+Icon generation happens 100% on your device, using your browser's built-in technology. The images you select are processed in your browser's memory only. They are **never uploaded to, stored on, or visible to our servers or to us** — we could not see them even if we wanted to. Generated files are created locally and downloaded straight to your device. If you close the tab, the images are gone from the browser's memory; we keep no copy of anything.
+
+## Information that is processed, and why
+
+### 1. Website delivery and security (hosting)
+
+Like every website, DrAppIcon is delivered to your browser by servers — ours are provided by Cloudflare (hosting and content delivery). To deliver the pages and protect the site against attacks and abuse, Cloudflare automatically processes technical data contained in your browser's requests, such as:
+
+- your IP address;
+- browser and operating system information (user agent);
+- the pages and files requested, and the date and time of the request;
+- the page you arrived from (referrer), where your browser sends one.
+
+**Purpose:** delivering the site, keeping it secure and available, and preventing abuse. **Legal basis (EEA/UK):** our legitimate interests in operating a secure website (Art. 6(1)(f) GDPR). We do not use these logs to identify or profile visitors, and we do not combine them with other data. Log retention is governed by Cloudflare's own policies; see the sub-processors section below.
+
+### 2. Theme preference (stored on your device only)
+
+If you switch between light and dark theme, your choice is saved in your browser's local storage under the key **drappicon-theme** so the site remembers it on your next visit. This value never leaves your device and is never transmitted to us. You can delete it at any time by clearing this site's data in your browser settings. See the Cookie Policy for full details.
+
+### 3. Fonts (Google Fonts)
+
+The site loads its typefaces (Inter and Caveat) from Google Fonts. When a page loads, your browser contacts Google's servers (fonts.googleapis.com and fonts.gstatic.com) to download the font files, and Google therefore receives your IP address and browser information as part of that request. Google Fonts does not set cookies through this site. Font loading is necessary to display the site as designed; Google's handling of the data it receives is described in [Google's Privacy Policy](https://policies.google.com/privacy).
+
+### 4. Support email
+
+If you email us at support@drappicon.dusrel.com, we receive your email address, any name you include, and the contents of your message. We use this only to read and reply to your enquiry and to keep the conversation thread intact. **Legal basis:** our legitimate interests in responding to you (and, where you ask us to do something, steps taken at your request). **Retention:** we delete support emails within **12 months** after the conversation is closed, unless a longer period is genuinely needed for legal or security reasons.
+
+## What we do not do
+
+- We do **not** require or offer user accounts, and we never ask you to sign up.
+- We do **not** run analytics or usage tracking — there is no Google Analytics or any equivalent on this site.
+- We do **not** show advertising and we use **no** advertising or cross-site tracking technologies.
+- We do **not** sell, rent or share personal information — including for cross-context behavioural advertising (as those terms are used in US state privacy laws).
+- We do **not** build profiles of visitors or make automated decisions about anyone.
+- We do **not** receive, store or have any access to the images you process or the files you generate.
+
+## Who data is shared with
+
+Only the infrastructure providers needed to run the site receive the technical data described above:
+
+| Provider | Role | Data involved |
+| --- | --- | --- |
+| Cloudflare, Inc. | Hosting, content delivery and security | Request data (IP address, browser information, pages requested) |
+| Google LLC (Google Fonts) | Font delivery | IP address and browser information sent by your browser when fonts load |
+
+The footer links to Apple's and Google's developer guideline pages are ordinary outbound links: those sites receive data from you only if you choose to click through, under their own policies. Our support mailbox is hosted by an email service provider that processes support emails so we can receive and reply to them.
+
+## International transfers
+
+Cloudflare operates a global network and may process request data in countries outside yours, including the United States; Google may do the same for font requests. Where data protection law requires safeguards for such transfers, these providers maintain their own mechanisms, such as the EU–US Data Privacy Framework and standard contractual clauses, described in their respective privacy documentation.
+
+## Your rights
+
+Depending on where you live, you may have the right to:
+
+- **access** the personal data we hold about you and receive a copy;
+- **correct** inaccurate data, and **delete** data we hold about you;
+- **restrict** or **object to** certain processing, and **withdraw consent** where processing is based on consent;
+- **data portability** — receive your data in a portable format;
+- under US state laws (such as California's CCPA/CPRA): **know**, **delete**, **correct**, and **opt out of sale/sharing** — we do not sell or share personal information, so there is nothing to opt out of — and not to be discriminated against for exercising your rights;
+- under India's DPDP Act 2023: access, correction and erasure, and grievance redressal.
+
+In practice, the only personal data we ourselves hold about a visitor is a support email they sent us; everything else described in this policy is either on your own device (theme preference — delete it by clearing site data) or in our providers' delivery logs. To exercise any right, email **support@drappicon.dusrel.com**. We respond within one month (GDPR) or sooner where another law requires it. We may need to verify your identity in relation to the email address you contact us from.
+
+You also have the right to complain to your local data protection authority — for example your EEA supervisory authority, the UK Information Commissioner's Office (ICO), or India's Data Protection Board. We would appreciate the chance to resolve your concern first.
+
+## Children
+
+DrAppIcon is a design tool not directed at children. It is not intended for use by children under 13 (or under 16 in EEA countries where that is the applicable age), and we do not knowingly collect personal data from children. If you believe a child has sent us personal data (for example by email), contact us and we will delete it.
+
+## Security
+
+The site is served over HTTPS (TLS) only and is delivered with security headers (including X-Content-Type-Options, X-Frame-Options and a strict referrer policy). The strongest protection is architectural: because your images are processed entirely in your browser and never transmitted, there is no copy of them anywhere that could be exposed. No method of transmission or storage is completely secure, but the data involved here is deliberately minimal.
+
+## Do Not Track
+
+We do not track visitors at all, so browser "Do Not Track" signals change nothing — there is no tracking to switch off.
+
+## Changes to this policy
+
+If we ever change what data is processed — for example, if we were to introduce analytics — we will update this policy first, change the date at the top, and the change will apply from the date shown. The current version will always be available on this page.
+
+## Contact
+
+Questions about this policy or your data: **support@drappicon.dusrel.com**
+
+---
+
+# Terms of Service
+
+**Effective date: 20 October 2026 · Last updated: 20 October 2026**
+
+These terms are an agreement between you and Dusrel, operator of DrAppIcon ("DrAppIcon", "we", "us"). By using the DrAppIcon website and generator (the "Service") you agree to these terms. If you do not agree, please do not use the Service.
+
+## The Service
+
+DrAppIcon generates complete app icon sets for iOS and Android from an image you provide. Everything runs **entirely in your browser, on your device**: your images are never uploaded to us. The Service is currently provided **free of charge**, requires no account, and may change over time.
+
+## Eligibility
+
+You may use the Service if you are at least 13 years old (16 in EEA countries where that is the minimum age for such services) or you use it with the permission and supervision of a parent or legal guardian, and you are not barred from using it under applicable law.
+
+## Your content and your icons
+
+- **You keep all rights** to the images you process and to the icons generated from them. Because your images never reach our servers, you grant us no licence to them and we claim none.
+- You may use the icons you generate for any lawful purpose, **including in commercial apps** that you publish.
+- **You are responsible for your images.** Only process images you own or have the right to use, and make sure your use of them and of the generated icons complies with applicable law and with the app store guidelines that apply to you (for example Apple's and Google's). We are not responsible for verifying your rights.
+
+## Our intellectual property
+
+The Service itself — including the DrAppIcon name and logo, the site's design, text and code — is the property of Dusrel and is protected by copyright and other intellectual property laws; all rights are reserved. These terms give you a personal, non-exclusive, non-transferable right to use the Service as intended, and nothing more. The icons **you generate from your own images** are yours; our ownership of the tool does not extend to your output.
+
+## Acceptable use
+
+You agree not to:
+
+- use the Service to create icons or content that infringes anyone's rights (including copyright and trademark) or violates applicable law;
+- attempt to disrupt, overload, degrade or gain unauthorised access to the Service or its infrastructure, including by automated abuse or by circumventing security measures;
+- use the Service to distribute malware or to mislead others about the origin of the Service;
+- copy, resell or misrepresent the Service itself as your own product.
+
+## Third-party links
+
+The site links to third-party resources (for example Apple's Human Interface Guidelines and Google's Android documentation). We do not control those sites and are not responsible for their content or practices.
+
+## Availability and changes to the Service
+
+We work to keep the Service available and fast, but we do not guarantee that it will always be available, uninterrupted or error-free. We may modify, suspend or discontinue any part of the Service at any time. Where a change materially affects your use, we will reflect it on the site.
+
+## Disclaimer of warranties
+
+The Service is provided **"as is" and "as available"**, without warranties of any kind, whether express or implied, including fitness for a particular purpose, merchantability and non-infringement, to the maximum extent permitted by law. App store requirements change and are outside our control: **always verify generated icons in your own project and against the current store guidelines before publishing an app.**
+
+## Limitation of liability
+
+To the maximum extent permitted by law, Dusrel will not be liable for any indirect, incidental, special, consequential or punitive damages, or for loss of profits, revenue, data or goodwill, arising from your use of, or inability to use, the Service or the files it generates — even if we were advised such damages were possible. Nothing in these terms limits or excludes liability that cannot be limited or excluded under applicable law (such as liability for fraud or for death or personal injury caused by negligence). Because the Service is free, our total aggregate liability for any claim relating to the Service is limited to the maximum extent permitted by law.
+
+## Indemnity
+
+If your use of the Service or the images you process causes a claim against us by a third party (for example, because an image infringed their rights), you agree to indemnify and hold Dusrel harmless from the resulting damages, costs and reasonable legal fees, to the extent permitted by law.
+
+## Termination
+
+You may stop using the Service at any time. We may suspend or block access to the Service for anyone who breaches these terms or misuses the Service. Sections that by their nature should survive termination (ownership, disclaimers, liability, indemnity, governing law) will survive.
+
+## Governing law and worldwide use
+
+DrAppIcon is operated by Dusrel from India and is made available to users **worldwide**. These terms — and any dispute or claim arising out of or in connection with the Service — are governed by the **laws of India**, without regard to conflict-of-law principles. Subject to the consumer carve-out below, the courts of **India** have exclusive jurisdiction over any such dispute.
+
+If you access the Service from outside India, you do so on your own initiative, and you are responsible for complying with the laws that apply where you live (for example, rules about the images and content you process). The fact that the Service can be accessed in your country does not make it governed by your country's law.
+
+**Consumer carve-out:** nothing in these terms deprives you of the protection of mandatory consumer-protection provisions that cannot be waived under the law of your country of residence — for example, the protection preserved for EEA consumers by Article 6 of the Rome I Regulation (EC) No 593/2008 — and nothing prevents you from bringing a claim in your local courts where such mandatory law gives you that right.
+
+## General
+
+If any provision of these terms is found unenforceable, the remaining provisions continue in full effect. These terms, together with the Privacy Policy, are the entire agreement between you and us about the Service; a failure to enforce a provision is not a waiver of it. You may not assign your rights under these terms; we may assign ours in connection with a transfer of the Service.
+
+## Changes to these terms
+
+We may update these terms from time to time. The current version will always be on this page with its effective date; by continuing to use the Service after a change takes effect, you accept the updated terms.
+
+## Contact
+
+**support@drappicon.dusrel.com**
+
+---
+
+# Cookie Policy
+
+**Effective date: 20 October 2026 · Last updated: 20 October 2026**
+
+## The short version
+
+**DrAppIcon itself sets no cookies at all** — not for analytics, not for advertising, not for preferences. That is why there is no cookie banner on this site: there are no non-essential cookies to consent to. Two related things do exist, and this policy explains both honestly:
+
+1. one preference stored in your browser's **local storage** (not a cookie) so the site remembers your theme; and
+2. **strictly necessary cookies that our hosting and security provider, Cloudflare, may set** to protect the site.
+
+## What cookies are
+
+Cookies are small text files a website asks your browser to store and send back on later requests. Local storage is a similar browser technology, but its contents stay on your device and are **not** sent with requests.
+
+## Device storage we use (not a cookie)
+
+| Name | Technology | Who | Purpose | Duration |
+| --- | --- | --- | --- | --- |
+| drappicon-theme | Local storage | DrAppIcon (on your device only) | Remembers your light/dark theme choice | Until you clear this site's data in your browser, or change the setting |
+
+This preference is stored only on your device. It is never transmitted to us — we have no server that receives it — and it contains nothing but the word "light" or "dark".
+
+## Cookies Cloudflare may set (strictly necessary)
+
+DrAppIcon is hosted and protected by Cloudflare. In the course of delivering and securing the site, Cloudflare may set the following cookies on your device. They are classified as **strictly necessary**: they exist to keep the site available and safe, they are not used to track you across sites, and they do not require consent. They are set by Cloudflare, not by DrAppIcon's own code.
+
+| Name | Provider | Purpose | Duration |
+| --- | --- | --- | --- |
+| __cf_bm | Cloudflare | Bot management: distinguishes real visitors from automated traffic so the site can be protected from malicious bots | Expires after 30 minutes of continuous inactivity |
+| cf_clearance | Cloudflare | Remembers that your browser passed a security (JavaScript) challenge, so you are not challenged repeatedly | Set only if a security challenge is presented; duration is set by Cloudflare |
+
+Cloudflare's own documentation describes these cookies and their handling: [Cloudflare Cookies](https://developers.cloudflare.com/fundamentals/reference/policies-compliances/cloudflare-cookies/). Whether either cookie is present at a given moment depends on Cloudflare's security checks; on an ordinary visit you may receive neither.
+
+## What we never use
+
+- No analytics cookies (no Google Analytics or equivalent).
+- No advertising, marketing or remarketing cookies or pixels.
+- No social-media trackers and no cross-site tracking of any kind.
+- No cookies of our own — DrAppIcon's code sets none.
+
+Separately, the site loads fonts from Google Fonts. Google Fonts does **not** set cookies through this site, but your browser's font request discloses your IP address to Google; this is covered in the Privacy Policy.
+
+## Managing cookies and storage
+
+You can block or delete cookies at any time in your browser settings, and you can remove the theme preference by clearing this site's data (sometimes labelled "site settings" or "cookies and site data") in your browser. Blocking Cloudflare's strictly necessary cookies may cause security challenges to repeat or, in rare cases, prevent the site from loading correctly. The generator itself works fully regardless: it has no dependence on cookies.
+
+## Changes and contact
+
+If our use of cookies or storage ever changes materially, we will update this page and its date first. Questions: **support@drappicon.dusrel.com**
+
+---
+
+# Data Processing Agreement
+
+**Effective date: 20 October 2026 · Last updated: 20 October 2026**
+
+This Data Processing Agreement ("DPA") explains how DrAppIcon — operated by Dusrel ("we", "us") — handles personal data in connection with the DrAppIcon service, and forms part of our Terms of Service for customers who need it for their own compliance records (for example under Art. 28 GDPR). It is written around how the service actually works.
+
+## The most important fact: your content is never processed by us
+
+DrAppIcon's generator runs **entirely in the end user's browser**. Images selected by a user are processed on that user's device and are never transmitted to, stored by, or accessible to DrAppIcon. For that content, **no personal data is transferred to us at all**, and DrAppIcon is neither a controller nor a processor of it. No DPA is needed for the icon generation itself, because there is no processing by us to govern.
+
+## What this DPA covers
+
+This DPA covers only the limited personal data that is processed in running the website and communicating with you:
+
+| Item | Detail |
+| --- | --- |
+| Subject matter | Operation and delivery of the DrAppIcon website, and support correspondence |
+| Duration | For as long as the website is visited or a support conversation remains open, plus the retention periods in the Privacy Policy |
+| Nature and purpose | Delivering web pages securely; preventing abuse; receiving and answering support email |
+| Types of personal data | Request data (IP address, browser/user-agent, pages requested, timestamps); support email address and message contents |
+| Categories of data subjects | Website visitors; people who email us |
+
+## Roles
+
+- For **support correspondence**, Dusrel decides why and how the messages are used (to reply to you), so Dusrel acts as **controller**; the Privacy Policy governs that processing.
+- For **website delivery and security**, Cloudflare processes request data on our behalf as our **processor** (sub-processor to you, where you are a controller directing your users or personnel to the site), under Cloudflare's own data protection terms.
+
+## Our commitments
+
+Where we or our providers process personal data in connection with the service, we commit to the following, consistent with Art. 28 GDPR:
+
+- **Instructions and purpose limitation:** data is processed only to operate, secure and support the service — never for advertising, profiling or sale, and never for our own unrelated purposes.
+- **Confidentiality:** access to the support mailbox and site infrastructure is restricted to the operator of Dusrel; any person authorised to process the data is bound by confidentiality.
+- **Security:** we apply the technical and organisational measures listed below.
+- **Assistance:** taking into account the minimal data involved, we will reasonably assist you with data-subject requests (access, deletion and the like) and with your own compliance obligations relating to the data described here.
+- **Breach notification:** if we become aware of a personal data breach affecting data covered by this DPA, we will notify affected customers by email without undue delay and cooperate on the response.
+- **Deletion:** support correspondence is deleted within 12 months after a conversation closes (see the Privacy Policy), and earlier on request where the law allows. Website request logs are held by Cloudflare under its retention policies and are not in our possession.
+- **Audits and information:** we will make available the information reasonably necessary to demonstrate compliance with this DPA. Given the architecture of the service (no customer data is received), this will ordinarily be satisfied by documentation, including this DPA and the Privacy Policy.
+
+## Security measures
+
+- All traffic is encrypted in transit via HTTPS (TLS); the site sends security headers (X-Content-Type-Options, X-Frame-Options, strict Referrer-Policy).
+- Data minimisation by architecture: the product is designed to receive **no** user content, accounts or analytics data at all.
+- Infrastructure is provided by Cloudflare, which maintains recognised security certifications (including ISO/IEC 27001 and SOC 2 Type II) for its network.
+- Support mailbox access is limited to the operator and protected by the mailbox provider's account security.
+
+## Sub-processors
+
+| Sub-processor | Service | Data involved |
+| --- | --- | --- |
+| Cloudflare, Inc. | Hosting, content delivery, security (bot and abuse protection) | Request data (IP address, user agent, pages requested) |
+| Google LLC | Font delivery (Google Fonts), requested directly by the visitor's browser | IP address and browser information in the font request |
+| Email service provider | Hosting of the support mailbox | Support email addresses and message contents |
+
+We will update this page before engaging a new sub-processor that would process the data covered by this DPA. Cloudflare and Google may process data globally, including in the United States, under their own transfer safeguards (such as the EU–US Data Privacy Framework and standard contractual clauses).
+
+## Signed copies and contact
+
+Business customers who require a countersigned DPA can request one at **support@drappicon.dusrel.com**. Questions about this DPA or our processing: the same address.

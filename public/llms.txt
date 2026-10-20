@@ -10,6 +10,7 @@ Key facts:
 - Privacy: generation happens on a canvas in the browser tab; images never leave the device.
 - Price: free.
 - Maker: Dusrel, an independent one-person studio. Contact: support@drappicon.dusrel.com.
+- Full text: every page and policy on this site in one file — [llms-full.txt](https://drappicon.pages.dev/llms-full.txt).
 
 ## Pages
 
