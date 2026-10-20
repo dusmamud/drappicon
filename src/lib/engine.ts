@@ -1,5 +1,6 @@
 // DrAppIcon — client-side icon generation engine.
 // Everything renders on <canvas> in the browser; no image ever leaves the device.
+import { isChunkLoadError, reloadOnceForStaleChunk } from './chunkRecovery'
 
 export interface BadgeOptions {
   enabled: boolean
@@ -417,10 +418,23 @@ export async function downloadIconSet(
   onProgress?: ProgressFn,
 ): Promise<number> {
   const files = await generateIconSet(opts, onProgress)
-  const [{ default: JSZip }, { saveAs }] = await Promise.all([
-    import('jszip'),
-    import('file-saver'),
-  ])
+  const loadZipDeps = () => Promise.all([import('jszip'), import('file-saver')])
+  let zipDeps: Awaited<ReturnType<typeof loadZipDeps>>
+  try {
+    zipDeps = await loadZipDeps()
+  } catch (e) {
+    if (isChunkLoadError(e)) {
+      // This tab predates the latest deployment, so the lazy JSZip chunk it
+      // points at no longer exists on the server. A reload loads the fresh
+      // build (loop-guarded); if a reload just happened, tell the user plainly.
+      reloadOnceForStaleChunk()
+      throw new Error(
+        'The app was updated in the background, so this tab is out of date. Please refresh the page, then add your image and start the download again.',
+      )
+    }
+    throw e
+  }
+  const [{ default: JSZip }, { saveAs }] = zipDeps
   const zip = new JSZip()
   for (const [path, blob] of files) zip.file(path, blob)
   const blob = await zip.generateAsync({ type: 'blob' })
