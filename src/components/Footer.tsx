@@ -7,8 +7,8 @@ export default function Footer() {
   const link = 'text-sm text-slate-500 transition hover:text-slate-900 dark:text-slate-400 dark:hover:text-white'
   return (
     <footer className="border-t border-slate-200/70 text-slate-500 dark:border-white/10 dark:text-slate-400">
-      <div className="mx-auto grid w-full max-w-7xl gap-10 px-4 py-14 sm:px-6 md:grid-cols-[1.4fr_1fr_1fr_1fr]">
-        <div>
+      <div className="mx-auto grid w-full max-w-7xl grid-cols-2 gap-10 px-4 py-14 sm:px-6 lg:grid-cols-[1.4fr_1fr_1fr_1fr]">
+        <div className="col-span-2 lg:col-span-1">
           <div className="flex items-center gap-2.5">
             <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-white/95 p-1">
               <img src={logo} alt="" className="h-full w-full" />
@@ -47,7 +47,7 @@ export default function Footer() {
             
           </ul>
         </div>
-        <div>
+        <div className="col-span-2 lg:col-span-1">
           <h4 className={colTitle}>Legal</h4>
           <ul className="mt-4 space-y-2.5">
             <li><Link to="/privacy-policy" className={link}>Privacy Policy</Link></li>
