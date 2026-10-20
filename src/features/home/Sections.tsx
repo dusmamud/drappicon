@@ -16,7 +16,7 @@ import { AndroidBot } from '../icon-generator/PreviewBits'
 
 /* -------------------------------- Features -------------------------------- */
 
-export function Features() {
+export function Features({ bare = false }: { bare?: boolean }) {
   const items = [
     { icon: Apple, chip: 'bg-purple-100 text-purple-600', title: 'iOS Ready', text: 'The complete AppIcon set — App Store, iPhone and iPad sizes, with a ready-made Contents.json.' },
     { icon: AndroidBot, chip: 'bg-blue-100 text-blue-600', title: 'Android Compatible', text: 'Adaptive icons done properly: foreground, background colour XML and the anydpi descriptors.' },
@@ -32,14 +32,18 @@ export function Features() {
     { n: '0', l: 'Data Collected' },
   ]
   return (
-    <section id="features" className="py-20">
+    <section id="features" className={bare ? '' : 'py-20'}>
       <div className="mx-auto w-full max-w-7xl px-4 sm:px-6">
-        <h2 className="text-center text-[32px] font-extrabold tracking-tight text-ink dark:text-white sm:text-4xl">
-          Why Choose DrAppIcon?
-        </h2>
-        <p className="mx-auto mt-3 max-w-xl text-center text-[17px] leading-relaxed text-slate-500 dark:text-slate-400 dark:text-slate-500">
-          Everything a developer needs to ship polished app icons, without the busywork.
-        </p>
+        {!bare && (
+          <>
+            <h2 className="text-center text-[32px] font-extrabold tracking-tight text-ink dark:text-white sm:text-4xl">
+              Why Choose DrAppIcon?
+            </h2>
+            <p className="mx-auto mt-3 max-w-xl text-center text-[17px] leading-relaxed text-slate-500 dark:text-slate-400 dark:text-slate-500">
+              Everything a developer needs to ship polished app icons, without the busywork.
+            </p>
+          </>
+        )}
         <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {items.map((f) => (
             <div key={f.title} className="rounded-2xl border border-slate-100 dark:border-white/5 bg-white p-6 shadow-card transition hover:-translate-y-0.5 dark:bg-night-800">
@@ -152,7 +156,7 @@ function SizesCard({ platform }: { platform: 'ios' | 'android' }) {
   )
 }
 
-export function Instructions() {
+export function Instructions({ bare = false }: { bare?: boolean }) {
   const [tab, setTab] = useState<'ios' | 'android'>('ios')
   const tips = [
     'Always check your icons on a real device — tiny sizes hide nothing.',
@@ -161,14 +165,18 @@ export function Instructions() {
     'Follow the App Store and Google Play icon guidelines for review-safe results.',
   ]
   return (
-    <section id="instructions" className="py-20">
+    <section id="instructions" className={bare ? '' : 'py-20'}>
       <div className="mx-auto w-full max-w-7xl px-4 sm:px-6">
-        <h2 className="text-center text-[32px] font-extrabold tracking-tight text-ink dark:text-white sm:text-4xl">
-          How to Use Your Icons
-        </h2>
-        <p className="mx-auto mt-3 max-w-xl text-center text-[17px] leading-relaxed text-slate-500 dark:text-slate-400 dark:text-slate-500">
-          Step-by-step guides for adding your generated icons to iOS and Android projects.
-        </p>
+        {!bare && (
+          <>
+            <h2 className="text-center text-[32px] font-extrabold tracking-tight text-ink dark:text-white sm:text-4xl">
+              How to Use Your Icons
+            </h2>
+            <p className="mx-auto mt-3 max-w-xl text-center text-[17px] leading-relaxed text-slate-500 dark:text-slate-400 dark:text-slate-500">
+              Step-by-step guides for adding your generated icons to iOS and Android projects.
+            </p>
+          </>
+        )}
         <div className="mt-9 flex justify-center">
           <div className="flex rounded-xl bg-white p-1.5 shadow-card dark:bg-night-800">
             <button

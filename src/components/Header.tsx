@@ -16,6 +16,12 @@ export default function Header() {
           <Link to="/" className="text-sm font-semibold text-slate-600 transition hover:text-primary-700 dark:text-slate-300 dark:hover:text-primary-300">
             Generator
           </Link>
+          <NavLink to="/features" className={linkCls}>
+            Features
+          </NavLink>
+          <NavLink to="/how-it-works" className={linkCls}>
+            How It Works
+          </NavLink>
           <NavLink to="/support-us" className={linkCls}>
             Support Us
           </NavLink>

@@ -6,6 +6,10 @@ import ThemeToggle from './components/ThemeToggle'
 import Home from './pages/Home'
 import Legal from './pages/Legal'
 import Support from './pages/Support'
+import FeaturesPage from './pages/FeaturesPage'
+import InstructionsPage from './pages/InstructionsPage'
+import HowItWorks from './pages/HowItWorks'
+import About from './pages/About'
 import { COOKIE_MD, DPA_MD, PRIVACY_MD, TERMS_MD } from './content/legal'
 
 function ScrollToTop() {
@@ -38,6 +42,10 @@ export default function App() {
         <Route path="/" element={<Home />} />
         <Route element={<SiteLayout />}>
           <Route path="/support-us" element={<Support />} />
+          <Route path="/features" element={<FeaturesPage />} />
+          <Route path="/instructions" element={<InstructionsPage />} />
+          <Route path="/how-it-works" element={<HowItWorks />} />
+          <Route path="/about" element={<About />} />
           <Route path="/privacy-policy" element={<Legal markdown={PRIVACY_MD} />} />
           <Route path="/terms-of-service" element={<Legal markdown={TERMS_MD} />} />
           <Route path="/cookie-policy" element={<Legal markdown={COOKIE_MD} />} />

@@ -24,8 +24,10 @@ export default function Footer() {
           <h4 className={colTitle}>Product</h4>
           <ul className="mt-4 space-y-2.5">
             <li><a href="/#editor" className={link}>Editor</a></li>
-            <li><a href="/#features" className={link}>Features</a></li>
-            <li><a href="/#instructions" className={link}>Instructions</a></li>
+            <li><Link to="/features" className={link}>Features</Link></li>
+            <li><Link to="/instructions" className={link}>Instructions</Link></li>
+            <li><Link to="/how-it-works" className={link}>How It Works</Link></li>
+            <li><Link to="/about" className={link}>About</Link></li>
             <li><Link to="/support-us" className={link}>Support Us</Link></li>
           </ul>
         </div>
