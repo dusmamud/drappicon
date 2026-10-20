@@ -1,6 +1,5 @@
 import { useState } from 'react'
 import {
-  Apple,
   Code2,
   Download,
   FileArchive,
@@ -12,14 +11,14 @@ import {
   ShieldCheck,
   Smartphone,
 } from 'lucide-react'
-import { AndroidBot } from '../icon-generator/PreviewBits'
+import { AndroidBrand, AppleBrand } from '../icon-generator/PreviewBits'
 
 /* -------------------------------- Features -------------------------------- */
 
 export function Features({ bare = false }: { bare?: boolean }) {
   const items = [
-    { icon: Apple, chip: 'bg-purple-100 text-purple-600', title: 'iOS Ready', text: 'The complete AppIcon set — App Store, iPhone and iPad sizes, with a ready-made Contents.json.' },
-    { icon: AndroidBot, chip: 'bg-blue-100 text-blue-600', title: 'Android Compatible', text: 'Adaptive icons done properly: foreground, background colour XML and the anydpi descriptors.' },
+    { icon: AppleBrand, chip: 'bg-purple-100 text-purple-600', title: 'iOS Ready', text: 'The complete AppIcon set — App Store, iPhone and iPad sizes, with a ready-made Contents.json.' },
+    { icon: AndroidBrand, chip: 'bg-blue-100 text-blue-600', title: 'Android Compatible', text: 'Adaptive icons done properly: foreground, background colour XML and the anydpi descriptors.' },
     { icon: Gauge, chip: 'bg-yellow-100 text-yellow-600', title: 'Lightning Fast', text: 'The whole set renders in seconds on your own machine — no queues, no uploads, no waiting.' },
     { icon: Palette, chip: 'bg-pink-100 text-pink-600', title: 'Easy Customization', text: 'Background colour is picked from your artwork automatically, then fine-tune size, badges and more.' },
     { icon: FileArchive, chip: 'bg-sky-100 text-sky-600', title: 'Multiple Formats', text: 'One tidy ZIP with everything inside, or PNG and WebP variants for Android — your choice.' },
