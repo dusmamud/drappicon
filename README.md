@@ -35,3 +35,4 @@ Static build (`dist/`), SPA fallback to `index.html` for all routes, then attach
 ## Verification status (v1, 2026-10-19)
 Verified locally with headless Chrome (Puppeteer) against the production build:
 desktop 1440×900 and mobile 390×844 flows — upload → auto background colour (#2563EB from the test image) → live previews → sheet (mobile) → ZIP download → thank-you modal. The generated ZIP contains 38 files (Android set + iOS AppIcon.appiconset with an 18-entry Contents.json); icon dimensions spot-checked (1024, 512, 432, 192, 180 px). No page errors; no horizontal overflow on mobile; floating pills do not overlap. Screenshots in `qa/`.
+- **Tip:** upload a PNG, JPG, SVG, or WebP up to 10 MB — drag-and-drop or tap to pick a file.
