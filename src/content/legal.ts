@@ -1,6 +1,6 @@
 export const PRIVACY_MD = `# Privacy Policy
 
-**Effective date: 20 October 2026 · Last updated: 20 October 2026**
+**Effective date: 20 October 2026 · Last updated: 11 November 2026**
 
 DrAppIcon is an app icon generator operated by Dusrel ("DrAppIcon", "Dusrel", "we", "us"). DrAppIcon is built to work without collecting your data: there are no accounts, no analytics, no advertising, and your images are never uploaded anywhere. This policy explains the very limited information that is processed when you visit the site, why, and what rights you have over it.
 
@@ -9,7 +9,7 @@ DrAppIcon is an app icon generator operated by Dusrel ("DrAppIcon", "Dusrel", "w
 - **Your images never leave your device.** All icon generation happens locally, in your browser.
 - **We run no analytics, no ad trackers and no profiling** of any kind.
 - **We set no cookies ourselves.** One preference (light/dark theme) is stored on your device only.
-- The only personal data that reaches infrastructure we use is the technical data any website needs to be delivered (such as your IP address, handled by our hosting provider Cloudflare), the data Google receives when your browser loads our fonts, and an email if you choose to write to us.
+- The only personal data that reaches infrastructure we use is the technical data any website needs to be delivered (such as your IP address, handled by our hosting provider Cloudflare), and an email if you choose to write to us.
 
 ## Your images and generated files
 
@@ -32,9 +32,9 @@ Like every website, DrAppIcon is delivered to your browser by servers — ours a
 
 If you switch between light and dark theme, your choice is saved in your browser's local storage under the key **drappicon-theme** so the site remembers it on your next visit. This value never leaves your device and is never transmitted to us. You can delete it at any time by clearing this site's data in your browser settings. See the Cookie Policy for full details.
 
-### 3. Fonts (Google Fonts)
+### 3. Fonts (self-hosted)
 
-The site loads its typefaces (Inter and Caveat) from Google Fonts. When a page loads, your browser contacts Google's servers (fonts.googleapis.com and fonts.gstatic.com) to download the font files, and Google therefore receives your IP address and browser information as part of that request. Google Fonts does not set cookies through this site. Font loading is necessary to display the site as designed; Google's handling of the data it receives is described in [Google's Privacy Policy](https://policies.google.com/privacy).
+The site's typefaces (Inter and Caveat) are bundled with the site and served from our own hosting, on the same origin as the rest of the pages. Your browser downloads the font files from our servers as part of loading the site — no font request goes to Google or any other third party, and no font provider receives your IP address or browser information.
 
 ### 4. Support email
 
@@ -56,13 +56,12 @@ Only the infrastructure providers needed to run the site receive the technical d
 | Provider | Role | Data involved |
 | --- | --- | --- |
 | Cloudflare, Inc. | Hosting, content delivery and security | Request data (IP address, browser information, pages requested) |
-| Google LLC (Google Fonts) | Font delivery | IP address and browser information sent by your browser when fonts load |
 
 The footer links to Apple's and Google's developer guideline pages are ordinary outbound links: those sites receive data from you only if you choose to click through, under their own policies. Our support mailbox is hosted by an email service provider that processes support emails so we can receive and reply to them.
 
 ## International transfers
 
-Cloudflare operates a global network and may process request data in countries outside yours, including the United States; Google may do the same for font requests. Where data protection law requires safeguards for such transfers, these providers maintain their own mechanisms, such as the EU–US Data Privacy Framework and standard contractual clauses, described in their respective privacy documentation.
+Cloudflare operates a global network and may process request data in countries outside yours, including the United States. Where data protection law requires safeguards for such transfers, Cloudflare maintains its own mechanisms, such as the EU–US Data Privacy Framework and standard contractual clauses, described in its privacy documentation.
 
 ## Your rights
 
@@ -180,7 +179,7 @@ We may update these terms from time to time. The current version will always be 
 
 export const COOKIE_MD = `# Cookie Policy
 
-**Effective date: 20 October 2026 · Last updated: 20 October 2026**
+**Effective date: 20 October 2026 · Last updated: 11 November 2026**
 
 ## The short version
 
@@ -219,7 +218,7 @@ Cloudflare's own documentation describes these cookies and their handling: [Clou
 - No social-media trackers and no cross-site tracking of any kind.
 - No cookies of our own — DrAppIcon's code sets none.
 
-Separately, the site loads fonts from Google Fonts. Google Fonts does **not** set cookies through this site, but your browser's font request discloses your IP address to Google; this is covered in the Privacy Policy.
+Separately, the site's fonts (Inter and Caveat) are bundled with the site and served from our own hosting — no font request goes to any third party. This is covered in the Privacy Policy.
 
 ## Managing cookies and storage
 
@@ -232,7 +231,7 @@ If our use of cookies or storage ever changes materially, we will update this pa
 
 export const DPA_MD = `# Data Processing Agreement
 
-**Effective date: 20 October 2026 · Last updated: 20 October 2026**
+**Effective date: 20 October 2026 · Last updated: 11 November 2026**
 
 This Data Processing Agreement ("DPA") explains how DrAppIcon — operated by Dusrel ("we", "us") — handles personal data in connection with the DrAppIcon service, and forms part of our Terms of Service for customers who need it for their own compliance records (for example under Art. 28 GDPR). It is written around how the service actually works.
 
@@ -281,10 +280,9 @@ Where we or our providers process personal data in connection with the service, 
 | Sub-processor | Service | Data involved |
 | --- | --- | --- |
 | Cloudflare, Inc. | Hosting, content delivery, security (bot and abuse protection) | Request data (IP address, user agent, pages requested) |
-| Google LLC | Font delivery (Google Fonts), requested directly by the visitor's browser | IP address and browser information in the font request |
 | Email service provider | Hosting of the support mailbox | Support email addresses and message contents |
 
-We will update this page before engaging a new sub-processor that would process the data covered by this DPA. Cloudflare and Google may process data globally, including in the United States, under their own transfer safeguards (such as the EU–US Data Privacy Framework and standard contractual clauses).
+We will update this page before engaging a new sub-processor that would process the data covered by this DPA. Cloudflare may process data globally, including in the United States, under its own transfer safeguards (such as the EU–US Data Privacy Framework and standard contractual clauses).
 
 ## Signed copies and contact
 
